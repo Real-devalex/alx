@@ -8,7 +8,7 @@ param(
 
 Write-Host ""
 Write-Host "========================================" -ForegroundColor Cyan
-Write-Host "  ALX — Alexion Language Installer" -ForegroundColor Cyan
+Write-Host "  ALX - Alexion Language Installer" -ForegroundColor Cyan
 Write-Host "  Version 0.2.0" -ForegroundColor Cyan
 Write-Host "========================================" -ForegroundColor Cyan
 Write-Host ""
@@ -25,32 +25,34 @@ Write-Host "  Build successful!" -ForegroundColor Green
 
 # Step 2: Publish CLI
 Write-Host "[2/4] Publishing ALX CLI..." -ForegroundColor Yellow
-dotnet publish src/ALX.CLI -c Release -r win-x64 --self-contained false -o "$InstallDir" --verbosity quiet
+if (Test-Path $InstallDir) { Remove-Item -Recurse -Force $InstallDir }
+New-Item -ItemType Directory -Path $InstallDir -Force | Out-Null
+
+dotnet publish src/ALX.CLI -c Release -r win-x64 --self-contained false -o $InstallDir --verbosity quiet
 
 # Copy examples and docs
-Copy-Item -Recurse -Force examples "$InstallDir\examples" -ErrorAction SilentlyContinue
-Copy-Item -Recurse -Force docs/site "$InstallDir\docs" -ErrorAction SilentlyContinue
+if (Test-Path "examples") { Copy-Item -Recurse -Force "examples" "$InstallDir\examples" }
+if (Test-Path "docs\site") { Copy-Item -Recurse -Force "docs\site" "$InstallDir\docs" }
 
 # Create alx.bat launcher
-$batContent = @"
-@echo off
-"%~dp0ALX.CLI.exe" %*
-"@
-Set-Content -Path "$InstallDir\alx.bat" -Value $batContent
+$batLines = @()
+$batLines += '@echo off'
+$batLines += '"%~dp0ALX.CLI.exe" %*'
+$batContent = $batLines -join "`r`n"
+Set-Content -Path "$InstallDir\alx.bat" -Value $batContent -Encoding ASCII
 
 Write-Host "  Published to: $InstallDir" -ForegroundColor Green
 
 # Step 3: Add to PATH
 Write-Host "[3/4] Adding ALX to PATH..." -ForegroundColor Yellow
 
-# Get current user PATH
 $currentPath = [Environment]::GetEnvironmentVariable("Path", "User")
+$pathEntries = $currentPath -split ";" | Where-Object { $_.Trim() -ne "" }
 
-if ($currentPath -split ";" | Where-Object { $_ -eq $InstallDir }) {
+if ($pathEntries -contains $InstallDir) {
     Write-Host "  ALX is already in PATH!" -ForegroundColor Green
 } else {
-    # Add to user PATH (no admin required)
-    $newPath = "$currentPath;$InstallDir"
+    $newPath = ($pathEntries + $InstallDir) -join ";"
     [Environment]::SetEnvironmentVariable("Path", $newPath, "User")
     Write-Host "  Added to PATH: $InstallDir" -ForegroundColor Green
     Write-Host "  (Restart your terminal for PATH changes to take effect)" -ForegroundColor Yellow
@@ -59,8 +61,8 @@ if ($currentPath -split ";" | Where-Object { $_ -eq $InstallDir }) {
 # Step 4: Verify
 Write-Host "[4/4] Verifying installation..." -ForegroundColor Yellow
 
-# Test with the local exe directly (doesn't need PATH)
-& "$InstallDir\ALX.CLI.exe" version
+$exePath = Join-Path $InstallDir "ALX.CLI.exe"
+& $exePath version
 if ($LASTEXITCODE -eq 0) {
     Write-Host ""
     Write-Host "========================================" -ForegroundColor Green
@@ -70,14 +72,14 @@ if ($LASTEXITCODE -eq 0) {
     Write-Host "Quick start:" -ForegroundColor Yellow
     Write-Host "  1. Open a NEW terminal window"
     Write-Host "  2. Run: alx version"
-    Write-Host "  3. Create hello.alx with: print(`"Hello!`")"
+    Write-Host '  3. Create hello.alx with: print("Hello!")'
     Write-Host "  4. Run: alx hello.alx"
     Write-Host ""
     Write-Host "Or use directly (no PATH needed):" -ForegroundColor Yellow
     Write-Host "  $InstallDir\alx.bat version"
     Write-Host "  $InstallDir\alx.bat examples\hello.alx"
     Write-Host ""
-    Write-Host "Docs site: $InstallDir\docs\index.html" -ForegroundColor Cyan
+    Write-Host "Docs site: https://real-devalex.github.io/alx/" -ForegroundColor Cyan
     Write-Host ""
 } else {
     Write-Host "Installation verification failed." -ForegroundColor Red
