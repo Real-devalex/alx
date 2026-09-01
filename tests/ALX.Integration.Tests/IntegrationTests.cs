@@ -293,6 +293,128 @@ while x < 10 {
         Assert.Equal("1\n3\n5\n7\n9", output);
     }
 
+    // ===== NEW FEATURES (0.3.0) — Closures & Lambdas =====
+
+    [Fact]
+    public void LambdaBasic()
+    {
+        var source = @"square = lambda(x) { x * x }
+print(square(7))";
+        Assert.Equal("49", Run(source));
+    }
+
+    [Fact]
+    public void LambdaTwoParams()
+    {
+        var source = @"add = lambda(a, b) { a + b }
+print(add(10, 20))";
+        Assert.Equal("30", Run(source));
+    }
+
+    [Fact]
+    public void LambdaImplicitReturn()
+    {
+        var source = @"f = lambda(x) { x + 1 }
+print(f(99))";
+        Assert.Equal("100", Run(source));
+    }
+
+    [Fact]
+    public void LambdaWithExplicitReturn()
+    {
+        var source = @"f = lambda(x) {
+  if x > 10 {
+    return 100
+  }
+  return x
+}
+print(f(5))
+print(f(15))";
+        Assert.Equal("5\n100", Run(source));
+    }
+
+    [Fact]
+    public void ClosureCapturesOuterScope()
+    {
+        var source = @"function makeCounter() {
+  count = 0
+  function increment() {
+    count = count + 1
+    return count
+  }
+  return increment
+}
+counter = makeCounter()
+print(counter())
+print(counter())
+print(counter())";
+        Assert.Equal("1\n2\n3", Run(source));
+    }
+
+    [Fact]
+    public void ClosureWithLambda()
+    {
+        var source = @"function makeAdder(n) {
+  return lambda(x) { x + n }
+}
+addTen = makeAdder(10)
+print(addTen(5))
+print(addTen(20))";
+        Assert.Equal("15\n30", Run(source));
+    }
+
+    [Fact]
+    public void HigherOrderFunction()
+    {
+        var source = @"function applyTwice(func, value) {
+  return func(func(value))
+}
+double = lambda(x) { x * 2 }
+print(applyTwice(double, 5))";
+        Assert.Equal("20", Run(source));
+    }
+
+    [Fact]
+    public void FunctionComposition()
+    {
+        var source = @"function compose(f, g) {
+  return lambda(x) { f(g(x)) }
+}
+doubleIt = lambda(x) { x * 2 }
+addOne = lambda(x) { x + 1 }
+doubleThenAddOne = compose(addOne, doubleIt)
+print(doubleThenAddOne(5))";
+        Assert.Equal("11", Run(source));
+    }
+
+    [Fact]
+    public void LambdaAsFunctionArgument()
+    {
+        var source = @"function transform(value, func) {
+  return func(value)
+}
+print(transform(5, lambda(x) { x * x }))
+print(transform(10, lambda(x) { x + 100 }))";
+        Assert.Equal("25\n110", Run(source));
+    }
+
+    [Fact]
+    public void AccumulatorClosure()
+    {
+        var source = @"function makeAccumulator(start) {
+  total = start
+  return lambda(amount) {
+    total = total + amount
+    return total
+  }
+}
+acc = makeAccumulator(0)
+print(acc(10))
+print(acc(20))
+print(acc(5))";
+        Assert.Equal("10\n30\n35", Run(source));
+    }
+
     // ===== HELPERS =====
 
     private static string Run(string source)

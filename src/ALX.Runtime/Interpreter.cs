@@ -187,6 +187,7 @@ public class Interpreter
             UnaryExpression unaryExpr => EvaluateUnary(unaryExpr),
             CallExpression callExpr => EvaluateCall(callExpr),
             AssignmentExpression assignExpr => EvaluateAssignment(assignExpr),
+            LambdaExpression lambdaExpr => EvaluateLambda(lambdaExpr),
             RangeExpression rangeExpr => EvaluateRange(rangeExpr),
             InterpolatedStringExpression interpExpr => EvaluateInterpolatedString(interpExpr),
             _ => throw new InvalidOperationException($"Unknown expression type: {expression.GetType().Name}")
@@ -202,6 +203,14 @@ public class Interpreter
             return NullValue.Instance;
         }
         return value;
+    }
+
+    private AlxValue EvaluateLambda(LambdaExpression expr)
+    {
+        // Create an anonymous function that captures the current environment
+        var anonName = $"<lambda@{expr.Line}:{expr.Column}>";
+        var decl = new FunctionDeclaration(anonName, expr.Parameters, expr.Body, expr.Line, expr.Column, expr.SourceFile);
+        return new AlxFunction(decl, _environment);
     }
 
     private AlxValue EvaluateRange(RangeExpression expr)
@@ -314,6 +323,28 @@ public class Interpreter
 
             try
             {
+                // Lambda implicit return: evaluate last expression in lambda context
+                // Lambda implicit return: evaluate last expression in lambda context
+                if (userFunc.Declaration.Name.StartsWith("<lambda"))
+                {
+                    var lastStmt = userFunc.Declaration.Body.Statements.LastOrDefault();
+                    if (lastStmt is ExpressionStatement exprStmt)
+                    {
+                        var previous = _environment;
+                        _environment = funcEnv;
+                        try
+                        {
+                            for (int i = 0; i < userFunc.Declaration.Body.Statements.Count - 1; i++)
+                                ExecuteStatement(userFunc.Declaration.Body.Statements[i]);
+                            return Evaluate(exprStmt.Expression);
+                        }
+                        finally
+                        {
+                            _environment = previous;
+                        }
+                    }
+                }
+
                 ExecuteBlock(userFunc.Declaration.Body, funcEnv);
                 return NullValue.Instance;
             }

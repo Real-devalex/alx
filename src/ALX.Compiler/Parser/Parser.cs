@@ -407,6 +407,9 @@ public class Parser
                 Advance();
                 return new IdentifierExpression(token.Lexeme, token.Line, token.Column, _sourceFile);
 
+            case TokenType.Lambda:
+                return ParseLambdaExpression();
+
             case TokenType.LeftParen:
                 Advance();
                 var expr = ParseExpression();
@@ -483,6 +486,32 @@ public class Parser
         }
 
         return new InterpolatedStringExpression(rawValue, parts, token.Line, token.Column, _sourceFile);
+    }
+
+    // ===== LAMBDA =====
+
+    /// <summary>
+    /// Parse lambda expression: lambda(params) { body }
+    /// </summary>
+    private Expression ParseLambdaExpression()
+    {
+        var keyword = Advance(); // consume 'lambda'
+        Expect(TokenType.LeftParen, "'('");
+
+        var parameters = new List<string>();
+        if (Peek().Type != TokenType.RightParen)
+        {
+            do
+            {
+                var param = Expect(TokenType.Identifier, "parameter name");
+                parameters.Add(param.Lexeme);
+            } while (Match(TokenType.Comma));
+        }
+
+        Expect(TokenType.RightParen, "')'");
+        var body = ParseBlock();
+
+        return new LambdaExpression(parameters, body, keyword.Line, keyword.Column, _sourceFile);
     }
 
     // ===== RANGE =====

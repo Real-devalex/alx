@@ -36,6 +36,7 @@ public class Lexer
         ["print"] = TokenType.Print,
         ["break"] = TokenType.Break,
         ["continue"] = TokenType.Continue,
+        ["lambda"] = TokenType.Lambda,
     };
 
     public Lexer(string source, string sourceFile = "", DiagnosticBag? diagnostics = null)

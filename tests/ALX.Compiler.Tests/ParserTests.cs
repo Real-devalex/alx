@@ -212,6 +212,28 @@ public class ParserTests
         Assert.Equal(TokenType.Plus, add.Operator);
     }
 
+    [Fact]
+    public void Parse_LambdaExpression()
+    {
+        var ast = Parse("f = lambda(x) { x * 2 }");
+        var stmt = Assert.IsType<ExpressionStatement>(ast.Statements[0]);
+        var assign = Assert.IsType<AssignmentExpression>(stmt.Expression);
+        var lambda = Assert.IsType<LambdaExpression>(assign.Value);
+        Assert.Single(lambda.Parameters);
+        Assert.Equal("x", lambda.Parameters[0]);
+        Assert.IsType<BlockStatement>(lambda.Body);
+    }
+
+    [Fact]
+    public void Parse_LambdaTwoParams()
+    {
+        var ast = Parse("f = lambda(a, b) { a + b }");
+        var stmt = Assert.IsType<ExpressionStatement>(ast.Statements[0]);
+        var assign = Assert.IsType<AssignmentExpression>(stmt.Expression);
+        var lambda = Assert.IsType<LambdaExpression>(assign.Value);
+        Assert.Equal(2, lambda.Parameters.Count);
+    }
+
     private static ProgramNode Parse(string source, DiagnosticBag? diagnostics = null)
     {
         diagnostics ??= new DiagnosticBag();

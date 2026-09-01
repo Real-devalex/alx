@@ -1,0 +1,104 @@
+// Closures, Higher-Order Functions, and Lambdas in ALX 0.3.0
+
+// ===== CLOSURES =====
+// A closure captures variables from its enclosing scope
+
+function makeCounter() {
+    count = 0
+    function increment() {
+        count = count + 1
+        return count
+    }
+    return increment
+}
+
+counter = makeCounter()
+print(counter())   // 1
+print(counter())   // 2
+print(counter())   // 3
+
+// ===== HIGHER-ORDER FUNCTIONS =====
+// Functions that take other functions as arguments
+
+function applyTwice(func, value) {
+    return func(func(value))
+}
+
+double = lambda(x) { x * 2 }
+result = applyTwice(double, 5)
+print(result)   // 20
+
+// ===== LAMBDA EXPRESSIONS =====
+// Anonymous functions with lambda syntax
+
+add = lambda(a, b) { a + b }
+print(add(10, 20))   // 30
+
+square = lambda(x) { x * x }
+print(square(7))   // 49
+
+// ===== CLOSURES WITH LAMBDAS =====
+
+function makeAdder(n) {
+    return lambda(x) { x + n }
+}
+
+addTen = makeAdder(10)
+addTwenty = makeAdder(20)
+
+print(addTen(5))     // 15
+print(addTwenty(5))  // 25
+
+// ===== PRACTICAL: TRANSFORM VALUES =====
+
+function transform(value, func) {
+    return func(value)
+}
+
+print(transform(5, lambda(x) { x * x }))    // 25
+print(transform(10, lambda(x) { x + 100 })) // 110
+
+// ===== FUNCTION COMPOSITION =====
+
+function compose(f, g) {
+    return lambda(x) { f(g(x)) }
+}
+
+doubleIt = lambda(x) { x * 2 }
+addOne = lambda(x) { x + 1 }
+
+doubleThenAddOne = compose(addOne, doubleIt)
+print(doubleThenAddOne(5))   // 11 (5*2=10, 10+1=11)
+
+addOneThenDouble = compose(doubleIt, addOne)
+print(addOneThenDouble(5))   // 12 (5+1=6, 6*2=12)
+
+// ===== CLOSURES THAT MODIFY STATE =====
+
+function makeAccumulator(start) {
+    total = start
+    return lambda(amount) {
+        total = total + amount
+        return total
+    }
+}
+
+acc = makeAccumulator(0)
+print(acc(10))   // 10
+print(acc(20))   // 30
+print(acc(5))    // 35
+
+// ===== LAMBDAS WITH CONDITIONALS =====
+
+safeDivide = lambda(a, b) {
+    if b == 0 {
+        return 0
+    }
+    return a / b
+}
+
+print(safeDivide(10, 2))   // 5
+print(safeDivide(10, 0))   // 0
+
+// ===== SUMMARY =====
+print("--- Closures & Lambdas Work! ---")

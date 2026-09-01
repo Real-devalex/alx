@@ -98,3 +98,15 @@ public class InterpolatedStringExpression : Expression
     public InterpolatedStringExpression(string rawValue, List<Expression> parts, int line, int column, string sourceFile)
         : base(line, column, sourceFile) { RawValue = rawValue; Parts = parts; }
 }
+
+/// <summary>
+/// Lambda expression: lambda(x, y) { return x + y }
+/// Creates an anonymous function value.
+/// </summary>
+public class LambdaExpression : Expression
+{
+    public List<string> Parameters { get; }
+    public BlockStatement Body { get; }
+    public LambdaExpression(List<string> parameters, BlockStatement body, int line, int column, string sourceFile)
+        : base(line, column, sourceFile) { Parameters = parameters; Body = body; }
+}
