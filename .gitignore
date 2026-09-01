@@ -1,3 +1,7 @@
+# Build artifacts
+dist/
+publish/
+
 # Build results
 [Dd]ebug/
 [Rr]elease/
