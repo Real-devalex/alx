@@ -1,0 +1,7 @@
+// This file intentionally contains errors for testing diagnostics
+
+// Error 1: Undefined variable
+print(healthh)
+
+// Error 2: Type mismatch (string + boolean)
+x = "hello" + true

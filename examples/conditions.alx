@@ -1,0 +1,41 @@
+// Conditions in ALX
+
+health = 100
+
+if health <= 0 {
+    print("Player died")
+} else {
+    print("Player is alive")
+}
+
+// Else-if chain
+score = 85
+
+if score >= 90 {
+    print("Grade: A")
+} else if score >= 80 {
+    print("Grade: B")
+} else if score >= 70 {
+    print("Grade: C")
+} else {
+    print("Grade: F")
+}
+
+// Boolean logic
+is_active = true
+has_permission = false
+
+if is_active and has_permission {
+    print("Full access")
+} else if is_active {
+    print("Limited access")
+} else {
+    print("No access")
+}
+
+// Not operator
+logged_in = false
+
+if not logged_in {
+    print("Please log in")
+}

@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roadmap — ALX</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .milestone { margin: 2rem 0; padding: 1.5rem; background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; }
+        .milestone.complete { border-left: 4px solid var(--success); }
+        .milestone.current { border-left: 4px solid var(--accent); }
+        .milestone.future { border-left: 4px solid var(--border); opacity: 0.7; }
+        .milestone h3 { margin-bottom: 0.5rem; }
+        .milestone .version { color: var(--accent); font-weight: 600; }
+        .milestone .tag { display: inline-block; padding: 0.2rem 0.6rem; border-radius: 4px; font-size: 0.8rem; font-weight: 600; margin-left: 0.5rem; }
+        .tag-done { background: #10b98133; color: var(--success); }
+        .tag-current { background: #8b5cf633; color: var(--accent); }
+        .tag-planned { background: #37415133; color: var(--text-secondary); }
+        .milestone ul { margin: 0.5rem 0 0 1.5rem; }
+        .milestone li { margin-bottom: 0.25rem; color: var(--text-secondary); }
+        .checklist { list-style: none; padding: 0; }
+        .checklist li { padding: 0.3rem 0; }
+        .checklist li::before { content: "✅ "; }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="index.html" class="logo"><span>ALX</span></a>
+        <ul class="nav-links">
+            <li><a href="getting-started.html">Get Started</a></li>
+            <li><a href="syntax.html">Syntax</a></li>
+            <li><a href="examples.html">Examples</a></li>
+            <li><a href="roadmap.html" class="active">Roadmap</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <div class="grid">
+            <aside class="sidebar">
+                <h3>On This Page</h3>
+                <ul>
+                    <li><a href="#current">Current</a></li>
+                    <li><a href="#next">Next</a></li>
+                    <li><a href="#future">Future</a></li>
+                    <li><a href="#vision">Vision</a></li>
+                </ul>
+            </aside>
+
+            <div class="content">
+                <h1>ALX Development Roadmap</h1>
+                <p>ALX is built incrementally. Each version adds real, tested features.</p>
+
+                <h2 id="current">Current Version</h2>
+
+                <div class="milestone complete">
+                    <h3><span class="version">ALX 0.1.0</span> — Foundation <span class="tag tag-done">Complete</span></h3>
+                    <ul class="checklist">
+                        <li>.NET 8 solution with CLI</li>
+                        <li>Lexer, Parser, AST, Interpreter</li>
+                        <li>Types: String, Integer, Float, Boolean, Null</li>
+                        <li>Variables & reassignment</li>
+                        <li>Arithmetic, comparisons, logical operators</li>
+                        <li>print() statement</li>
+                        <li>if / else / else if</li>
+                        <li>while loops</li>
+                        <li>Functions with parameters & return values</li>
+                        <li>Diagnostics system with error codes</li>
+                        <li>103 automated tests</li>
+                    </ul>
+                </div>
+
+                <div class="milestone complete">
+                    <h3><span class="version">ALX 0.2.0</span> — Enhanced Control Flow <span class="tag tag-done">Complete</span></h3>
+                    <ul class="checklist">
+                        <li>For loops with ranges: for i in 1..10 { }</li>
+                        <li>Range expressions: 1..10</li>
+                        <li>Break statement</li>
+                        <li>Continue statement</li>
+                        <li>String interpolation: "Hello, {name}!"</li>
+                        <li>Documentation website</li>
+                        <li>121 automated tests</li>
+                    </ul>
+                </div>
+
+                <h2 id="next">Coming Next</h2>
+
+                <div class="milestone current">
+                    <h3><span class="version">ALX 0.3.0</span> — Functions Improvements <span class="tag tag-current">Planned</span></h3>
+                    <ul>
+                        <li>Closures</li>
+                        <li>Higher-order functions</li>
+                        <li>Lambda expressions</li>
+                        <li>Function overloading</li>
+                    </ul>
+                </div>
+
+                <div class="milestone future">
+                    <h3><span class="version">ALX 0.4.0</span> — Collections <span class="tag tag-planned">Planned</span></h3>
+                    <ul>
+                        <li>Arrays: [1, 2, 3]</li>
+                        <li>Maps: {name: "Hero", health: 100}</li>
+                        <li>Collection functions</li>
+                        <li>String utilities</li>
+                    </ul>
+                </div>
+
+                <div class="milestone future">
+                    <h3><span class="version">ALX 0.5.0</span> — Objects <span class="tag tag-planned">Planned</span></h3>
+                    <ul>
+                        <li>Classes</li>
+                        <li>Objects & instances</li>
+                        <li>Methods & properties</li>
+                        <li>Constructors</li>
+                    </ul>
+                </div>
+
+                <h2 id="future">Future Milestones</h2>
+
+                <div class="milestone future">
+                    <h3><span class="version">ALX 0.6.0</span> — Modules</h3>
+                    <ul>
+                        <li>Imports & module system</li>
+                        <li>Standard library</li>
+                        <li>Package architecture</li>
+                    </ul>
+                </div>
+
+                <div class="milestone future">
+                    <h3><span class="version">ALX 0.7.0</span> — Game Runtime Foundation</h3>
+                    <ul>
+                        <li>Vectors (Vector2, Vector3)</li>
+                        <li>Math library</li>
+                        <li>Time & input</li>
+                        <li>Entity/Component architecture</li>
+                    </ul>
+                </div>
+
+                <div class="milestone future">
+                    <h3><span class="version">ALX 0.8.0</span> — Tooling</h3>
+                    <ul>
+                        <li>Language Server Protocol (LSP)</li>
+                        <li>VS Code extension</li>
+                        <li>Formatter & linter</li>
+                        <li>Debugger</li>
+                    </ul>
+                </div>
+
+                <div class="milestone future">
+                    <h3><span class="version">ALX 0.9.0</span> — Bytecode VM</h3>
+                    <ul>
+                        <li>Bytecode compiler</li>
+                        <li>ALX Virtual Machine</li>
+                        <li>Performance optimization</li>
+                    </ul>
+                </div>
+
+                <div class="milestone future">
+                    <h3><span class="version">ALX 1.0.0</span> — Stable Release</h3>
+                    <ul>
+                        <li>Stable syntax</li>
+                        <li>Stable runtime</li>
+                        <li>Standard library</li>
+                        <li>Complete tooling</li>
+                        <li>Full documentation</li>
+                    </ul>
+                </div>
+
+                <h2 id="vision">Long-Term Vision</h2>
+                <p>ALX is the foundation for the <strong>Alexion Engine</strong> — a native game development environment.</p>
+                <pre><code>ALEXION STUDIOS
+       |
+       v
+     ALX LANGUAGE
+       |
+   +---+---+
+   |       |
+   v       v
+ STANDARD  RUNTIME
+ LIBRARY      |
+   |       |
+   +---+---+
+       |
+       v
+   ALX STUDIO (IDE)
+       |
+       v
+ ALEXION ENGINE
+       |
+       v
+    GAMES</code></pre>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 <a href="https://alexionstudios.com">Alexion Studios</a>. All rights reserved.</p>
+    </footer>
+</body>
+</html>

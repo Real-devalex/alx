@@ -1,0 +1,13 @@
+// Variables in ALX
+
+name = "ALEXION STUDIOS"
+version = 1
+health = 100
+speed = 5.5
+alive = true
+
+print(name)
+print(version)
+print(health)
+print(speed)
+print(alive)

@@ -1,0 +1,28 @@
+// String interpolation in ALX 0.2.0
+
+name = "Daniel"
+version = 2
+
+// Basic interpolation
+greeting = "Hello, {name}!"
+print(greeting)
+
+// Multiple expressions
+print("ALX {version} - Welcome, {name}!")
+
+// Math in interpolation
+x = 10
+y = 5
+print("Sum: {x + y}")
+print("Product: {x * y}")
+
+// Boolean in interpolation
+alive = true
+print("Status: {alive}")
+
+// Function return in interpolation
+function double(n) {
+    return n * 2
+}
+
+print("Double of 7 is {double(7)}")

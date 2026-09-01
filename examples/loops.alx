@@ -1,0 +1,11 @@
+// Loops in ALX
+
+// While loop
+health = 100
+
+while health > 0 {
+    health = health - 25
+    print(health)
+}
+
+print("Loop finished!")

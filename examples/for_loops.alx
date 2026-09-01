@@ -1,0 +1,41 @@
+// For loops in ALX 0.2.0
+
+// Basic for loop
+print("--- Basic for loop ---")
+for i in 1..5 {
+    print(i)
+}
+
+// For loop with break
+print("--- For loop with break ---")
+for i in 1..10 {
+    if i == 6 {
+        break
+    }
+    print(i)
+}
+
+// For loop with continue
+print("--- For loop with continue ---")
+for i in 1..10 {
+    if i % 2 == 0 {
+        continue
+    }
+    print(i)
+}
+
+// Sum with for loop
+print("--- Sum with for loop ---")
+total = 0
+for i in 1..10 {
+    total = total + i
+}
+print(total)
+
+// Nested for loops
+print("--- Nested for loops ---")
+for i in 1..4 {
+    for j in 1..4 {
+        print(i * j)
+    }
+}

@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Examples — ALX</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <nav>
+        <a href="index.html" class="logo"><span>ALX</span></a>
+        <ul class="nav-links">
+            <li><a href="getting-started.html">Get Started</a></li>
+            <li><a href="syntax.html">Syntax</a></li>
+            <li><a href="examples.html" class="active">Examples</a></li>
+            <li><a href="roadmap.html">Roadmap</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <div class="grid">
+            <aside class="sidebar">
+                <h3>Examples</h3>
+                <ul>
+                    <li><a href="#hello">Hello World</a></li>
+                    <li><a href="#variables">Variables</a></li>
+                    <li><a href="#math">Math</a></li>
+                    <li><a href="#conditions">Conditions</a></li>
+                    <li><a href="#functions">Functions</a></li>
+                    <li><a href="#loops">While Loops</a></li>
+                    <li><a href="#for-loops">For Loops</a></li>
+                    <li><a href="#interpolation">String Interpolation</a></li>
+                    <li><a href="#game">Game Example</a></li>
+                </ul>
+            </aside>
+
+            <div class="content">
+                <h1>ALX Examples</h1>
+                <p>Complete, runnable ALX programs to learn from.</p>
+
+                <h2 id="hello">Hello World</h2>
+                <pre><code><span class="cmt">// Hello World in ALX</span>
+<span class="kw">print</span>(<span class="str">"Hello, ALEXION!"</span>)</code></pre>
+
+                <h2 id="variables">Variables</h2>
+                <pre><code>name = <span class="str">"ALEXION STUDIOS"</span>
+version = <span class="num">1</span>
+health = <span class="num">100</span>
+speed = <span class="num">5.5</span>
+alive = <span class="kw">true</span>
+
+<span class="kw">print</span>(name)     <span class="cmt">// ALEXION STUDIOS</span>
+<span class="kw">print</span>(version)  <span class="cmt">// 1</span>
+<span class="kw">print</span>(health)   <span class="cmt">// 100</span>
+<span class="kw">print</span>(speed)    <span class="cmt">// 5.5</span>
+<span class="kw">print</span>(alive)    <span class="cmt">// true</span></code></pre>
+
+                <h2 id="math">Math</h2>
+                <pre><code>a = <span class="num">10</span>
+b = <span class="num">20</span>
+<span class="kw">print</span>(a + b)     <span class="cmt">// 30</span>
+
+<span class="cmt">// Operator precedence</span>
+<span class="kw">print</span>(<span class="num">10</span> + <span class="num">5</span> * <span class="num">2</span>)   <span class="cmt">// 20 (not 30)</span>
+
+<span class="cmt">// Variable reassignment</span>
+health = <span class="num">100</span>
+damage = <span class="num">25</span>
+health = health - damage
+<span class="kw">print</span>(health)    <span class="cmt">// 75</span></code></pre>
+
+                <h2 id="conditions">Conditions</h2>
+                <pre><code>health = <span class="num">100</span>
+
+<span class="kw">if</span> health <= <span class="num">0</span> {
+    <span class="kw">print</span>(<span class="str">"Player died"</span>)
+} <span class="kw">else if</span> health > <span class="num">50</span> {
+    <span class="kw">print</span>(<span class="str">"Healthy"</span>)
+} <span class="kw">else</span> {
+    <span class="kw">print</span>(<span class="str">"Weak"</span>)
+}
+
+<span class="cmt">// Boolean logic</span>
+is_active = <span class="kw">true</span>
+has_permission = <span class="kw">false</span>
+
+<span class="kw">if</span> is_active <span class="kw">and</span> has_permission {
+    <span class="kw">print</span>(<span class="str">"Full access"</span>)
+} <span class="kw">else if</span> is_active {
+    <span class="kw">print</span>(<span class="str">"Limited access"</span>)
+}</code></pre>
+
+                <h2 id="functions">Functions</h2>
+                <pre><code><span class="kw">function</span> <span class="fn">greet</span>(name) {
+    <span class="kw">print</span>(<span class="str">"Hello, {name}!"</span>)
+}
+
+<span class="fn">greet</span>(<span class="str">"Daniel"</span>)
+
+<span class="cmt">// Return values</span>
+<span class="kw">function</span> <span class="fn">add</span>(a, b) {
+    <span class="kw">return</span> a + b
+}
+
+<span class="kw">print</span>(<span class="fn">add</span>(<span class="num">10</span>, <span class="num">20</span>))  <span class="cmt">// 30</span>
+
+<span class="cmt">// Recursion</span>
+<span class="kw">function</span> <span class="fn">factorial</span>(n) {
+    <span class="kw">if</span> n &lt;= <span class="num">1</span> { <span class="kw">return</span> <span class="num">1</span> }
+    <span class="kw">return</span> n * <span class="fn">factorial</span>(n - <span class="num">1</span>)
+}
+
+<span class="kw">print</span>(<span class="fn">factorial</span>(<span class="num">5</span>))  <span class="cmt">// 120</span></code></pre>
+
+                <h2 id="loops">While Loops</h2>
+                <pre><code>health = <span class="num">100</span>
+
+<span class="kw">while</span> health > <span class="num">0</span> {
+    health = health - <span class="num">25</span>
+    <span class="kw">print</span>(health)
+}
+<span class="cmt">// 75, 50, 25, 0</span></code></pre>
+
+                <h2 id="for-loops">For Loops</h2>
+                <pre><code><span class="cmt">// Basic for loop</span>
+<span class="kw">for</span> i <span class="kw">in</span> <span class="num">1</span>..<span class="num">5</span> {
+    <span class="kw">print</span>(i)
+}
+
+<span class="cmt">// Break — exit early</span>
+<span class="kw">for</span> i <span class="kw">in</span> <span class="num">1</span>..<span class="num">10</span> {
+    <span class="kw">if</span> i == <span class="num">5</span> { <span class="kw">break</span> }
+    <span class="kw">print</span>(i)
+}
+
+<span class="cmt">// Continue — skip iterations</span>
+<span class="kw">for</span> i <span class="kw">in</span> <span class="num">1</span>..<span class="num">6</span> {
+    <span class="kw">if</span> i % <span class="num">2</span> == <span class="num">0</span> { <span class="kw">continue</span> }
+    <span class="kw">print</span>(i)
+}
+
+<span class="cmt">// Sum</span>
+total = <span class="num">0</span>
+<span class="kw">for</span> i <span class="kw">in</span> <span class="num">1</span>..<span class="num">10</span> {
+    total = total + i
+}
+<span class="kw">print</span>(total)  <span class="cmt">// 45</span></code></pre>
+
+                <h2 id="interpolation">String Interpolation</h2>
+                <pre><code>name = <span class="str">"ALX"</span>
+version = <span class="num">2</span>
+
+<span class="kw">print</span>(<span class="str">"Welcome to {name} {version}!"</span>)
+<span class="cmt">// Welcome to ALX 2!</span>
+
+x = <span class="num">10</span>
+y = <span class="num">5</span>
+<span class="kw">print</span>(<span class="str">"{x} + {y} = {x + y}"</span>)
+<span class="cmt">// 10 + 5 = 15</span></code></pre>
+
+                <h2 id="game">Game Example</h2>
+                <pre><code><span class="cmt">// Simple combat system</span>
+health = <span class="num">100</span>
+damage = <span class="num">30</span>
+heal = <span class="num">15</span>
+
+<span class="cmt">// Take damage</span>
+health = health - damage
+<span class="kw">print</span>(<span class="str">"After hit: {health}"</span>)  <span class="cmt">// 70</span>
+
+<span class="cmt">// Heal</span>
+health = health + heal
+<span class="kw">print</span>(<span class="str">"After heal: {health}"</span>)  <span class="cmt">// 85</span>
+
+<span class="cmt">// Combat loop</span>
+turns = <span class="num">0</span>
+<span class="kw">while</span> health > <span class="num">0</span> {
+    health = health - <span class="num">20</span>
+    turns = turns + <span class="num">1</span>
+    <span class="kw">print</span>(<span class="str">"Turn {turns}: health = {health}"</span>)
+}
+
+<span class="kw">print</span>(<span class="str">"Player survived {turns} turns"</span>)</code></pre>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 <a href="https://alexionstudios.com">Alexion Studios</a>. All rights reserved.</p>
+    </footer>
+</body>
+</html>

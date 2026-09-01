@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Getting Started — ALX</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <nav>
+        <a href="index.html" class="logo"><span>ALX</span></a>
+        <ul class="nav-links">
+            <li><a href="getting-started.html" class="active">Get Started</a></li>
+            <li><a href="syntax.html">Syntax</a></li>
+            <li><a href="examples.html">Examples</a></li>
+            <li><a href="roadmap.html">Roadmap</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <div class="grid">
+            <aside class="sidebar">
+                <h3>On This Page</h3>
+                <ul>
+                    <li><a href="#prerequisites">Prerequisites</a></li>
+                    <li><a href="#install">Installation</a></li>
+                    <li><a href="#first-program">First Program</a></li>
+                    <li><a href="#cli">CLI Commands</a></li>
+                    <li><a href="#next-steps">Next Steps</a></li>
+                </ul>
+            </aside>
+
+            <div class="content">
+                <h1>Getting Started with ALX</h1>
+                <p>Get up and running with ALX in under 5 minutes.</p>
+
+                <h2 id="prerequisites">Prerequisites</h2>
+                <p>ALX requires the <a href="https://dotnet.microsoft.com/download/dotnet/8.0">.NET 8 SDK</a> or later.</p>
+                <pre><code># Check your .NET version
+dotnet --version</code></pre>
+                <p>If you don't have .NET installed, download it from <a href="https://dotnet.microsoft.com/download">dotnet.microsoft.com</a>.</p>
+
+                <h2 id="install">Installation</h2>
+                <h3>Option 1: Build from Source</h3>
+                <pre><code># Clone the repository
+git clone https://github.com/Alexion-language/ALX.git
+cd ALX
+
+# Build
+dotnet build ALX.sln
+
+# Run your first program
+dotnet run --project src/ALX.CLI -- examples/hello.alx</code></pre>
+
+                <h3>Option 2: Install as a Global Tool (Coming Soon)</h3>
+                <pre><code>dotnet tool install -g alx
+alx hello.alx</code></pre>
+
+                <h2 id="first-program">Your First ALX Program</h2>
+                <p>Create a file called <code>hello.alx</code>:</p>
+                <pre><code><span class="cmt">// hello.alx — My first ALX program</span>
+<span class="kw">print</span>(<span class="str">"Hello, ALEXION!"</span>)</code></pre>
+
+                <p>Run it from your terminal:</p>
+                <pre><code>dotnet run --project src/ALX.CLI -- hello.alx</code></pre>
+
+                <p>Output:</p>
+                <pre><code>Hello, ALEXION!</code></pre>
+
+                <h2 id="cli">CLI Commands</h2>
+                <table>
+                    <thead>
+                        <tr><th>Command</th><th>Description</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><code>alx &lt;file.alx&gt;</code></td><td>Run an ALX source file</td></tr>
+                        <tr><td><code>alx version</code></td><td>Show ALX version</td></tr>
+                        <tr><td><code>alx help</code></td><td>Show help message</td></tr>
+                    </tbody>
+                </table>
+
+                <h2 id="next-steps">Next Steps</h2>
+                <ul>
+                    <li><a href="syntax.html">Learn ALX syntax</a> — Types, variables, functions, control flow</li>
+                    <li><a href="examples.html">Browse examples</a> — Complete programs to learn from</li>
+                    <li><a href="roadmap.html">View the roadmap</a> — See what's coming next</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 <a href="https://alexionstudios.com">Alexion Studios</a>. All rights reserved.</p>
+    </footer>
+</body>
+</html>

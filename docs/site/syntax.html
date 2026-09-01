@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Language Syntax — ALX</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <nav>
+        <a href="index.html" class="logo"><span>ALX</span></a>
+        <ul class="nav-links">
+            <li><a href="getting-started.html">Get Started</a></li>
+            <li><a href="syntax.html" class="active">Syntax</a></li>
+            <li><a href="examples.html">Examples</a></li>
+            <li><a href="roadmap.html">Roadmap</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <div class="grid">
+            <aside class="sidebar">
+                <h3>On This Page</h3>
+                <ul>
+                    <li><a href="#types">Types</a></li>
+                    <li><a href="#variables">Variables</a></li>
+                    <li><a href="#operators">Operators</a></li>
+                    <li><a href="#print">Print</a></li>
+                    <li><a href="#comments">Comments</a></li>
+                    <li><a href="#conditionals">Conditionals</a></li>
+                    <li><a href="#loops">Loops</a></li>
+                    <li><a href="#functions">Functions</a></li>
+                    <li><a href="#interpolation">String Interpolation</a></li>
+                    <li><a href="#ranges">Ranges</a></li>
+                </ul>
+            </aside>
+
+            <div class="content">
+                <h1>ALX Language Syntax</h1>
+                <p>Complete reference for ALX 0.2.0 syntax.</p>
+
+                <h2 id="types">Types</h2>
+                <table>
+                    <thead><tr><th>Type</th><th>Example</th><th>Description</th></tr></thead>
+                    <tbody>
+                        <tr><td>Integer</td><td><code>42</code>, <code>-7</code></td><td>64-bit signed integer</td></tr>
+                        <tr><td>Float</td><td><code>3.14</code>, <code>-0.5</code></td><td>64-bit double-precision float</td></tr>
+                        <tr><td>String</td><td><code>"hello"</code></td><td>UTF-8 text string</td></tr>
+                        <tr><td>Boolean</td><td><code>true</code>, <code>false</code></td><td>Boolean value</td></tr>
+                        <tr><td>Null</td><td><code>null</code></td><td>Absence of value</td></tr>
+                        <tr><td>Range</td><td><code>1..10</code></td><td>Integer range (exclusive end)</td></tr>
+                    </tbody>
+                </table>
+
+                <h2 id="variables">Variables</h2>
+                <pre><code><span class="cmt">// Assignment</span>
+name = <span class="str">"ALX"</span>
+health = <span class="num">100</span>
+speed = <span class="num">5.5</span>
+alive = <span class="kw">true</span>
+
+<span class="cmt">// Reassignment</span>
+health = health - <span class="num">25</span>
+
+<span class="cmt">// Constants (cannot be reassigned)</span>
+<span class="kw">const</span> MAX_HEALTH = <span class="num">100</span></code></pre>
+
+                <h2 id="operators">Operators</h2>
+                <h3>Arithmetic</h3>
+                <table>
+                    <thead><tr><th>Operator</th><th>Example</th><th>Description</th></tr></thead>
+                    <tbody>
+                        <tr><td><code>+</code></td><td><code>10 + 5</code></td><td>Addition (also string concatenation)</td></tr>
+                        <tr><td><code>-</code></td><td><code>10 - 5</code></td><td>Subtraction</td></tr>
+                        <tr><td><code>*</code></td><td><code>10 * 5</code></td><td>Multiplication</td></tr>
+                        <tr><td><code>/</code></td><td><code>10 / 5</code></td><td>Division</td></tr>
+                        <tr><td><code>%</code></td><td><code>10 % 3</code></td><td>Modulo</td></tr>
+                    </tbody>
+                </table>
+
+                <h3>Comparison</h3>
+                <table>
+                    <thead><tr><th>Operator</th><th>Description</th></tr></thead>
+                    <tbody>
+                        <tr><td><code>==</code></td><td>Equal</td></tr>
+                        <tr><td><code>!=</code></td><td>Not equal</td></tr>
+                        <tr><td><code>&gt;</code>, <code>&lt;</code></td><td>Greater/Less than</td></tr>
+                        <tr><td><code>&gt;=</code>, <code>&lt;=</code></td><td>Greater/Less or equal</td></tr>
+                    </tbody>
+                </table>
+
+                <h3>Logical</h3>
+                <pre><code><span class="kw">print</span>(<span class="kw">true</span> <span class="kw">and</span> <span class="kw">false</span>)   <span class="cmt">// false</span>
+<span class="kw">print</span>(<span class="kw">true</span> <span class="kw">or</span> <span class="kw">false</span>)    <span class="cmt">// true</span>
+<span class="kw">print</span>(<span class="kw">not</span> <span class="kw">false</span>)        <span class="cmt">// true</span></code></pre>
+
+                <h3>Precedence (highest to lowest)</h3>
+                <p><code>()</code> → unary → <code>* / %</code> → <code>+ -</code> → range → comparison → equality → <code>and</code> → <code>or</code> → <code>=</code></p>
+
+                <h2 id="print">Print</h2>
+                <pre><code><span class="kw">print</span>(<span class="str">"Hello"</span>)
+<span class="kw">print</span>(<span class="num">42</span>)
+<span class="kw">print</span>(<span class="num">3.14</span>)
+<span class="kw">print</span>(<span class="kw">true</span>)
+<span class="kw">print</span>(<span class="kw">null</span>)</code></pre>
+
+                <h2 id="comments">Comments</h2>
+                <pre><code><span class="cmt">// This is a single-line comment</span>
+x = <span class="num">42</span>  <span class="cmt">// Inline comment</span></code></pre>
+
+                <h2 id="conditionals">Conditionals</h2>
+                <pre><code><span class="cmt">// if</span>
+<span class="kw">if</span> health > <span class="num">0</span> {
+    <span class="kw">print</span>(<span class="str">"Alive"</span>)
+}
+
+<span class="cmt">// if/else</span>
+<span class="kw">if</span> score >= <span class="num">60</span> {
+    <span class="kw">print</span>(<span class="str">"Pass"</span>)
+} <span class="kw">else</span> {
+    <span class="kw">print</span>(<span class="str">"Fail"</span>)
+}
+
+<span class="cmt">// if/else if/else</span>
+<span class="kw">if</span> score >= <span class="num">90</span> {
+    <span class="kw">print</span>(<span class="str">"A"</span>)
+} <span class="kw">else if</span> score >= <span class="num">80</span> {
+    <span class="kw">print</span>(<span class="str">"B"</span>)
+} <span class="kw">else</span> {
+    <span class="kw">print</span>(<span class="str">"C"</span>)
+}</code></pre>
+
+                <h2 id="loops">Loops</h2>
+                <h3>While Loop</h3>
+                <pre><code>x = <span class="num">5</span>
+<span class="kw">while</span> x > <span class="num">0</span> {
+    x = x - <span class="num">1</span>
+    <span class="kw">print</span>(x)
+}</code></pre>
+
+                <h3>For Loop with Range</h3>
+                <pre><code><span class="cmt">// Basic for loop</span>
+<span class="kw">for</span> i <span class="kw">in</span> <span class="num">1</span>..<span class="num">5</span> {
+    <span class="kw">print</span>(i)  <span class="cmt">// 1, 2, 3, 4</span>
+}
+
+<span class="cmt">// Sum with for loop</span>
+total = <span class="num">0</span>
+<span class="kw">for</span> i <span class="kw">in</span> <span class="num">1</span>..<span class="num">100</span> {
+    total = total + i
+}</code></pre>
+
+                <h3>Break & Continue</h3>
+                <pre><code><span class="cmt">// Break — exit the loop</span>
+<span class="kw">for</span> i <span class="kw">in</span> <span class="num">1</span>..<span class="num">10</span> {
+    <span class="kw">if</span> i == <span class="num">5</span> {
+        <span class="kw">break</span>
+    }
+    <span class="kw">print</span>(i)  <span class="cmt">// 1, 2, 3, 4</span>
+}
+
+<span class="cmt">// Continue — skip to next iteration</span>
+<span class="kw">for</span> i <span class="kw">in</span> <span class="num">1</span>..<span class="num">6</span> {
+    <span class="kw">if</span> i % <span class="num">2</span> == <span class="num">0</span> {
+        <span class="kw">continue</span>
+    }
+    <span class="kw">print</span>(i)  <span class="cmt">// 1, 3, 5</span>
+}</code></pre>
+
+                <h2 id="functions">Functions</h2>
+                <pre><code><span class="cmt">// Declaration</span>
+<span class="kw">function</span> <span class="fn">greet</span>(name) {
+    <span class="kw">print</span>(<span class="str">"Hello, {name}!"</span>)
+}
+
+<span class="cmt">// Call</span>
+<span class="fn">greet</span>(<span class="str">"World"</span>)
+
+<span class="cmt">// Return values</span>
+<span class="kw">function</span> <span class="fn">add</span>(a, b) {
+    <span class="kw">return</span> a + b
+}
+
+result = <span class="fn">add</span>(<span class="num">10</span>, <span class="num">20</span>)
+
+<span class="cmt">// Recursion</span>
+<span class="kw">function</span> <span class="fn">factorial</span>(n) {
+    <span class="kw">if</span> n &lt;= <span class="num">1</span> {
+        <span class="kw">return</span> <span class="num">1</span>
+    }
+    <span class="kw">return</span> n * <span class="fn">factorial</span>(n - <span class="num">1</span>)
+}
+
+<span class="kw">print</span>(<span class="fn">factorial</span>(<span class="num">5</span>))  <span class="cmt">// 120</span></code></pre>
+
+                <h2 id="interpolation">String Interpolation</h2>
+                <p>Embed expressions inside strings using <code>{expression}</code>:</p>
+                <pre><code>name = <span class="str">"Daniel"</span>
+version = <span class="num">2</span>
+
+<span class="kw">print</span>(<span class="str">"Hello, {name}!"</span>)           <span class="cmt">// Hello, Daniel!</span>
+<span class="kw">print</span>(<span class="str">"ALX {version} - {name}"</span>)   <span class="cmt">// ALX 2 - Daniel</span>
+<span class="kw">print</span>(<span class="str">"Sum: {10 + 5}"</span>)           <span class="cmt">// Sum: 15</span></code></pre>
+
+                <h2 id="ranges">Ranges</h2>
+                <p>Range expressions represent a sequence of integers:</p>
+                <pre><code><span class="cmt">// Range syntax: start..end (end is exclusive)</span>
+<span class="kw">for</span> i <span class="kw">in</span> <span class="num">0</span>..<span class="num">5</span> {
+    <span class="kw">print</span>(i)  <span class="cmt">// 0, 1, 2, 3, 4</span>
+}
+
+<span class="cmt">// Store ranges in variables</span>
+r = <span class="num">1</span>..<span class="num">10</span>
+<span class="kw">print</span>(r)  <span class="cmt">// 1..10</span></code></pre>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 <a href="https://alexionstudios.com">Alexion Studios</a>. All rights reserved.</p>
+    </footer>
+</body>
+</html>

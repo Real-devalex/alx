@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\ALX.Compiler\ALX.Compiler.csproj" />
+    <ProjectReference Include="..\ALX.Runtime\ALX.Runtime.csproj" />
+    <ProjectReference Include="..\ALX.StandardLibrary\ALX.StandardLibrary.csproj" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+</Project>

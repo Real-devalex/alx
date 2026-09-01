@@ -1,0 +1,23 @@
+// Math expressions in ALX
+
+a = 10
+b = 20
+
+print(a + b)
+
+// More complex expressions
+x = 10 + 5 * 2
+print(x)
+
+// Variables and reassignment
+health = 100
+damage = 25
+
+health = health - damage
+print(health)
+
+// Floats
+pi = 3.14159
+radius = 5.0
+area = pi * radius * radius
+print(area)
