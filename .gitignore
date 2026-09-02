@@ -72,3 +72,8 @@ coverage*/
 _*.js
 _*.json
 *.tmp
+
+# Node (for VS Code extension build)
+vscode-extension/node_modules/
+vscode-extension/package-lock.json
+*.vsix

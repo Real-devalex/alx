@@ -12,45 +12,62 @@
     ],
     "activationEvents": [],
     "main": "./extension.js",
-    "icon": "icon.svg",
+
     "contributes": {
-        "languages": [{
-            "id": "alx",
-            "aliases": ["ALX", "alx"],
-            "extensions": [".alx"],
-            "configuration": "./language-configuration.json",
-            "icon": {
-                "dark": "./icons/file-icon-dark.svg",
-                "light": "./icons/file-icon-light.svg"
+        "languages": [
+            {
+                "id": "alx",
+                "aliases": [
+                    "ALX",
+                    "alx"
+                ],
+                "extensions": [
+                    ".alx"
+                ],
+                "configuration": "./language-configuration.json",
+                "icon": {
+                    "dark": "./icons/file-icon-dark.svg",
+                    "light": "./icons/file-icon-light.svg"
+                }
             }
-        }],
-        "grammars": [{
-            "language": "alx",
-            "scopeName": "source.alx",
-            "path": "./syntaxes/ALX.tmLanguage.json"
-        }],
-        "commands": [{
-            "command": "alx.runFile",
-            "title": "ALX: Run File",
-            "icon": "$(play)"
-        }],
+        ],
+        "grammars": [
+            {
+                "language": "alx",
+                "scopeName": "source.alx",
+                "path": "./syntaxes/ALX.tmLanguage.json"
+            }
+        ],
+        "commands": [
+            {
+                "command": "alx.runFile",
+                "title": "ALX: Run File",
+                "icon": "$(play)"
+            }
+        ],
         "menus": {
-            "editor/title": [{
-                "command": "alx.runFile",
-                "when": "editorLangId == alx",
-                "group": "navigation"
-            }],
-            "commandPalette": [{
-                "command": "alx.runFile",
-                "when": "editorLangId == alx"
-            }]
+            "editor/title": [
+                {
+                    "command": "alx.runFile",
+                    "when": "editorLangId == alx",
+                    "group": "navigation"
+                }
+            ],
+            "commandPalette": [
+                {
+                    "command": "alx.runFile",
+                    "when": "editorLangId == alx"
+                }
+            ]
         },
-        "keybindings": [{
-            "command": "alx.runFile",
-            "key": "ctrl+alt+r",
-            "mac": "cmd+alt+r",
-            "when": "editorLangId == alx"
-        }],
+        "keybindings": [
+            {
+                "command": "alx.runFile",
+                "key": "ctrl+alt+r",
+                "mac": "cmd+alt+r",
+                "when": "editorLangId == alx"
+            }
+        ],
         "configuration": {
             "title": "ALX",
             "properties": {
@@ -61,5 +78,15 @@
                 }
             }
         }
+    },
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "type": "commonjs",
+    "devDependencies": {
+        "@vscode/vsce": "^3.9.2"
     }
 }
