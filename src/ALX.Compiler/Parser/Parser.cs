@@ -44,6 +44,7 @@ public class Parser
         switch (token.Type)
         {
             case TokenType.Function:
+            case TokenType.Afun:
                 return ParseFunctionDeclaration();
             case TokenType.If:
                 return ParseIfStatement();
@@ -125,7 +126,18 @@ public class Parser
         }
 
         Expect(TokenType.RightParen, "')'");
-        var body = ParseBlock();
+        BlockStatement body;
+        if (Peek().Type == TokenType.Assign)
+        {
+            Advance(); // consume '='
+            var expression = ParseExpression();
+            var returnStmt = new ReturnStatement(expression, expression.Line, expression.Column, _sourceFile);
+            body = new BlockStatement(new List<Statement> { returnStmt }, expression.Line, expression.Column, _sourceFile);
+        }
+        else
+        {
+            body = ParseBlock();
+        }
 
         return new FunctionDeclaration(name.Lexeme, parameters, body, keyword.Line, keyword.Column, _sourceFile);
     }
@@ -247,8 +259,20 @@ public class Parser
                 return new AssignmentExpression(identifier.Name, value, identifier.Line, identifier.Column, _sourceFile);
             }
 
+            if (expr is MemberExpression member)
+            {
+                var value = ParseAssignment();
+                return new MemberAssignmentExpression(member.Object, member.MemberName, value, member.Line, member.Column, _sourceFile);
+            }
+
+            if (expr is IndexExpression index)
+            {
+                var value = ParseAssignment();
+                return new IndexAssignmentExpression(index.Object, index.Index, value, index.Line, index.Column, _sourceFile);
+            }
+
             _diagnostics.ReportUnexpectedToken(
-                _sourceFile, expr.Line, expr.Column, "identifier",
+                _sourceFile, expr.Line, expr.Column, "assignment target",
                 expr switch { IntegerExpression => "integer", FloatExpression => "float", StringExpression => "string", BooleanExpression => "boolean", _ => "expression" }
             );
         }
@@ -355,15 +379,37 @@ public class Parser
     {
         var expr = ParsePrimary();
 
-        while (Match(TokenType.LeftParen))
+        // Parse chained postfix operations: function calls, indexing, member access
+        while (true)
         {
-            var arguments = new List<Expression>();
-            if (Peek().Type != TokenType.RightParen)
+            if (Match(TokenType.LeftParen))
             {
-                do { arguments.Add(ParseExpression()); } while (Match(TokenType.Comma));
+                // Function call: expr(args)
+                var arguments = new List<Expression>();
+                if (Peek().Type != TokenType.RightParen)
+                {
+                    do { arguments.Add(ParseExpression()); } while (Match(TokenType.Comma));
+                }
+                Expect(TokenType.RightParen, "')'");
+                expr = new CallExpression(expr, arguments, expr.Line, expr.Column, _sourceFile);
             }
-            Expect(TokenType.RightParen, "')'");
-            expr = new CallExpression(expr, arguments, expr.Line, expr.Column, _sourceFile);
+            else if (Match(TokenType.LeftBracket))
+            {
+                // Index access: expr[index]
+                var index = ParseExpression();
+                Expect(TokenType.RightBracket, "']'");
+                expr = new IndexExpression(expr, index, expr.Line, expr.Column, _sourceFile);
+            }
+            else if (Match(TokenType.Dot))
+            {
+                // Member access: expr.name
+                var memberName = Expect(TokenType.Identifier, "property name");
+                expr = new MemberExpression(expr, memberName.Lexeme, expr.Line, expr.Column, _sourceFile);
+            }
+            else
+            {
+                break;
+            }
         }
 
         return expr;
@@ -409,6 +455,14 @@ public class Parser
 
             case TokenType.Lambda:
                 return ParseLambdaExpression();
+
+            case TokenType.LeftBracket:
+                return ParseArrayExpression();
+
+            case TokenType.LeftBrace:
+                // Distinguish map literal from block: if next token looks like a map key
+                // Map: { "key": value } or { key: value }
+                return ParseMapOrBlockExpression();
 
             case TokenType.LeftParen:
                 Advance();
@@ -486,6 +540,128 @@ public class Parser
         }
 
         return new InterpolatedStringExpression(rawValue, parts, token.Line, token.Column, _sourceFile);
+    }
+
+    // ===== 0.4.0: ARRAYS & MAPS =====
+
+    /// <summary>
+    /// Parse array literal: [1, 2, 3]
+    /// </summary>
+    private Expression ParseArrayExpression()
+    {
+        var openBracket = Advance(); // consume '['
+        var elements = new List<Expression>();
+
+        SkipNewlines();
+        if (Peek().Type != TokenType.RightBracket)
+        {
+            do
+            {
+                SkipNewlines();
+                elements.Add(ParseExpression());
+                SkipNewlines();
+            } while (Match(TokenType.Comma));
+        }
+
+        Expect(TokenType.RightBracket, "']'");
+        return new ArrayExpression(elements, openBracket.Line, openBracket.Column, _sourceFile);
+    }
+
+    /// <summary>
+    /// Parse map literal: { "key": value, "key2": value2 }
+    /// Also handles the case where { starts a block (return as null to be handled by caller).
+    /// We detect map by looking ahead for string/identifier followed by colon.
+    /// </summary>
+    private Expression ParseMapOrBlockExpression()
+    {
+        var openBrace = Peek();
+
+        // Look ahead to see if this is a map: { key: value } or { "key": value }
+        // Peek at the next tokens to decide
+        if (IsMapLiteral())
+        {
+            Advance(); // consume '{'
+            var entries = new List<(Expression Key, Expression Value)>();
+
+            SkipNewlines();
+            while (Peek().Type != TokenType.RightBrace && !IsAtEnd())
+            {
+                SkipNewlines();
+
+                // Key: identifier or string
+                Expression key;
+                if (Peek().Type == TokenType.String)
+                {
+                    var keyToken = Advance();
+                    key = new StringExpression((string)keyToken.Literal!, keyToken.Line, keyToken.Column, _sourceFile);
+                }
+                else if (Peek().Type == TokenType.Identifier)
+                {
+                    var keyToken = Advance();
+                    key = new StringExpression(keyToken.Lexeme, keyToken.Line, keyToken.Column, _sourceFile);
+                }
+                else if (Peek().Type == TokenType.Integer)
+                {
+                    var keyToken = Advance();
+                    key = new StringExpression(keyToken.Literal!.ToString()!, keyToken.Line, keyToken.Column, _sourceFile);
+                }
+                else
+                {
+                    _diagnostics.ReportUnexpectedToken(_sourceFile, Peek().Line, Peek().Column, "map key", Peek().Lexeme);
+                    break;
+                }
+
+                Expect(TokenType.Colon, "':'");
+                var value = ParseExpression();
+                entries.Add((key, value));
+
+                SkipNewlines();
+                Match(TokenType.Comma);
+            }
+
+            Expect(TokenType.RightBrace, "'}'");
+            return new MapExpression(entries, openBrace.Line, openBrace.Column, _sourceFile);
+        }
+        else
+        {
+            // Not a map — this is a block statement, but we're in expression context.
+            // This shouldn't happen in normal ALX code since blocks are only in statements.
+            // Report an error.
+            _diagnostics.ReportUnexpectedToken(_sourceFile, openBrace.Line, openBrace.Column, "expression", "{");
+            Advance(); // skip the '{'
+            return new NullExpression(openBrace.Line, openBrace.Column, _sourceFile);
+        }
+    }
+
+    /// <summary>
+    /// Heuristic: is the current { the start of a map literal?
+    /// We look ahead: if we see { followed by a string/identifier then :, it's a map.
+    /// </summary>
+    private bool IsMapLiteral()
+    {
+        if (Peek().Type != TokenType.LeftBrace) return false;
+
+        // Save position
+        int saved = _current;
+
+        Advance(); // skip '{'
+        SkipNewlines();
+
+        bool isMap = false;
+        if (Peek().Type is TokenType.String or TokenType.Identifier or TokenType.Integer)
+        {
+            int keyPos = _current;
+            Advance(); // skip key
+            SkipNewlines();
+            if (Peek().Type == TokenType.Colon)
+            {
+                isMap = true;
+            }
+        }
+
+        // Restore position
+        _current = saved;
+        return isMap;
     }
 
     // ===== LAMBDA =====

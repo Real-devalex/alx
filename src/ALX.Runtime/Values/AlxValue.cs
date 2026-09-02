@@ -75,6 +75,48 @@ public class RangeValue : AlxValue
     public override string ToString() => $"{Start}..{End}";
 }
 
+/// <summary>
+/// ALX array value: an ordered collection of values.
+/// </summary>
+public class ArrayValue : AlxValue
+{
+    public override string TypeName => "array";
+    public List<AlxValue> Elements { get; }
+    public ArrayValue(List<AlxValue> elements) { Elements = elements; }
+    public override bool IsTruthy() => Elements.Count > 0;
+    public override string ToString() => "[" + string.Join(", ", Elements.Select(e => FormatForDisplay(e))) + "]";
+
+    private static string FormatForDisplay(AlxValue v) => v switch
+    {
+        StringValue s => $"\"{s.Value}\"",
+        NullValue => "null",
+        _ => v.ToString()
+    };
+}
+
+/// <summary>
+/// ALX map value: a key-value collection where keys are strings.
+/// </summary>
+public class MapValue : AlxValue
+{
+    public override string TypeName => "map";
+    public Dictionary<string, AlxValue> Entries { get; }
+    public MapValue(Dictionary<string, AlxValue> entries) { Entries = entries; }
+    public override bool IsTruthy() => Entries.Count > 0;
+    public override string ToString()
+    {
+        var parts = Entries.Select(e => $"{e.Key}: {FormatForDisplay(e.Value)}");
+        return "{ " + string.Join(", ", parts) + " }";
+    }
+
+    private static string FormatForDisplay(AlxValue v) => v switch
+    {
+        StringValue s => $"\"{s.Value}\"",
+        NullValue => "null",
+        _ => v.ToString()
+    };
+}
+
 public class ReturnWrapper : AlxValue
 {
     public AlxValue Value { get; }

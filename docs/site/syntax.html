@@ -5,219 +5,293 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Language Syntax — ALX</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <nav>
-        <a href="index.html" class="logo"><span>ALX</span></a>
-        <ul class="nav-links">
-            <li><a href="getting-started.html">Get Started</a></li>
-            <li><a href="syntax.html" class="active">Syntax</a></li>
-            <li><a href="examples.html">Examples</a></li>
-            <li><a href="roadmap.html">Roadmap</a></li>
-        </ul>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">ALX</a>
+            <div class="nav-links">
+                <a href="getting-started.html">Getting Started</a>
+                <a href="syntax.html" class="active">Syntax</a>
+                <a href="examples.html">Examples</a>
+                <a href="roadmap.html">Roadmap</a>
+                <a href="https://github.com/Real-devalex/alx">GitHub</a>
+            </div>
+        </div>
     </nav>
 
-    <div class="container">
-        <div class="grid">
-            <aside class="sidebar">
-                <h3>On This Page</h3>
-                <ul>
-                    <li><a href="#types">Types</a></li>
-                    <li><a href="#variables">Variables</a></li>
-                    <li><a href="#operators">Operators</a></li>
-                    <li><a href="#print">Print</a></li>
-                    <li><a href="#comments">Comments</a></li>
-                    <li><a href="#conditionals">Conditionals</a></li>
-                    <li><a href="#loops">Loops</a></li>
-                    <li><a href="#functions">Functions</a></li>
-                    <li><a href="#interpolation">String Interpolation</a></li>
-                    <li><a href="#ranges">Ranges</a></li>
-                </ul>
-            </aside>
+    <main class="container">
+        <h1>ALX Language Syntax</h1>
+        <p class="subtitle">Complete reference for ALX 0.4.0</p>
 
-            <div class="content">
-                <h1>ALX Language Syntax</h1>
-                <p>Complete reference for ALX 0.2.0 syntax.</p>
+        <section class="content-section">
+            <h2 id="hello-world">Hello World</h2>
+            <pre><code><span class="kw">print</span>(<span class="str">"Hello, ALEXION!"</span>)</code></pre>
+        </section>
 
-                <h2 id="types">Types</h2>
-                <table>
-                    <thead><tr><th>Type</th><th>Example</th><th>Description</th></tr></thead>
-                    <tbody>
-                        <tr><td>Integer</td><td><code>42</code>, <code>-7</code></td><td>64-bit signed integer</td></tr>
-                        <tr><td>Float</td><td><code>3.14</code>, <code>-0.5</code></td><td>64-bit double-precision float</td></tr>
-                        <tr><td>String</td><td><code>"hello"</code></td><td>UTF-8 text string</td></tr>
-                        <tr><td>Boolean</td><td><code>true</code>, <code>false</code></td><td>Boolean value</td></tr>
-                        <tr><td>Null</td><td><code>null</code></td><td>Absence of value</td></tr>
-                        <tr><td>Range</td><td><code>1..10</code></td><td>Integer range (exclusive end)</td></tr>
-                    </tbody>
-                </table>
+        <section class="content-section">
+            <h2 id="comments">Comments</h2>
+            <pre><code><span class="cmt">// This is a comment</span></code></pre>
+        </section>
 
-                <h2 id="variables">Variables</h2>
-                <pre><code><span class="cmt">// Assignment</span>
-name = <span class="str">"ALX"</span>
+        <section class="content-section">
+            <h2 id="variables">Variables</h2>
+            <pre><code>name = <span class="str">"ALX"</span>
+version = <span class="num">1</span>
 health = <span class="num">100</span>
-speed = <span class="num">5.5</span>
 alive = <span class="kw">true</span>
+value = <span class="kw">null</span>
 
 <span class="cmt">// Reassignment</span>
-health = health - <span class="num">25</span>
+health = <span class="num">75</span>
 
-<span class="cmt">// Constants (cannot be reassigned)</span>
-<span class="kw">const</span> MAX_HEALTH = <span class="num">100</span></code></pre>
+<span class="cmt">// Const (cannot be reassigned)</span>
+<span class="kw">const</span> MAX = <span class="num">100</span></code></pre>
+        </section>
 
-                <h2 id="operators">Operators</h2>
-                <h3>Arithmetic</h3>
-                <table>
-                    <thead><tr><th>Operator</th><th>Example</th><th>Description</th></tr></thead>
-                    <tbody>
-                        <tr><td><code>+</code></td><td><code>10 + 5</code></td><td>Addition (also string concatenation)</td></tr>
-                        <tr><td><code>-</code></td><td><code>10 - 5</code></td><td>Subtraction</td></tr>
-                        <tr><td><code>*</code></td><td><code>10 * 5</code></td><td>Multiplication</td></tr>
-                        <tr><td><code>/</code></td><td><code>10 / 5</code></td><td>Division</td></tr>
-                        <tr><td><code>%</code></td><td><code>10 % 3</code></td><td>Modulo</td></tr>
-                    </tbody>
-                </table>
+        <section class="content-section">
+            <h2 id="types">Types</h2>
+            <ul>
+                <li><code>Integer</code> — whole numbers: <code>42</code></li>
+                <li><code>Float</code> — decimals: <code>3.14</code></li>
+                <li><code>String</code> — text: <code>"hello"</code></li>
+                <li><code>Boolean</code> — <code>true</code> or <code>false</code></li>
+                <li><code>Null</code> — <code>null</code></li>
+                <li><code>Array</code> — <code>[1, 2, 3]</code></li>
+                <li><code>Map</code> — <code>{ name: "Hero" }</code></li>
+                <li><code>Range</code> — <code>1..10</code></li>
+                <li><code>Function</code> — <code>function greet(name) { }</code></li>
+            </ul>
+        </section>
 
-                <h3>Comparison</h3>
-                <table>
-                    <thead><tr><th>Operator</th><th>Description</th></tr></thead>
-                    <tbody>
-                        <tr><td><code>==</code></td><td>Equal</td></tr>
-                        <tr><td><code>!=</code></td><td>Not equal</td></tr>
-                        <tr><td><code>&gt;</code>, <code>&lt;</code></td><td>Greater/Less than</td></tr>
-                        <tr><td><code>&gt;=</code>, <code>&lt;=</code></td><td>Greater/Less or equal</td></tr>
-                    </tbody>
-                </table>
+        <section class="content-section">
+            <h2 id="operators">Operators</h2>
+            <h3>Arithmetic</h3>
+            <pre><code>+  -  *  /  %</code></pre>
+            <h3>Comparison</h3>
+            <pre><code>==  !=  <  >  <=  >=</code></pre>
+            <h3>Logical</h3>
+            <pre><code><span class="kw">and</span>  <span class="kw">or</span>  <span class="kw">not</span></code></pre>
+            <h3>Range</h3>
+            <pre><code><span class="num">1</span>..<span class="num">10</span>  <span class="cmt">// exclusive range</span></code></pre>
+        </section>
 
-                <h3>Logical</h3>
-                <pre><code><span class="kw">print</span>(<span class="kw">true</span> <span class="kw">and</span> <span class="kw">false</span>)   <span class="cmt">// false</span>
-<span class="kw">print</span>(<span class="kw">true</span> <span class="kw">or</span> <span class="kw">false</span>)    <span class="cmt">// true</span>
-<span class="kw">print</span>(<span class="kw">not</span> <span class="kw">false</span>)        <span class="cmt">// true</span></code></pre>
+        <section class="content-section">
+            <h2 id="strings">Strings</h2>
+            <pre><code>name = <span class="str">"ALX"</span>
 
-                <h3>Precedence (highest to lowest)</h3>
-                <p><code>()</code> → unary → <code>* / %</code> → <code>+ -</code> → range → comparison → equality → <code>and</code> → <code>or</code> → <code>=</code></p>
+<span class="cmt">// Concatenation</span>
+greeting = <span class="str">"Hello, "</span> + name + <span class="str">"!"</span>
 
-                <h2 id="print">Print</h2>
-                <pre><code><span class="kw">print</span>(<span class="str">"Hello"</span>)
-<span class="kw">print</span>(<span class="num">42</span>)
-<span class="kw">print</span>(<span class="num">3.14</span>)
-<span class="kw">print</span>(<span class="kw">true</span>)
-<span class="kw">print</span>(<span class="kw">null</span>)</code></pre>
+<span class="cmt">// Interpolation</span>
+greeting = <span class="str">"Hello, {name}!"</span>
 
-                <h2 id="comments">Comments</h2>
-                <pre><code><span class="cmt">// This is a single-line comment</span>
-x = <span class="num">42</span>  <span class="cmt">// Inline comment</span></code></pre>
+<span class="cmt">// String length</span>
+len = greeting.length</code></pre>
+        </section>
 
-                <h2 id="conditionals">Conditionals</h2>
-                <pre><code><span class="cmt">// if</span>
-<span class="kw">if</span> health > <span class="num">0</span> {
-    <span class="kw">print</span>(<span class="str">"Alive"</span>)
+        <section class="content-section">
+            <h2 id="arrays">Arrays</h2>
+            <p>Ordered collections of values.</p>
+            <pre><code><span class="cmt">// Create</span>
+numbers = [<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>, <span class="num">4</span>, <span class="num">5</span>]
+fruits = [<span class="str">"apple"</span>, <span class="str">"banana"</span>, <span class="str">"cherry"</span>]
+
+<span class="cmt">// Index (0-based)</span>
+first = numbers[<span class="num">0</span>]     <span class="cmt">// 1</span>
+third = fruits[<span class="num">2</span>]      <span class="cmt">// "cherry"</span>
+
+<span class="cmt">// Length</span>
+len = numbers.length    <span class="cmt">// 5</span>
+
+<span class="cmt">// Mutating methods</span>
+numbers.push(<span class="num">6</span>)        <span class="cmt">// add to end</span>
+last = numbers.pop()    <span class="cmt">// remove & return last</span>
+numbers.reverse()       <span class="cmt">// reverse in place</span>
+
+<span class="cmt">// Access methods</span>
+first = numbers.first   <span class="cmt">// first element</span>
+last = numbers.last     <span class="cmt">// last element</span>
+
+<span class="cmt">// Search</span>
+has3 = numbers.contains(<span class="num">3</span>)    <span class="cmt">// true</span>
+idx = numbers.indexOf(<span class="num">3</span>)     <span class="cmt">// index or -1</span>
+
+<span class="cmt">// Join</span>
+str = numbers.join(<span class="str">"-"</span>)       <span class="cmt">// "1-2-3"</span>
+
+<span class="cmt">// Index assignment</span>
+numbers[<span class="num">0</span>] = <span class="num">99</span>
+
+<span class="cmt">// Mixed types</span>
+mixed = [<span class="num">1</span>, <span class="str">"hello"</span>, <span class="kw">true</span>, <span class="kw">null</span>]
+
+<span class="cmt">// Nested</span>
+matrix = [[<span class="num">1</span>, <span class="num">2</span>], [<span class="num">3</span>, <span class="num">4</span>]]
+val = matrix[<span class="num">1</span>][<span class="num">0</span>]   <span class="cmt">// 3</span></code></pre>
+        </section>
+
+        <section class="content-section">
+            <h2 id="maps">Maps</h2>
+            <p>Key-value collections (dictionaries).</p>
+            <pre><code><span class="cmt">// Create with identifier keys</span>
+player = {
+    name: <span class="str">"Hero"</span>,
+    health: <span class="num">100</span>,
+    speed: <span class="num">5.5</span>
 }
 
-<span class="cmt">// if/else</span>
-<span class="kw">if</span> score >= <span class="num">60</span> {
-    <span class="kw">print</span>(<span class="str">"Pass"</span>)
-} <span class="kw">else</span> {
-    <span class="kw">print</span>(<span class="str">"Fail"</span>)
+<span class="cmt">// Create with string keys</span>
+settings = {
+    <span class="str">"volume"</span>: <span class="num">80</span>,
+    <span class="str">"fullscreen"</span>: <span class="kw">true</span>
 }
 
-<span class="cmt">// if/else if/else</span>
-<span class="kw">if</span> score >= <span class="num">90</span> {
-    <span class="kw">print</span>(<span class="str">"A"</span>)
-} <span class="kw">else if</span> score >= <span class="num">80</span> {
-    <span class="kw">print</span>(<span class="str">"B"</span>)
+<span class="cmt">// Dot access</span>
+print(player.name)       <span class="cmt">// "Hero"</span>
+
+<span class="cmt">// Index access</span>
+print(player[<span class="str">"name"</span>])    <span class="cmt">// "Hero"</span>
+
+<span class="cmt">// Dot assignment</span>
+player.health = <span class="num">75</span>
+
+<span class="cmt">// Methods</span>
+len = player.length          <span class="cmt">// 3</span>
+k = player.keys()            <span class="cmt">// ["name", "health", "speed"]</span>
+v = player.values()          <span class="cmt">// ["Hero", 100, 5.5]</span>
+has = player.containsKey(<span class="str">"name"</span>)  <span class="cmt">// true</span>
+val = player.get(<span class="str">"mana"</span>, <span class="num">0</span>)       <span class="cmt">// 0 (default)</span>
+
+<span class="cmt">// Nested</span>
+enemies = [
+    { name: <span class="str">"Zombie"</span>, health: <span class="num">50</span> },
+    { name: <span class="str">"Skeleton"</span>, health: <span class="num">30</span> }
+]
+print(enemies[<span class="num">0</span>].name)  <span class="cmt">// "Zombie"</span></code></pre>
+        </section>
+
+        <section class="content-section">
+            <h2 id="conditions">Conditions</h2>
+            <pre><code>health = <span class="num">100</span>
+
+<span class="kw">if</span> health <= <span class="num">0</span> {
+    print(<span class="str">"Dead"</span>)
+} <span class="kw">else if</span> health > <span class="num">50</span> {
+    print(<span class="str">"Healthy"</span>)
 } <span class="kw">else</span> {
-    <span class="kw">print</span>(<span class="str">"C"</span>)
+    print(<span class="str">"Weak"</span>)
 }</code></pre>
+        </section>
 
-                <h2 id="loops">Loops</h2>
-                <h3>While Loop</h3>
-                <pre><code>x = <span class="num">5</span>
+        <section class="content-section">
+            <h2 id="loops">Loops</h2>
+            <h3>While</h3>
+            <pre><code>x = <span class="num">5</span>
 <span class="kw">while</span> x > <span class="num">0</span> {
+    print(x)
     x = x - <span class="num">1</span>
-    <span class="kw">print</span>(x)
 }</code></pre>
 
-                <h3>For Loop with Range</h3>
-                <pre><code><span class="cmt">// Basic for loop</span>
-<span class="kw">for</span> i <span class="kw">in</span> <span class="num">1</span>..<span class="num">5</span> {
-    <span class="kw">print</span>(i)  <span class="cmt">// 1, 2, 3, 4</span>
+            <h3>For (ranges)</h3>
+            <pre><code><span class="kw">for</span> i <span class="kw">in</span> <span class="num">1</span>..<span class="num">10</span> {
+    print(i)  <span class="cmt">// 1, 2, ... 9</span>
 }
 
-<span class="cmt">// Sum with for loop</span>
-total = <span class="num">0</span>
+<span class="cmt">// Break and continue</span>
 <span class="kw">for</span> i <span class="kw">in</span> <span class="num">1</span>..<span class="num">100</span> {
-    total = total + i
+    <span class="kw">if</span> i == <span class="num">5</span> { <span class="kw">continue</span> }
+    <span class="kw">if</span> i == <span class="num">10</span> { <span class="kw">break</span> }
+    print(i)
 }</code></pre>
+        </section>
 
-                <h3>Break & Continue</h3>
-                <pre><code><span class="cmt">// Break — exit the loop</span>
-<span class="kw">for</span> i <span class="kw">in</span> <span class="num">1</span>..<span class="num">10</span> {
-    <span class="kw">if</span> i == <span class="num">5</span> {
-        <span class="kw">break</span>
-    }
-    <span class="kw">print</span>(i)  <span class="cmt">// 1, 2, 3, 4</span>
+        <section class="content-section">
+            <h2 id="functions">Functions</h2>
+            <p>ALX supports both <code>function</code> and the shorter <code>afun</code> keyword for declaring functions. Both are equivalent.</p>
+            <pre><code><span class="cmt">// Declaration using afun (preferred)</span>
+<span class="kw">afun</span> <span class="fn">greet</span>(name) {
+    <span class="kw">print</span>(<span class="str">"Hello, {name}!"</span>)
 }
 
-<span class="cmt">// Continue — skip to next iteration</span>
-<span class="kw">for</span> i <span class="kw">in</span> <span class="num">1</span>..<span class="num">6</span> {
-    <span class="kw">if</span> i % <span class="num">2</span> == <span class="num">0</span> {
-        <span class="kw">continue</span>
-    }
-    <span class="kw">print</span>(i)  <span class="cmt">// 1, 3, 5</span>
-}</code></pre>
-
-                <h2 id="functions">Functions</h2>
-                <pre><code><span class="cmt">// Declaration</span>
-<span class="kw">function</span> <span class="fn">greet</span>(name) {
+<span class="cmt">// Declaration using function (still works)</span>
+<span class="kw">function</span> <span class="fn">legacyGreet</span>(name) {
     <span class="kw">print</span>(<span class="str">"Hello, {name}!"</span>)
 }
 
 <span class="cmt">// Call</span>
 <span class="fn">greet</span>(<span class="str">"World"</span>)
+<span class="fn">legacyGreet</span>(<span class="str">"World"</span>)
 
 <span class="cmt">// Return values</span>
-<span class="kw">function</span> <span class="fn">add</span>(a, b) {
+<span class="kw">afun</span> <span class="fn">add</span>(a, b) {
     <span class="kw">return</span> a + b
 }
 
 result = <span class="fn">add</span>(<span class="num">10</span>, <span class="num">20</span>)
 
+<span class="cmt">// Expression-bodied functions (simple case)</span>
+<span class="kw">afun</span> <span class="fn">addOne</span>(x) = x + <span class="num">1</span>
+
 <span class="cmt">// Recursion</span>
-<span class="kw">function</span> <span class="fn">factorial</span>(n) {
-    <span class="kw">if</span> n &lt;= <span class="num">1</span> {
-        <span class="kw">return</span> <span class="num">1</span>
-    }
+<span class="kw">afun</span> <span class="fn">factorial</span>(n) {
+    <span class="kw">if</span> n <= <span class="num">1</span> { <span class="kw">return</span> <span class="num">1</span> }
     <span class="kw">return</span> n * <span class="fn">factorial</span>(n - <span class="num">1</span>)
+}</code></pre>
+        </section>
+
+        <section class="content-section">
+            <h2 id="lambdas">Lambda Expressions</h2>
+            <pre><code><span class="cmt">// Lambda syntax</span>
+square = <span class="kw">lambda</span>(x) { x * x }
+print(square(<span class="num">7</span>))   <span class="cmt">// 49</span>
+
+<span class="cmt">// Higher-order functions</span>
+<span class="kw">afun</span> <span class="fn">apply</span>(func, value) {
+    <span class="kw">return</span> func(value)
 }
 
-<span class="kw">print</span>(<span class="fn">factorial</span>(<span class="num">5</span>))  <span class="cmt">// 120</span></code></pre>
+print(<span class="fn">apply</span>(square, <span class="num">5</span>))  <span class="cmt">// 25</span>
 
-                <h2 id="interpolation">String Interpolation</h2>
-                <p>Embed expressions inside strings using <code>{expression}</code>:</p>
-                <pre><code>name = <span class="str">"Daniel"</span>
-version = <span class="num">2</span>
-
-<span class="kw">print</span>(<span class="str">"Hello, {name}!"</span>)           <span class="cmt">// Hello, Daniel!</span>
-<span class="kw">print</span>(<span class="str">"ALX {version} - {name}"</span>)   <span class="cmt">// ALX 2 - Daniel</span>
-<span class="kw">print</span>(<span class="str">"Sum: {10 + 5}"</span>)           <span class="cmt">// Sum: 15</span></code></pre>
-
-                <h2 id="ranges">Ranges</h2>
-                <p>Range expressions represent a sequence of integers:</p>
-                <pre><code><span class="cmt">// Range syntax: start..end (end is exclusive)</span>
-<span class="kw">for</span> i <span class="kw">in</span> <span class="num">0</span>..<span class="num">5</span> {
-    <span class="kw">print</span>(i)  <span class="cmt">// 0, 1, 2, 3, 4</span>
+<span class="cmt">// Closures</span>
+<span class="kw">afun</span> <span class="fn">makeCounter</span>() {
+    count = <span class="num">0</span>
+    <span class="kw">afun</span> <span class="fn">increment</span>() {
+        count = count + <span class="num">1</span>
+        <span class="kw">return</span> count
+    }
+    <span class="kw">return</span> increment
 }
 
-<span class="cmt">// Store ranges in variables</span>
-r = <span class="num">1</span>..<span class="num">10</span>
-<span class="kw">print</span>(r)  <span class="cmt">// 1..10</span></code></pre>
-            </div>
-        </div>
-    </div>
+counter = <span class="fn">makeCounter</span>()
+print(counter())  <span class="cmt">// 1</span>
+print(counter())  <span class="cmt">// 2</span></code></pre>
+        </section>
+
+        <section class="content-section">
+            <h2 id="errors">Error Handling</h2>
+            <p>ALX provides clear error messages with file, line, and column information.</p>
+            <pre><code><span class="cmt">// Example error output:</span>
+<span class="cmt">//</span>
+<span class="cmt">// ALX Error ALX1001</span>
+<span class="cmt">//</span>
+<span class="cmt">//     hello.alx:4:12</span>
+<span class="cmt">//</span>
+<span class="cmt">//     Undefined variable 'healthh'</span>
+<span class="cmt">//</span>
+<span class="cmt">//         print(healthh)</span>
+<span class="cmt">//               ^^^^^^^</span>
+<span class="cmt">//</span>
+<span class="cmt">//     Did you mean 'health'?</span></code></pre>
+        </section>
+    </main>
 
     <footer>
-        <p>&copy; 2026 <a href="https://alexionstudios.com">Alexion Studios</a>. All rights reserved.</p>
+        <div class="container">
+            <p>&copy; 2025 Alexion Studios. ALX is a programming language for game development.</p>
+        </div>
     </footer>
 </body>
 </html>

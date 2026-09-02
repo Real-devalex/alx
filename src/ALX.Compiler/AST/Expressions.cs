@@ -76,6 +76,30 @@ public class AssignmentExpression : Expression
 }
 
 /// <summary>
+/// Assignment to a member access: obj.member = value
+/// </summary>
+public class MemberAssignmentExpression : Expression
+{
+    public Expression Object { get; }
+    public string MemberName { get; }
+    public Expression Value { get; }
+    public MemberAssignmentExpression(Expression obj, string memberName, Expression value, int line, int column, string sourceFile)
+        : base(line, column, sourceFile) { Object = obj; MemberName = memberName; Value = value; }
+}
+
+/// <summary>
+/// Assignment to an index: arr[index] = value
+/// </summary>
+public class IndexAssignmentExpression : Expression
+{
+    public Expression Object { get; }
+    public Expression Index { get; }
+    public Expression Value { get; }
+    public IndexAssignmentExpression(Expression obj, Expression index, Expression value, int line, int column, string sourceFile)
+        : base(line, column, sourceFile) { Object = obj; Index = index; Value = value; }
+}
+
+/// <summary>
 /// Range expression: 1..10
 /// </summary>
 public class RangeExpression : Expression
@@ -109,4 +133,49 @@ public class LambdaExpression : Expression
     public BlockStatement Body { get; }
     public LambdaExpression(List<string> parameters, BlockStatement body, int line, int column, string sourceFile)
         : base(line, column, sourceFile) { Parameters = parameters; Body = body; }
+}
+
+// ===== 0.4.0: ARRAYS & MAPS =====
+
+/// <summary>
+/// Array literal: [1, 2, 3]
+/// </summary>
+public class ArrayExpression : Expression
+{
+    public List<Expression> Elements { get; }
+    public ArrayExpression(List<Expression> elements, int line, int column, string sourceFile)
+        : base(line, column, sourceFile) { Elements = elements; }
+}
+
+/// <summary>
+/// Map literal: { "name": "Hero", "health": 100 }
+/// Keys are expressions (typically strings), values are expressions.
+/// </summary>
+public class MapExpression : Expression
+{
+    public List<(Expression Key, Expression Value)> Entries { get; }
+    public MapExpression(List<(Expression Key, Expression Value)> entries, int line, int column, string sourceFile)
+        : base(line, column, sourceFile) { Entries = entries; }
+}
+
+/// <summary>
+/// Index expression: arr[index] or map[key]
+/// </summary>
+public class IndexExpression : Expression
+{
+    public Expression Object { get; }
+    public Expression Index { get; }
+    public IndexExpression(Expression obj, Expression index, int line, int column, string sourceFile)
+        : base(line, column, sourceFile) { Object = obj; Index = index; }
+}
+
+/// <summary>
+/// Member access expression: obj.member (dot notation for map properties)
+/// </summary>
+public class MemberExpression : Expression
+{
+    public Expression Object { get; }
+    public string MemberName { get; }
+    public MemberExpression(Expression obj, string memberName, int line, int column, string sourceFile)
+        : base(line, column, sourceFile) { Object = obj; MemberName = memberName; }
 }

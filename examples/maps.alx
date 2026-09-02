@@ -1,0 +1,59 @@
+// ALX 0.4.0 — Maps
+
+// Create maps
+player = {
+    name: "Hero",
+    health: 100,
+    speed: 5.5
+}
+
+print("Player: " + player)
+
+// Dot access
+print("Name: " + player.name)
+print("Health: " + player.health)
+
+// Index access
+print("Name (index): " + player["name"])
+
+// Map length
+print("Properties: " + player.length)
+
+// Keys and values (called as methods)
+print("Keys: " + player.keys())
+print("Values: " + player.values())
+
+// containsKey
+print("Has name? " + player.containsKey("name"))
+print("Has mana? " + player.containsKey("mana"))
+
+// get with default
+print("Get name: " + player.get("name", "Unknown"))
+print("Get mana: " + player.get("mana", "0"))
+
+// Modify map
+player.health = 75
+print("Health after damage: " + player.health)
+
+// String keys in map
+settings = {
+    "volume": 80,
+    "fullscreen": true,
+    "resolution": "1920x1080"
+}
+print("Volume: " + settings["volume"])
+
+// Nested maps
+game = {
+    title: "Zombie City",
+    version: "1.0"
+}
+print("Game: " + game.title + " v" + game.version)
+
+// Array of maps
+enemies = [
+    { name: "Zombie", health: 50 },
+    { name: "Skeleton", health: 30 }
+]
+print("First enemy: " + enemies[0].name)
+print("Second enemy health: " + enemies[1].health)

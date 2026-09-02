@@ -168,23 +168,35 @@ while x > 0 {
 
 ### Functions
 
+ALX supports both `function` and the shorter `afun` keyword for declaring functions. Both are equivalent.
+
 ```alx
-function greet(name) {
+// Using afun (preferred, shorter)
+afun greet(name) {
     print("Hello " + name + "!")
 }
 
-greet("World")  // Hello World!
+// Using function (still works for backward compatibility)
+function greetLegacy(name) {
+    print("Hello " + name + "!")
+}
+
+greet("World")        // Hello World!
+greetLegacy("World")  // Hello World!
 
 // Return values
-function add(a, b) {
+afun add(a, b) {
     return a + b
 }
 
 result = add(10, 20)
 print(result)   // 30
 
+// Expression-bodied functions (simple case)
+afun addOne(x) = x + 1
+
 // Recursion
-function factorial(n) {
+afun factorial(n) {
     if n <= 1 { return 1 }
     return n * factorial(n - 1)
 }
@@ -282,16 +294,17 @@ Status: All passing
 ## Roadmap
 
 ### ALX 0.1.0 ✅ — Foundation
-### ALX 0.2.0 ✅ — Enhanced Control Flow (Current)
-- For loops with ranges
-- Break & continue
-- String interpolation
+### ALX 0.2.0 ✅ — Enhanced Control Flow
+- For loops with ranges, break & continue, string interpolation
 
-### ALX 0.3.0 — Functions Improvements
-- Closures, lambdas, higher-order functions
+### ALX 0.3.0 ✅ — Functions Improvements
+- Closures, lambdas, higher-order functions, `afun` keyword
 
-### ALX 0.4.0 — Collections
-- Arrays, Maps, collection functions
+### ALX 0.4.0 ✅ — Collections (Current)
+- Arrays with indexing, push/pop/contains/indexOf/join/reverse
+- Maps with dot access, indexing, keys/values/containsKey/get
+- Member & index assignment (`player.health = 75`, `arr[0] = 99`)
+- VS Code syntax highlighting extension
 
 ### ALX 0.5.0 — Objects
 - Classes, methods, constructors

@@ -3,9 +3,9 @@
 // ===== CLOSURES =====
 // A closure captures variables from its enclosing scope
 
-function makeCounter() {
+afun makeCounter() {
     count = 0
-    function increment() {
+    afun increment() {
         count = count + 1
         return count
     }
@@ -20,7 +20,7 @@ print(counter())   // 3
 // ===== HIGHER-ORDER FUNCTIONS =====
 // Functions that take other functions as arguments
 
-function applyTwice(func, value) {
+afun applyTwice(func, value) {
     return func(func(value))
 }
 
@@ -39,7 +39,7 @@ print(square(7))   // 49
 
 // ===== CLOSURES WITH LAMBDAS =====
 
-function makeAdder(n) {
+afun makeAdder(n) {
     return lambda(x) { x + n }
 }
 
@@ -51,7 +51,7 @@ print(addTwenty(5))  // 25
 
 // ===== PRACTICAL: TRANSFORM VALUES =====
 
-function transform(value, func) {
+afun transform(value, func) {
     return func(value)
 }
 
@@ -60,7 +60,7 @@ print(transform(10, lambda(x) { x + 100 })) // 110
 
 // ===== FUNCTION COMPOSITION =====
 
-function compose(f, g) {
+afun compose(f, g) {
     return lambda(x) { f(g(x)) }
 }
 
@@ -75,7 +75,7 @@ print(addOneThenDouble(5))   // 12 (5+1=6, 6*2=12)
 
 // ===== CLOSURES THAT MODIFY STATE =====
 
-function makeAccumulator(start) {
+afun makeAccumulator(start) {
     total = start
     return lambda(amount) {
         total = total + amount

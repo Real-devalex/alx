@@ -4,7 +4,7 @@ public enum TokenType
 {
     Error, Eof,
     Integer, Float, String, InterpolatedString, Boolean, Null,
-    Identifier, Function, If, Else, While, For, In, Return, True, False, NullLiteral, Const, And, Or, Not,    Print,
+    Identifier, Function, Afun, If, Else, While, For, In, Return, True, False, NullLiteral, Const, And, Or, Not,    Print,
     Break,
     Continue,
     Lambda,

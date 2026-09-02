@@ -20,6 +20,7 @@ public class Lexer
     private static readonly Dictionary<string, TokenType> Keywords = new()
     {
         ["function"] = TokenType.Function,
+        ["afun"] = TokenType.Afun,
         ["if"] = TokenType.If,
         ["else"] = TokenType.Else,
         ["while"] = TokenType.While,

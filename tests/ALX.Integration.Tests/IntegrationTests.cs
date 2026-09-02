@@ -438,6 +438,64 @@ print(acc(5))";
         return string.Join("\n", output);
     }
 
+    // ===== 0.4.0: ARRAYS & MAPS =====
+
+    [Fact] public void ArrayCreation() => Assert.Equal("[1, 2, 3]", Run("a = [1, 2, 3]; print(a)"));
+
+    [Fact] public void ArrayIndex() => Assert.Equal("20", Run("a = [10, 20, 30]; print(a[1])"));
+
+    [Fact] public void ArrayLength() => Assert.Equal("3", Run("a = [1, 2, 3]; print(a.length)"));
+
+    [Fact] public void ArrayPush() => Assert.Equal("4", Run("a = [1, 2]; a.push(3); a.push(4); print(a.length)"));
+
+    [Fact] public void ArrayPop() => Assert.Equal("3", Run("a = [1, 2, 3]; print(a.pop())"));
+
+    [Fact] public void ArrayFirst() => Assert.Equal("10", Run("a = [10, 20, 30]; print(a.first)"));
+
+    [Fact] public void ArrayLast() => Assert.Equal("30", Run("a = [10, 20, 30]; print(a.last)"));
+
+    [Fact] public void ArrayContains() => Assert.Equal("true", Run("a = [1, 2, 3]; print(a.contains(2))"));
+
+    [Fact] public void ArrayContainsFalse() => Assert.Equal("false", Run("a = [1, 2, 3]; print(a.contains(5))"));
+
+    [Fact] public void ArrayIndexOf() => Assert.Equal("1", Run("a = [10, 20, 30]; print(a.indexOf(20))"));
+
+    [Fact] public void ArrayJoin() => Assert.Equal("1-2-3", Run("a = [1, 2, 3]; print(a.join(\"-\"))"));
+
+    [Fact] public void ArrayReverse() => Assert.Equal("[3, 2, 1]", Run("a = [1, 2, 3]; a.reverse(); print(a)"));
+
+    [Fact] public void ArrayIndexAssign() => Assert.Equal("99", Run("a = [1, 2, 3]; a[1] = 99; print(a[1])"));
+
+    [Fact] public void ArrayMixedTypes() => Assert.Equal("[1, \"hello\", true]", Run("a = [1, \"hello\", true]; print(a)"));
+
+    [Fact] public void ArrayNested() => Assert.Equal("4", Run("m = [[1, 2], [3, 4]]; print(m[1][1])"));
+
+    [Fact] public void MapCreation() => Assert.Contains("Hero", Run("m = {name: \"Hero\", health: 100}; print(m.name)"));
+
+    [Fact] public void MapDotAccess() => Assert.Equal("100", Run("m = {name: \"Hero\", health: 100}; print(m.health)"));
+
+    [Fact] public void MapIndexAccess() => Assert.Equal("Hero", Run("m = {name: \"Hero\"}; print(m[\"name\"])"));
+
+    [Fact] public void MapDotAssign() => Assert.Equal("75", Run("m = {health: 100}; m.health = 75; print(m.health)"));
+
+    [Fact] public void MapLength() => Assert.Equal("2", Run("m = {a: 1, b: 2}; print(m.length)"));
+
+    [Fact] public void MapKeys() => Assert.Contains("name", Run("m = {name: \"Hero\", health: 100}; print(m.keys())"));
+
+    [Fact] public void MapValues() => Assert.Contains("100", Run("m = {name: \"Hero\", health: 100}; print(m.values())"));
+
+    [Fact] public void MapContainsKey() => Assert.Equal("true", Run("m = {name: \"Hero\"}; print(m.containsKey(\"name\"))"));
+
+    [Fact] public void MapContainsKeyFalse() => Assert.Equal("false", Run("m = {name: \"Hero\"}; print(m.containsKey(\"mana\"))"));
+
+    [Fact] public void MapGet() => Assert.Equal("Hero", Run("m = {name: \"Hero\"}; print(m.get(\"name\", \"default\"))"));
+
+    [Fact] public void MapGetDefault() => Assert.Equal("0", Run("m = {name: \"Hero\"}; print(m.get(\"mana\", \"0\"))"));
+
+    [Fact] public void ArrayMapCombined() => Assert.Contains("Zombie", Run("e = [{name: \"Zombie\", health: 50}]; print(e[0].name)"));
+
+    // ===== HELPER =====
+
     private static void RunWithDiagnostics(string source, DiagnosticBag diagnostics)
     {
         var lexer = new ALX.Compiler.Lexer.Lexer(source, "test.alx", diagnostics);

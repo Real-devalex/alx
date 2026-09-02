@@ -1,6 +1,6 @@
-// Functions in ALX
+// Functions in ALX - Demonstrating both 'function' and 'afun' keywords
 
-function greet(name) {
+afun greet(name) {
     print("Hello " + name + "!")
 }
 
@@ -8,7 +8,7 @@ greet("Daniel")
 greet("ALEXION STUDIOS")
 
 // Return values
-function add(a, b) {
+afun add(a, b) {
     return a + b
 }
 
@@ -16,7 +16,7 @@ result = add(10, 20)
 print(result)
 
 // More complex function
-function calculate_damage(base_damage, multiplier) {
+afun calculate_damage(base_damage, multiplier) {
     return base_damage * multiplier
 }
 
@@ -24,7 +24,7 @@ player_damage = calculate_damage(50, 2.5)
 print(player_damage)
 
 // Boolean function
-function is_alive(health) {
+afun is_alive(health) {
     if health > 0 {
         return true
     }
@@ -35,7 +35,7 @@ print(is_alive(100))
 print(is_alive(0))
 
 // Recursion
-function factorial(n) {
+afun factorial(n) {
     if n <= 1 {
         return 1
     }
@@ -43,3 +43,10 @@ function factorial(n) {
 }
 
 print(factorial(5))
+
+// Example showing traditional function keyword still works (backward compatibility)
+function legacy_add(x, y) {
+    return x + y
+}
+
+print("Legacy function result: " + legacy_add(3, 4))

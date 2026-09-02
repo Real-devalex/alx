@@ -1,0 +1,45 @@
+{
+	"name": "alx-language-support",
+	"displayName": "ALX Language Support",
+	"description": "Syntax highlighting and language support for ALX programming language",
+	"version": "0.1.0",
+	"publisher": "AlexionStudios",
+	"engines": {
+		"vscode": "^1.70.0"
+	},
+	"categories": [
+		"Programming Languages"
+	],
+	"contributes": {
+		"languages": [{
+			"id": "alx",
+			"aliases": ["ALX", "alx"],
+			"extensions": [".alx"],
+			"configuration": "./language-configuration.json"
+		}],
+		"grammars": [{
+			"language": "alx",
+			"scopeName": "source.alx",
+			"path": "./syntaxes/ALX.tmLanguage.json"
+		}]
+	},
+	"scripts": {
+		"vscode:prepublish": "npm run compile",
+		"compile": "tsc -p ./",
+		"watch": "tsc -watch -p ./",
+		"pretest": "npm run compile && npm run lint",
+		"lint": "eslint src --ext .ts",
+		"test": "node ./test/runTest.js"
+	},
+	"devDependencies": {
+		"@types/vscode": "^1.70.0",
+		"@types/glob": "^7.2.0",
+		"@types/mocha": "^9.1.1",
+		"@types/node": "14.x",
+		"eslint": "^8.15.0",
+		"glob": "^7.2.0",
+		"mocha": "^9.2.2",
+		"typescript": "^4.6.4",
+		"vscode-test": "^1.6.2"
+	}
+}

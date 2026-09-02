@@ -1,0 +1,46 @@
+// ALX 0.4.0 — Arrays
+
+// Create arrays
+numbers = [1, 2, 3, 4, 5]
+fruits = ["apple", "banana", "cherry"]
+
+print("Numbers: " + numbers)
+print("Fruits: " + fruits)
+
+// Index access
+print("First number: " + numbers[0])
+print("Third fruit: " + fruits[2])
+
+// Array length
+print("Length: " + numbers.length)
+
+// Push and pop
+numbers.push(6)
+print("After push(6): " + numbers)
+
+last = numbers.pop()
+print("Popped: " + last)
+print("After pop: " + numbers)
+
+// first and last
+print("First: " + numbers.first)
+print("Last: " + numbers.last)
+
+// contains and indexOf
+print("Has 3? " + numbers.contains(3))
+print("Index of 4: " + numbers.indexOf(4))
+
+// join
+print("Joined: " + numbers.join(" - "))
+
+// reverse
+numbers.reverse()
+print("Reversed: " + numbers)
+
+// Mixed types
+mixed = [1, "hello", true, null]
+print("Mixed: " + mixed)
+
+// Nested arrays via index
+matrix = [[1, 2], [3, 4]]
+print("Matrix[0][1]: " + matrix[0][1])

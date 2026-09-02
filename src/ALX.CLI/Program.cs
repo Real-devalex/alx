@@ -11,7 +11,7 @@ namespace ALX.CLI;
 /// </summary>
 public class Program
 {
-    private const string Version = "0.3.0";
+    private const string Version = "0.4.0";
     private const string LanguageName = "ALEXION LANGUAGE";
     private const string StudioName = "ALEXION STUDIOS";
 

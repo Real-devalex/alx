@@ -190,6 +190,12 @@ public class Interpreter
             LambdaExpression lambdaExpr => EvaluateLambda(lambdaExpr),
             RangeExpression rangeExpr => EvaluateRange(rangeExpr),
             InterpolatedStringExpression interpExpr => EvaluateInterpolatedString(interpExpr),
+            ArrayExpression arrayExpr => EvaluateArray(arrayExpr),
+            MapExpression mapExpr => EvaluateMap(mapExpr),
+            IndexExpression indexExpr => EvaluateIndex(indexExpr),
+            MemberExpression memberExpr => EvaluateMember(memberExpr),
+            MemberAssignmentExpression memberAssign => EvaluateMemberAssignment(memberAssign),
+            IndexAssignmentExpression indexAssign => EvaluateIndexAssignment(indexAssign),
             _ => throw new InvalidOperationException($"Unknown expression type: {expression.GetType().Name}")
         };
     }
@@ -306,6 +312,12 @@ public class Interpreter
             return builtin.Invoke(args, expr.SourceFile, expr.Line, expr.Column);
         }
 
+        if (func is LambdaBuiltinFunction lambdaBuiltin)
+        {
+            var args = expr.Arguments.Select(Evaluate).ToList();
+            return lambdaBuiltin.Invoke(args);
+        }
+
         if (func is AlxFunction userFunc)
         {
             if (expr.Arguments.Count != userFunc.Declaration.Parameters.Count)
@@ -358,12 +370,233 @@ public class Interpreter
         return NullValue.Instance;
     }
 
+    // ===== 0.4.0: ARRAYS & MAPS =====
+
+    private AlxValue EvaluateArray(ArrayExpression expr)
+    {
+        var elements = expr.Elements.Select(Evaluate).ToList();
+        return new ArrayValue(elements);
+    }
+
+    private AlxValue EvaluateMap(MapExpression expr)
+    {
+        var entries = new Dictionary<string, AlxValue>();
+        foreach (var (keyExpr, valueExpr) in expr.Entries)
+        {
+            var key = Evaluate(keyExpr);
+            if (key is not StringValue keyStr)
+                throw CreateTypeError(expr, "string key", key.TypeName);
+            entries[keyStr.Value] = Evaluate(valueExpr);
+        }
+        return new MapValue(entries);
+    }
+
+    private AlxValue EvaluateIndex(IndexExpression expr)
+    {
+        var obj = Evaluate(expr.Object);
+        var index = Evaluate(expr.Index);
+
+        if (obj is ArrayValue arr)
+        {
+            if (index is IntegerValue intIdx)
+            {
+                if (intIdx.Value < 0 || intIdx.Value >= arr.Elements.Count)
+                {
+                    _diagnostics.ReportTypeMismatch(expr.SourceFile, expr.Line, expr.Column,
+                        $"valid index (0..{arr.Elements.Count - 1})", intIdx.Value.ToString());
+                    return NullValue.Instance;
+                }
+                return arr.Elements[(int)intIdx.Value];
+            }
+            throw CreateTypeError(expr, "integer index", index.TypeName);
+        }
+
+        if (obj is MapValue map)
+        {
+            if (index is StringValue keyStr)
+            {
+                if (map.Entries.TryGetValue(keyStr.Value, out var val))
+                    return val;
+                return NullValue.Instance;
+            }
+            throw CreateTypeError(expr, "string key", index.TypeName);
+        }
+
+        throw CreateTypeError(expr, "array or map", obj.TypeName);
+    }
+
+    private AlxValue EvaluateMember(MemberExpression expr)
+    {
+        var obj = Evaluate(expr.Object);
+
+        // Built-in methods for arrays
+        if (obj is ArrayValue arr)
+        {
+            return expr.MemberName switch
+            {
+                "length" => new IntegerValue(arr.Elements.Count),
+                "push" => CreateBuiltinMethod("push", args =>
+                {
+                    foreach (var arg in args) arr.Elements.Add(arg);
+                    return new IntegerValue(arr.Elements.Count);
+                }),
+                "pop" => CreateBuiltinMethod("pop", args =>
+                {
+                    if (arr.Elements.Count == 0) return NullValue.Instance;
+                    var last = arr.Elements[arr.Elements.Count - 1];
+                    arr.Elements.RemoveAt(arr.Elements.Count - 1);
+                    return last;
+                }),
+                "first" => arr.Elements.Count > 0 ? arr.Elements[0] : NullValue.Instance,
+                "last" => arr.Elements.Count > 0 ? arr.Elements[arr.Elements.Count - 1] : NullValue.Instance,
+                "contains" => CreateBuiltinMethod("contains", args =>
+                {
+                    if (args.Count < 1) return BooleanValue.False;
+                    var search = args[0];
+                    for (int i = 0; i < arr.Elements.Count; i++)
+                        if (ValuesEqual(arr.Elements[i], search)) return BooleanValue.True;
+                    return BooleanValue.False;
+                }),
+                "indexOf" => CreateBuiltinMethod("indexOf", args =>
+                {
+                    if (args.Count < 1) return new IntegerValue(-1);
+                    var search = args[0];
+                    for (int i = 0; i < arr.Elements.Count; i++)
+                        if (ValuesEqual(arr.Elements[i], search)) return new IntegerValue(i);
+                    return new IntegerValue(-1);
+                }),
+                "join" => CreateBuiltinMethod("join", args =>
+                {
+                    var sep = args.Count > 0 ? FormatValue(args[0]) : ", ";
+                    return new StringValue(string.Join(sep, arr.Elements.Select(FormatValue)));
+                }),
+                "reverse" => CreateBuiltinMethod("reverse", args =>
+                {
+                    arr.Elements.Reverse();
+                    return obj;
+                }),
+                _ => throw CreateTypeError(expr, "array method (length, push, pop, first, last, contains, indexOf, join, reverse)", expr.MemberName)
+            };
+        }
+
+        // Built-in methods for maps
+        if (obj is MapValue map)
+        {
+            // First check if it's a direct property access
+            if (map.Entries.TryGetValue(expr.MemberName, out var propVal))
+                return propVal;
+
+            // Then check built-in methods
+            return expr.MemberName switch
+            {
+                "length" => new IntegerValue(map.Entries.Count),
+                "keys" => CreateBuiltinMethod("keys", args =>
+                {
+                    return new ArrayValue(map.Entries.Keys.Select(k => (AlxValue)new StringValue(k)).ToList());
+                }),
+                "values" => CreateBuiltinMethod("values", args =>
+                {
+                    return new ArrayValue(map.Entries.Values.ToList());
+                }),
+                "containsKey" => CreateBuiltinMethod("containsKey", args =>
+                {
+                    if (args.Count < 1) return BooleanValue.False;
+                    if (args[0] is StringValue keyStr)
+                        return BooleanValue.FromBool(map.Entries.ContainsKey(keyStr.Value));
+                    return BooleanValue.False;
+                }),
+                "get" => CreateBuiltinMethod("get", args =>
+                {
+                    if (args.Count < 2 || args[0] is not StringValue keyStr) return NullValue.Instance;
+                    if (map.Entries.TryGetValue(keyStr.Value, out var val)) return val;
+                    if (args.Count > 1) return args[1]; // default value
+                    return NullValue.Instance;
+                }),
+                _ => throw CreateTypeError(expr, "map property or method", expr.MemberName)
+            };
+        }
+
+        // String length
+        if (obj is StringValue str)
+        {
+            if (expr.MemberName == "length")
+                return new IntegerValue(str.Value.Length);
+        }
+
+        throw CreateTypeError(expr, "array, map, or string", obj.TypeName);
+    }
+
+    private AlxValue CreateBuiltinMethod(string name, Func<List<AlxValue>, AlxValue> impl)
+    {
+        return new LambdaBuiltinFunction(name, impl);
+    }
+
     private AlxValue EvaluateAssignment(AssignmentExpression expr)
     {
         var value = Evaluate(expr.Value);
         if (!_environment.Set(expr.Name, value))
             _rootEnvironment.Define(expr.Name, value);
         return value;
+    }
+
+    private AlxValue EvaluateMemberAssignment(MemberAssignmentExpression expr)
+    {
+        var obj = Evaluate(expr.Object);
+        var value = Evaluate(expr.Value);
+
+        if (obj is MapValue map)
+        {
+            map.Entries[expr.MemberName] = value;
+            return value;
+        }
+
+        if (obj is ArrayValue arr)
+        {
+            // Allow setting length to shrink the array
+            if (expr.MemberName == "length" && value is IntegerValue newLen)
+            {
+                while (arr.Elements.Count > newLen.Value)
+                    arr.Elements.RemoveAt(arr.Elements.Count - 1);
+                return value;
+            }
+        }
+
+        throw CreateTypeError(expr, "map or array", obj.TypeName);
+    }
+
+    private AlxValue EvaluateIndexAssignment(IndexAssignmentExpression expr)
+    {
+        var obj = Evaluate(expr.Object);
+        var index = Evaluate(expr.Index);
+        var value = Evaluate(expr.Value);
+
+        if (obj is ArrayValue arr)
+        {
+            if (index is IntegerValue intIdx)
+            {
+                if (intIdx.Value < 0 || intIdx.Value >= arr.Elements.Count)
+                {
+                    _diagnostics.ReportTypeMismatch(expr.SourceFile, expr.Line, expr.Column,
+                        $"valid index (0..{arr.Elements.Count - 1})", intIdx.Value.ToString());
+                    return NullValue.Instance;
+                }
+                arr.Elements[(int)intIdx.Value] = value;
+                return value;
+            }
+            throw CreateTypeError(expr, "integer index", index.TypeName);
+        }
+
+        if (obj is MapValue map)
+        {
+            if (index is StringValue keyStr)
+            {
+                map.Entries[keyStr.Value] = value;
+                return value;
+            }
+            throw CreateTypeError(expr, "string key", index.TypeName);
+        }
+
+        throw CreateTypeError(expr, "array or map", obj.TypeName);
     }
 
     // ===== ARITHMETIC OPERATIONS =====
@@ -547,4 +780,17 @@ public class ReturnException : Exception
 {
     public AlxValue Value { get; }
     public ReturnException(AlxValue value) { Value = value; }
+}
+
+/// <summary>
+/// A builtin function implemented as a lambda/delegate (used for array/map methods).
+/// </summary>
+public class LambdaBuiltinFunction : FunctionValue
+{
+    private readonly Func<List<AlxValue>, AlxValue> _impl;
+    public LambdaBuiltinFunction(string name, Func<List<AlxValue>, AlxValue> impl) : base(name)
+    {
+        _impl = impl;
+    }
+    public AlxValue Invoke(List<AlxValue> args) => _impl(args);
 }
