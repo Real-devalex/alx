@@ -271,6 +271,21 @@ print(counter())  <span class="cmt">// 2</span></code></pre>
         </section>
 
         <section class="content-section">
+            <h2 id="input">User Input</h2>
+            <p>Read user input from the terminal with <code>input()</code>.</p>
+            <pre><code><span class="cmt">// With a prompt</span>
+name = <span class="kw">input</span>(<span class="str">"What is your name? "</span>)
+<span class="kw">print</span>(<span class="str">"Hello, {name}!"</span>)
+
+<span class="cmt">// Without a prompt</span>
+line = <span class="kw">input</span>()
+
+<span class="cmt">// input() always returns a string</span>
+age = <span class="kw">input</span>(<span class="str">"Age: "</span>)
+<span class="kw">print</span>(<span class="str">"You are {age} years old"</span>)</code></pre>
+        </section>
+
+        <section class="content-section">
             <h2 id="errors">Error Handling</h2>
             <p>ALX provides clear error messages with file, line, and column information.</p>
             <pre><code><span class="cmt">// Example error output:</span>

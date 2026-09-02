@@ -5,19 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Examples — ALX</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <nav>
-        <a href="index.html" class="logo"><span>ALX</span></a>
-        <ul class="nav-links">
-            <li><a href="getting-started.html">Get Started</a></li>
-            <li><a href="syntax.html">Syntax</a></li>
-            <li><a href="examples.html" class="active">Examples</a></li>
-            <li><a href="roadmap.html">Roadmap</a></li>
-        </ul>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">ALX</a>
+            <div class="nav-links">
+                <a href="getting-started.html">Getting Started</a>
+                <a href="syntax.html">Syntax</a>
+                <a href="examples.html" class="active">Examples</a>
+                <a href="roadmap.html">Roadmap</a>
+                <a href="https://github.com/Real-devalex/alx">GitHub</a>
+            </div>
+        </div>
     </nav>
 
-    <div class="container">
+    <main class="container">
         <div class="grid">
             <aside class="sidebar">
                 <h3>Examples</h3>
@@ -30,6 +35,10 @@
                     <li><a href="#loops">While Loops</a></li>
                     <li><a href="#for-loops">For Loops</a></li>
                     <li><a href="#interpolation">String Interpolation</a></li>
+                    <li><a href="#arrays">Arrays</a></li>
+                    <li><a href="#maps">Maps</a></li>
+                    <li><a href="#input">User Input</a></li>
+                    <li><a href="#lambdas">Lambdas</a></li>
                     <li><a href="#game">Game Example</a></li>
                 </ul>
             </aside>
@@ -91,21 +100,26 @@ has_permission = <span class="kw">false</span>
 }</code></pre>
 
                 <h2 id="functions">Functions</h2>
-                <pre><code><span class="kw">function</span> <span class="fn">greet</span>(name) {
+                <pre><code><span class="cmt">// afun is the preferred shorter keyword</span>
+<span class="kw">afun</span> <span class="fn">greet</span>(name) {
     <span class="kw">print</span>(<span class="str">"Hello, {name}!"</span>)
 }
 
 <span class="fn">greet</span>(<span class="str">"Daniel"</span>)
 
-<span class="cmt">// Return values</span>
+<span class="cmt">// function keyword also works</span>
 <span class="kw">function</span> <span class="fn">add</span>(a, b) {
     <span class="kw">return</span> a + b
 }
 
 <span class="kw">print</span>(<span class="fn">add</span>(<span class="num">10</span>, <span class="num">20</span>))  <span class="cmt">// 30</span>
 
+<span class="cmt">// Expression-bodied functions</span>
+<span class="kw">afun</span> <span class="fn">double</span>(x) = x * <span class="num">2</span>
+<span class="kw">print</span>(<span class="fn">double</span>(<span class="num">5</span>))  <span class="cmt">// 10</span>
+
 <span class="cmt">// Recursion</span>
-<span class="kw">function</span> <span class="fn">factorial</span>(n) {
+<span class="kw">afun</span> <span class="fn">factorial</span>(n) {
     <span class="kw">if</span> n &lt;= <span class="num">1</span> { <span class="kw">return</span> <span class="num">1</span> }
     <span class="kw">return</span> n * <span class="fn">factorial</span>(n - <span class="num">1</span>)
 }
@@ -148,42 +162,165 @@ total = <span class="num">0</span>
 
                 <h2 id="interpolation">String Interpolation</h2>
                 <pre><code>name = <span class="str">"ALX"</span>
-version = <span class="num">2</span>
+version = <span class="num">4</span>
 
 <span class="kw">print</span>(<span class="str">"Welcome to {name} {version}!"</span>)
-<span class="cmt">// Welcome to ALX 2!</span>
+<span class="cmt">// Welcome to ALX 4!</span>
 
 x = <span class="num">10</span>
 y = <span class="num">5</span>
 <span class="kw">print</span>(<span class="str">"{x} + {y} = {x + y}"</span>)
 <span class="cmt">// 10 + 5 = 15</span></code></pre>
 
-                <h2 id="game">Game Example</h2>
-                <pre><code><span class="cmt">// Simple combat system</span>
-health = <span class="num">100</span>
-damage = <span class="num">30</span>
-heal = <span class="num">15</span>
+                <h2 id="arrays">Arrays</h2>
+                <pre><code><span class="cmt">// Create arrays</span>
+numbers = [<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>, <span class="num">4</span>, <span class="num">5</span>]
+fruits = [<span class="str">"apple"</span>, <span class="str">"banana"</span>, <span class="str">"cherry"</span>]
 
-<span class="cmt">// Take damage</span>
-health = health - damage
-<span class="kw">print</span>(<span class="str">"After hit: {health}"</span>)  <span class="cmt">// 70</span>
+<span class="cmt">// Index access</span>
+<span class="kw">print</span>(numbers[<span class="num">0</span>])    <span class="cmt">// 1</span>
+<span class="kw">print</span>(fruits[<span class="num">2</span>])     <span class="cmt">// cherry</span>
 
-<span class="cmt">// Heal</span>
-health = health + heal
-<span class="kw">print</span>(<span class="str">"After heal: {health}"</span>)  <span class="cmt">// 85</span>
+<span class="cmt">// Length</span>
+<span class="kw">print</span>(numbers.length) <span class="cmt">// 5</span>
 
-<span class="cmt">// Combat loop</span>
-turns = <span class="num">0</span>
-<span class="kw">while</span> health > <span class="num">0</span> {
-    health = health - <span class="num">20</span>
-    turns = turns + <span class="num">1</span>
-    <span class="kw">print</span>(<span class="str">"Turn {turns}: health = {health}"</span>)
+<span class="cmt">// Push and pop</span>
+numbers.push(<span class="num">6</span>)
+last = numbers.pop()
+
+<span class="cmt">// Search</span>
+<span class="kw">print</span>(numbers.contains(<span class="num">3</span>))  <span class="cmt">// true</span>
+<span class="kw">print</span>(numbers.indexOf(<span class="num">4</span>))   <span class="cmt">// 3</span>
+
+<span class="cmt">// Join</span>
+<span class="kw">print</span>(numbers.join(<span class="str">"-"</span>))     <span class="cmt">// 1-2-3-4-5</span>
+
+<span class="cmt">// Index assignment</span>
+numbers[<span class="num">0</span>] = <span class="num">99</span></code></pre>
+
+                <h2 id="maps">Maps</h2>
+                <pre><code><span class="cmt">// Create maps</span>
+player = {
+    name: <span class="str">"Hero"</span>,
+    health: <span class="num">100</span>,
+    speed: <span class="num">5.5</span>
 }
 
-<span class="kw">print</span>(<span class="str">"Player survived {turns} turns"</span>)</code></pre>
+<span class="cmt">// Dot access</span>
+<span class="kw">print</span>(player.name)      <span class="cmt">// Hero</span>
+
+<span class="cmt">// Index access</span>
+<span class="kw">print</span>(player[<span class="str">"name"</span>])   <span class="cmt">// Hero</span>
+
+<span class="cmt">// Dot assignment</span>
+player.health = <span class="num">75</span>
+
+<span class="cmt">// Methods</span>
+<span class="kw">print</span>(player.length)           <span class="cmt">// 3</span>
+<span class="kw">print</span>(player.keys())           <span class="cmt">// ["name", "health", "speed"]</span>
+<span class="kw">print</span>(player.containsKey(<span class="str">"name"</span>)) <span class="cmt">// true</span>
+<span class="kw">print</span>(player.get(<span class="str">"mana"</span>, <span class="num">0</span>))    <span class="cmt">// 0 (default)</span>
+
+<span class="cmt">// Array of maps</span>
+enemies = [
+    { name: <span class="str">"Zombie"</span>, health: <span class="num">50</span> },
+    { name: <span class="str">"Skeleton"</span>, health: <span class="num">30</span> }
+]
+<span class="kw">print</span>(enemies[<span class="num">0</span>].name)  <span class="cmt">// Zombie</span></code></pre>
+
+                <h2 id="input">User Input</h2>
+                <pre><code><span class="cmt">// Read user input</span>
+name = <span class="kw">input</span>(<span class="str">"What is your name? "</span>)
+<span class="kw">print</span>(<span class="str">"Hello, {name}!"</span>)
+
+<span class="cmt">// Input without prompt</span>
+color = <span class="kw">input</span>()
+<span class="kw">print</span>(<span class="str">"Your color: {color}"</span>)
+
+<span class="cmt">// Simple calculator</span>
+<span class="kw">print</span>(<span class="str">"=== Calculator ==="</span>)
+a = <span class="kw">input</span>(<span class="str">"First number: "</span>)
+b = <span class="kw">input</span>(<span class="str">"Second number: "</span>)
+<span class="kw">print</span>(<span class="str">"You entered {a} and {b}"</span>)</code></pre>
+
+                <h2 id="lambdas">Lambdas & Closures</h2>
+                <pre><code><span class="cmt">// Lambda expressions</span>
+square = <span class="kw">lambda</span>(x) { x * x }
+<span class="kw">print</span>(square(<span class="num">7</span>))   <span class="cmt">// 49</span>
+
+<span class="cmt">// Higher-order functions</span>
+<span class="kw">afun</span> <span class="fn">apply</span>(func, value) {
+    <span class="kw">return</span> func(value)
+}
+<span class="kw">print</span>(<span class="fn">apply</span>(square, <span class="num">5</span>))  <span class="cmt">// 25</span>
+
+<span class="cmt">// Closures — functions that capture outer variables</span>
+<span class="kw">afun</span> <span class="fn">makeCounter</span>() {
+    count = <span class="num">0</span>
+    <span class="kw">afun</span> <span class="fn">increment</span>() {
+        count = count + <span class="num">1</span>
+        <span class="kw">return</span> count
+    }
+    <span class="kw">return</span> increment
+}
+
+counter = <span class="fn">makeCounter</span>()
+<span class="kw">print</span>(counter())  <span class="cmt">// 1</span>
+<span class="kw">print</span>(counter())  <span class="cmt">// 2</span>
+<span class="kw">print</span>(counter())  <span class="cmt">// 3</span></code></pre>
+
+                <h2 id="game">Game Example</h2>
+                <pre><code><span class="cmt">// RPG Character System</span>
+<span class="kw">afun</span> <span class="fn">createCharacter</span>(name, health) {
+    <span class="kw">return</span> {
+        name: name,
+        health: health,
+        maxHealth: health
+    }
+}
+
+<span class="kw">afun</span> <span class="fn">takeDamage</span>(char, amount) {
+    char.health = char.health - amount
+    <span class="kw">if</span> char.health < <span class="num">0</span> {
+        char.health = <span class="num">0</span>
+    }
+    <span class="kw">print</span>(<span class="str">"{char.name} took {amount} damage! HP: {char.health}/{char.maxHealth}"</span>)
+}
+
+<span class="kw">afun</span> <span class="fn">heal</span>(char, amount) {
+    char.health = char.health + amount
+    <span class="kw">if</span> char.health > char.maxHealth {
+        char.health = char.maxHealth
+    }
+    <span class="kw">print</span>(<span class="str">"{char.name} healed {amount}! HP: {char.health}/{char.maxHealth}"</span>)
+}
+
+<span class="cmt">// Create a warrior</span>
+warrior = <span class="fn">createCharacter</span>(<span class="str">"Warrior"</span>, <span class="num">100</span>)
+mage = <span class="fn">createCharacter</span>(<span class="str">"Mage"</span>, <span class="num">60</span>)
+
+<span class="cmt">// Battle</span>
+<span class="fn">takeDamage</span>(warrior, <span class="num">30</span>)
+<span class="fn">takeDamage</span>(mage, <span class="num">20</span>)
+<span class="fn">heal</span>(warrior, <span class="num">15</span>)
+
+<span class="cmt">// Combat loop</span>
+turn = <span class="num">0</span>
+<span class="kw">while</span> warrior.health > <span class="num">0</span> <span class="kw">and</span> mage.health > <span class="num">0</span> {
+    turn = turn + <span class="num">1</span>
+    <span class="fn">takeDamage</span>(mage, <span class="num">25</span>)
+    <span class="fn">takeDamage</span>(warrior, <span class="num">15</span>)
+    <span class="kw">if</span> turn > <span class="num">10</span> { <span class="kw">break</span> }
+}
+
+<span class="kw">if</span> warrior.health > <span class="num">0</span> {
+    <span class="kw">print</span>(<span class="str">"Warrior wins!"</span>)
+} <span class="kw">else</span> {
+    <span class="kw">print</span>(<span class="str">"Mage wins!"</span>)
+}</code></pre>
             </div>
         </div>
-    </div>
+    </main>
 
     <footer>
         <p>&copy; 2026 <a href="https://alexionstudios.com">Alexion Studios</a>. All rights reserved.</p>

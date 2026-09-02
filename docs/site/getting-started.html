@@ -5,26 +5,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Getting Started — ALX</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <nav>
-        <a href="index.html" class="logo"><span>ALX</span></a>
-        <ul class="nav-links">
-            <li><a href="getting-started.html" class="active">Get Started</a></li>
-            <li><a href="syntax.html">Syntax</a></li>
-            <li><a href="examples.html">Examples</a></li>
-            <li><a href="roadmap.html">Roadmap</a></li>
-        </ul>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">ALX</a>
+            <div class="nav-links">
+                <a href="getting-started.html" class="active">Getting Started</a>
+                <a href="syntax.html">Syntax</a>
+                <a href="examples.html">Examples</a>
+                <a href="roadmap.html">Roadmap</a>
+                <a href="https://github.com/Real-devalex/alx">GitHub</a>
+            </div>
+        </div>
     </nav>
 
-    <div class="container">
+    <main class="container">
         <div class="grid">
             <aside class="sidebar">
                 <h3>On This Page</h3>
                 <ul>
                     <li><a href="#prerequisites">Prerequisites</a></li>
                     <li><a href="#install">Installation</a></li>
+                    <li><a href="#vscode">VS Code Extension</a></li>
                     <li><a href="#first-program">First Program</a></li>
+                    <li><a href="#interactive">Interactive Programs</a></li>
+                    <li><a href="#updating">Updating ALX</a></li>
                     <li><a href="#cli">CLI Commands</a></li>
                     <li><a href="#next-steps">Next Steps</a></li>
                 </ul>
@@ -41,10 +49,22 @@ dotnet --version</code></pre>
                 <p>If you don't have .NET installed, download it from <a href="https://dotnet.microsoft.com/download">dotnet.microsoft.com</a>.</p>
 
                 <h2 id="install">Installation</h2>
-                <h3>Option 1: Build from Source</h3>
+
+                <h3>Option 1: Quick Install (Recommended)</h3>
+                <p>Download the latest release and run the installer:</p>
+                <pre><code># Download from GitHub Releases
+# https://github.com/Real-devalex/alx/releases/latest
+
+# Extract and run install.ps1
+.\install.ps1
+
+# Restart your terminal, then:
+alx version</code></pre>
+
+                <h3>Option 2: Build from Source</h3>
                 <pre><code># Clone the repository
-git clone https://github.com/Alexion-language/ALX.git
-cd ALX
+git clone https://github.com/Real-devalex/alx.git
+cd alx
 
 # Build
 dotnet build ALX.sln
@@ -52,9 +72,28 @@ dotnet build ALX.sln
 # Run your first program
 dotnet run --project src/ALX.CLI -- examples/hello.alx</code></pre>
 
-                <h3>Option 2: Install as a Global Tool (Coming Soon)</h3>
-                <pre><code>dotnet tool install -g alx
-alx hello.alx</code></pre>
+                <h3>Updating ALX</h3>
+                <p>When a new version is released, update with one command:</p>
+                <pre><code>alx update</code></pre>
+                <p>This downloads and installs the latest version automatically. No need to reconfigure PATH or settings.</p>
+
+                <h2 id="vscode">VS Code Extension</h2>
+                <p>ALX comes with a VS Code extension that provides:</p>
+                <ul>
+                    <li><strong>Syntax highlighting</strong> for all ALX keywords</li>
+                    <li><strong>File icons</strong> — purple ALX icon in the explorer</li>
+                    <li><strong>Play button</strong> — click ▶ or press <code>Ctrl+Alt+R</code> to run</li>
+                    <li><strong>Output panel</strong> — shows program output with timing</li>
+                </ul>
+
+                <h3>Install the Extension</h3>
+                <pre><code># From the ALX repo directory
+code --install-extension vscode-extension/
+
+# Restart VS Code
+# Open any .alx file — you'll see the play button!</code></pre>
+
+                <p>Alternatively, copy the <code>vscode-extension/</code> folder contents to your VS Code extensions directory at <code>%USERPROFILE%\.vscode\extensions\alx-language-support-0.4.0\</code>.</p>
 
                 <h2 id="first-program">Your First ALX Program</h2>
                 <p>Create a file called <code>hello.alx</code>:</p>
@@ -62,10 +101,36 @@ alx hello.alx</code></pre>
 <span class="kw">print</span>(<span class="str">"Hello, ALEXION!"</span>)</code></pre>
 
                 <p>Run it from your terminal:</p>
-                <pre><code>dotnet run --project src/ALX.CLI -- hello.alx</code></pre>
+                <pre><code>alx hello.alx</code></pre>
+
+                <p>Or in VS Code: open the file and click the ▶ play button.</p>
 
                 <p>Output:</p>
                 <pre><code>Hello, ALEXION!</code></pre>
+
+                <h2 id="interactive">Interactive Programs</h2>
+                <p>ALX supports user input with the <code>input()</code> function:</p>
+                <pre><code><span class="cmt">// calculator.alx</span>
+<span class="kw">print</span>(<span class="str">"=== ALX Calculator ==="</span>)
+
+a = <span class="kw">input</span>(<span class="str">"Enter first number: "</span>)
+b = <span class="kw">input</span>(<span class="str">"Enter second number: "</span>)
+
+<span class="kw">print</span>(<span class="str">"You entered: {a} and {b}"</span>)</code></pre>
+
+                <p><code>input()</code> reads a line from the user. Pass a string argument to show a prompt:</p>
+                <pre><code>name = <span class="kw">input</span>()                    <span class="cmt">// no prompt</span>
+name = <span class="kw">input</span>(<span class="str">"Enter name: "</span>)      <span class="cmt">// with prompt</span></code></pre>
+
+                <h2 id="updating">Updating ALX</h2>
+                <p>ALX can update itself from GitHub:</p>
+                <pre><code># Check for and install updates
+alx update
+
+# Shows current vs latest version, downloads and installs automatically</code></pre>
+                <p>You can also re-run the installer for a manual upgrade:</p>
+                <pre><code>.\install.ps1</code></pre>
+                <p>The installer detects if ALX is already installed and upgrades in-place.</p>
 
                 <h2 id="cli">CLI Commands</h2>
                 <table>
@@ -74,6 +139,8 @@ alx hello.alx</code></pre>
                     </thead>
                     <tbody>
                         <tr><td><code>alx &lt;file.alx&gt;</code></td><td>Run an ALX source file</td></tr>
+                        <tr><td><code>alx run &lt;file.alx&gt;</code></td><td>Run an ALX source file (explicit)</td></tr>
+                        <tr><td><code>alx update</code></td><td>Update ALX to the latest release</td></tr>
                         <tr><td><code>alx version</code></td><td>Show ALX version</td></tr>
                         <tr><td><code>alx help</code></td><td>Show help message</td></tr>
                     </tbody>
@@ -81,13 +148,14 @@ alx hello.alx</code></pre>
 
                 <h2 id="next-steps">Next Steps</h2>
                 <ul>
-                    <li><a href="syntax.html">Learn ALX syntax</a> — Types, variables, functions, control flow</li>
+                    <li><a href="syntax.html">Learn ALX syntax</a> — Types, variables, arrays, maps, functions, control flow</li>
                     <li><a href="examples.html">Browse examples</a> — Complete programs to learn from</li>
                     <li><a href="roadmap.html">View the roadmap</a> — See what's coming next</li>
+                    <li><a href="https://github.com/Real-devalex/alx">GitHub</a> — Source code, releases, and issues</li>
                 </ul>
             </div>
         </div>
-    </div>
+    </main>
 
     <footer>
         <p>&copy; 2026 <a href="https://alexionstudios.com">Alexion Studios</a>. All rights reserved.</p>

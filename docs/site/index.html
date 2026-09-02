@@ -5,16 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ALX — Alexion Language</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <nav>
-        <a href="index.html" class="logo"><span>ALX</span></a>
-        <ul class="nav-links">
-            <li><a href="getting-started.html">Get Started</a></li>
-            <li><a href="syntax.html">Syntax</a></li>
-            <li><a href="examples.html">Examples</a></li>
-            <li><a href="roadmap.html">Roadmap</a></li>
-        </ul>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">ALX</a>
+            <div class="nav-links">
+                <a href="getting-started.html">Getting Started</a>
+                <a href="syntax.html">Syntax</a>
+                <a href="examples.html">Examples</a>
+                <a href="roadmap.html">Roadmap</a>
+                <a href="https://github.com/Real-devalex/alx">GitHub</a>
+            </div>
+        </div>
     </nav>
 
     <div class="hero">
@@ -44,8 +49,8 @@
         </div>
         <div class="feature-card">
             <div class="icon">🔧</div>
-            <h3>Extensible</h3>
-            <p>Modular architecture that grows with your needs. From simple scripts to full game engines.</p>
+            <h3>VS Code Integration</h3>
+            <p>Syntax highlighting, file icons, and a play button to run ALX files directly from VS Code.</p>
         </div>
     </div>
 
@@ -64,32 +69,55 @@
         <h2>Language Features</h2>
         <pre><code><span class="cmt">// Variables & Types</span>
 name = <span class="str">"ALX"</span>
-version = <span class="num">2</span>
+version = <span class="num">4</span>
 health = <span class="num">100</span>
 alive = <span class="kw">true</span>
 
 <span class="cmt">// String interpolation</span>
 <span class="kw">print</span>(<span class="str">"Welcome to {name} {version}!"</span>)
 
+<span class="cmt">// Arrays</span>
+numbers = [<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>, <span class="num">4</span>, <span class="num">5</span>]
+<span class="kw">print</span>(numbers.length)    <span class="cmt">// 5</span>
+numbers.push(<span class="num">6</span>)
+
+<span class="cmt">// Maps</span>
+player = {
+    name: <span class="str">"Hero"</span>,
+    health: <span class="num">100</span>
+}
+<span class="kw">print</span>(player.name)       <span class="cmt">// Hero</span>
+
 <span class="cmt">// For loops with ranges</span>
 <span class="kw">for</span> i <span class="kw">in</span> <span class="num">1</span>..<span class="num">10</span> {
     <span class="kw">print</span>(i)
 }
 
-<span class="cmt">// Functions</span>
-<span class="kw">function</span> <span class="fn">factorial</span>(n) {
-    <span class="kw">if</span> n &lt;= <span class="num">1</span> {
-        <span class="kw">return</span> <span class="num">1</span>
-    }
+<span class="cmt">// Functions (use afun or function)</span>
+<span class="kw">afun</span> <span class="fn">factorial</span>(n) {
+    <span class="kw">if</span> n &lt;= <span class="num">1</span> { <span class="kw">return</span> <span class="num">1</span> }
     <span class="kw">return</span> n * <span class="fn">factorial</span>(n - <span class="num">1</span>)
 }
 
-<span class="kw">print</span>(<span class="fn">factorial</span>(<span class="num">5</span>))  <span class="cmt">// 120</span></code></pre>
+<span class="kw">print</span>(<span class="fn">factorial</span>(<span class="num">5</span>))  <span class="cmt">// 120</span>
+
+<span class="cmt">// User input</span>
+name = <span class="kw">input</span>(<span class="str">"What is your name? "</span>)
+<span class="kw">print</span>(<span class="str">"Hello, {name}!"</span>)</code></pre>
+
+        <h2>VS Code Extension</h2>
+        <p>Get syntax highlighting, file icons, and a play button in VS Code:</p>
+        <pre><code># Install the extension from the repo
+code --install-extension vscode-extension/
+
+# Or copy the extension files to your VS Code extensions folder
+# Then restart VS Code</code></pre>
+        <p>Open any <code>.alx</code> file and click the <strong>▶ play button</strong> or press <strong>Ctrl+Alt+R</strong> to run it.</p>
     </div>
 
     <footer>
         <p>&copy; 2026 <a href="https://alexionstudios.com">Alexion Studios</a>. All rights reserved.</p>
-        <p>ALX is an open-source project. <a href="https://github.com/Alexion-language">View on GitHub</a>.</p>
+        <p>ALX is an open-source project. <a href="https://github.com/Real-devalex/alx">View on GitHub</a>.</p>
     </footer>
 </body>
 </html>
