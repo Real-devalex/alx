@@ -10,16 +10,19 @@
     "categories": [
         "Programming Languages"
     ],
-    "activationEvents": [
-        "onLanguage:alx"
-    ],
+    "activationEvents": [],
     "main": "./extension.js",
+    "icon": "icon.svg",
     "contributes": {
         "languages": [{
             "id": "alx",
             "aliases": ["ALX", "alx"],
             "extensions": [".alx"],
-            "configuration": "./language-configuration.json"
+            "configuration": "./language-configuration.json",
+            "icon": {
+                "dark": "./icons/file-icon-dark.svg",
+                "light": "./icons/file-icon-light.svg"
+            }
         }],
         "grammars": [{
             "language": "alx",
@@ -28,8 +31,8 @@
         }],
         "commands": [{
             "command": "alx.runFile",
-            "title": "Run ALX File",
-            "icon "$(play)": "$(play)"
+            "title": "ALX: Run File",
+            "icon": "$(play)"
         }],
         "menus": {
             "editor/title": [{

@@ -18,6 +18,13 @@ public class Interpreter
         _environment = new AlxEnvironment();
         _rootEnvironment = _environment;
         _output = output ?? Console.WriteLine;
+        RegisterBuiltins();
+    }
+
+    private void RegisterBuiltins()
+    {
+        // input([prompt]) — read user input from stdin
+        _rootEnvironment.Define("input", new InputFunction());
     }
 
     public void Execute(ProgramNode program)
@@ -793,4 +800,26 @@ public class LambdaBuiltinFunction : FunctionValue
         _impl = impl;
     }
     public AlxValue Invoke(List<AlxValue> args) => _impl(args);
+}
+
+/// <summary>
+/// Built-in input() function — reads user input from stdin.
+/// Usage: input() or input("Enter name: ")
+/// </summary>
+public class InputFunction : AlxBuiltinFunction
+{
+    public InputFunction() : base("input") { }
+
+    public override AlxValue Invoke(List<AlxValue> args, string sourceFile, int line, int column)
+    {
+        // Print prompt if provided
+        if (args.Count > 0 && args[0] is StringValue prompt)
+        {
+            Console.Write(prompt.Value);
+        }
+
+        // Read from stdin
+        string? input = Console.ReadLine();
+        return new StringValue(input ?? "");
+    }
 }

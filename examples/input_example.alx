@@ -1,0 +1,13 @@
+// ALX input() function
+
+// Basic input
+name = input("What is your name? ")
+print("Hello, {name}!")
+
+// Numeric input (returns string, convert manually)
+age_str = input("How old are you? ")
+print("You said: {age_str}")
+
+// Input without prompt
+color = input("Favorite color? ")
+print("Nice! {color} is a great color.")
