@@ -1,0 +1,62 @@
+{
+    "name": "alx-language-support",
+    "displayName": "ALX Language Support",
+    "description": "Syntax highlighting, run support, and language tools for ALX programming language",
+    "version": "0.4.0",
+    "publisher": "AlexionStudios",
+    "engines": {
+        "vscode": "^1.70.0"
+    },
+    "categories": [
+        "Programming Languages"
+    ],
+    "activationEvents": [
+        "onLanguage:alx"
+    ],
+    "main": "./extension.js",
+    "contributes": {
+        "languages": [{
+            "id": "alx",
+            "aliases": ["ALX", "alx"],
+            "extensions": [".alx"],
+            "configuration": "./language-configuration.json"
+        }],
+        "grammars": [{
+            "language": "alx",
+            "scopeName": "source.alx",
+            "path": "./syntaxes/ALX.tmLanguage.json"
+        }],
+        "commands": [{
+            "command": "alx.runFile",
+            "title": "Run ALX File",
+            "icon "$(play)": "$(play)"
+        }],
+        "menus": {
+            "editor/title": [{
+                "command": "alx.runFile",
+                "when": "editorLangId == alx",
+                "group": "navigation"
+            }],
+            "commandPalette": [{
+                "command": "alx.runFile",
+                "when": "editorLangId == alx"
+            }]
+        },
+        "keybindings": [{
+            "command": "alx.runFile",
+            "key": "ctrl+alt+r",
+            "mac": "cmd+alt+r",
+            "when": "editorLangId == alx"
+        }],
+        "configuration": {
+            "title": "ALX",
+            "properties": {
+                "alx.executablePath": {
+                    "type": "string",
+                    "default": "alx",
+                    "description": "Path to the ALX executable. Leave as 'alx' if it's in your PATH."
+                }
+            }
+        }
+    }
+}

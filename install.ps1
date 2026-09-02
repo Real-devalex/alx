@@ -1,15 +1,25 @@
 # ALX Installer — Windows
-# Run this script to install ALX on your system
+# Run this script to install or upgrade ALX on your system
 # Usage: .\install.ps1
+# Upgrade: .\install.ps1 (auto-detects existing installation)
 
 param(
-    [string]$InstallDir = "$env:LOCALAPPDATA\ALX"
+    [string]$InstallDir = "$env:LOCALAPPDATA\ALX",
+    [switch]$Force
 )
+
+$IsUpgrade = Test-Path "$InstallDir\ALX.CLI.exe"
 
 Write-Host ""
 Write-Host "========================================" -ForegroundColor Cyan
 Write-Host "  ALX - Alexion Language Installer" -ForegroundColor Cyan
-Write-Host "  Version 0.2.0" -ForegroundColor Cyan
+if ($IsUpgrade) {
+    $InstalledVersion = (& "$InstallDir\ALX.CLI.exe" version 2>&1 | Select-String "ALX" | Select-Object -First 1).ToString().Trim()
+    Write-Host "  Detected: $InstalledVersion" -ForegroundColor Yellow
+    Write-Host "  Upgrading to latest..." -ForegroundColor Yellow
+} else {
+    Write-Host "  Fresh installation" -ForegroundColor Green
+}
 Write-Host "========================================" -ForegroundColor Cyan
 Write-Host ""
 
@@ -25,6 +35,16 @@ Write-Host "  Build successful!" -ForegroundColor Green
 
 # Step 2: Publish CLI
 Write-Host "[2/4] Publishing ALX CLI..." -ForegroundColor Yellow
+
+# For upgrade: backup existing examples if user modified them
+$BackupDir = ""
+if ($IsUpgrade -and (Test-Path "$InstallDir\examples")) {
+    $BackupDir = Join-Path $env:TEMP "alx-backup-$(Get-Date -Format 'yyyyMMdd-HHmmss')"
+    Copy-Item -Recurse "$InstallDir\examples" $BackupDir -Force
+    Write-Host "  Backed up existing examples to: $BackupDir" -ForegroundColor Gray
+}
+
+# Clean and recreate install dir
 if (Test-Path $InstallDir) { Remove-Item -Recurse -Force $InstallDir }
 New-Item -ItemType Directory -Path $InstallDir -Force | Out-Null
 
@@ -35,16 +55,18 @@ if (Test-Path "examples") { Copy-Item -Recurse -Force "examples" "$InstallDir\ex
 if (Test-Path "docs\site") { Copy-Item -Recurse -Force "docs\site" "$InstallDir\docs" }
 
 # Create alx.bat launcher
-$batLines = @()
-$batLines += '@echo off'
-$batLines += '"%~dp0ALX.CLI.exe" %*'
-$batContent = $batLines -join "`r`n"
+$batContent = "@echo off`r`n`"%~dp0ALX.CLI.exe`" %*"
 Set-Content -Path "$InstallDir\alx.bat" -Value $batContent -Encoding ASCII
+
+# Copy VS Code extension files
+if (Test-Path "syntaxes") { Copy-Item -Recurse -Force "syntaxes" "$InstallDir\vscode-ext\syntaxes" }
+if (Test-Path "package.json") { Copy-Item -Force "package.json" "$InstallDir\vscode-ext\package.json" }
+if (Test-Path "language-configuration.json") { Copy-Item -Force "language-configuration.json" "$InstallDir\vscode-ext\language-configuration.json" }
 
 Write-Host "  Published to: $InstallDir" -ForegroundColor Green
 
 # Step 3: Add to PATH
-Write-Host "[3/4] Adding ALX to PATH..." -ForegroundColor Yellow
+Write-Host "[3/4] Checking PATH..." -ForegroundColor Yellow
 
 $currentPath = [Environment]::GetEnvironmentVariable("Path", "User")
 $pathEntries = $currentPath -split ";" | Where-Object { $_.Trim() -ne "" }
@@ -66,7 +88,11 @@ $exePath = Join-Path $InstallDir "ALX.CLI.exe"
 if ($LASTEXITCODE -eq 0) {
     Write-Host ""
     Write-Host "========================================" -ForegroundColor Green
-    Write-Host "  ALX installed successfully!" -ForegroundColor Green
+    if ($IsUpgrade) {
+        Write-Host "  ALX upgraded successfully!" -ForegroundColor Green
+    } else {
+        Write-Host "  ALX installed successfully!" -ForegroundColor Green
+    }
     Write-Host "========================================" -ForegroundColor Green
     Write-Host ""
     Write-Host "Quick start:" -ForegroundColor Yellow
@@ -75,9 +101,8 @@ if ($LASTEXITCODE -eq 0) {
     Write-Host '  3. Create hello.alx with: print("Hello!")'
     Write-Host "  4. Run: alx hello.alx"
     Write-Host ""
-    Write-Host "Or use directly (no PATH needed):" -ForegroundColor Yellow
-    Write-Host "  $InstallDir\alx.bat version"
-    Write-Host "  $InstallDir\alx.bat examples\hello.alx"
+    Write-Host "VS Code Extension:" -ForegroundColor Yellow
+    Write-Host "  code --install-extension $InstallDir\vscode-ext"
     Write-Host ""
     Write-Host "Docs site: https://real-devalex.github.io/alx/" -ForegroundColor Cyan
     Write-Host ""

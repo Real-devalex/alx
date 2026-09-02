@@ -1,0 +1,222 @@
+{
+	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+	"name": "ALX",
+	"scopeName": "source.alx",
+	"patterns": [
+		{
+			"include": "#comments"
+		},
+		{
+			"include": "#strings"
+		},
+		{
+			"include": "#functions"
+		},
+		{
+			"include": "#keywords"
+		},
+		{
+			"include": "#constants"
+		},
+		{
+			"include": "#types"
+		},
+		{
+			"include": "#numbers"
+		},
+		{
+			"include": "#operators"
+		},
+		{
+			"include": "#brackets"
+		}
+	],
+	"repository": {
+		"comments": {
+			"patterns": [
+				{
+					"name": "comment.line.double-slash.alx",
+					"match": "//.*"
+				}
+			]
+		},
+		"strings": {
+			"patterns": [
+				{
+					"name": "string.quoted.double.alx",
+					"begin": "\"",
+					"end": "\"",
+					"patterns": [
+						{
+							"name": "constant.character.escape.alx",
+							"match": "\\\\."
+						},
+						{
+							"name": "source.alx.embedded",
+							"begin": "\\{",
+							"end": "\\}",
+							"patterns": [
+								{
+									"include": "$self"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "string.quoted.single.alx",
+					"begin": "'",
+					"end": "'",
+					"patterns": [
+						{
+							"name": "constant.character.escape.alx",
+							"match": "\\\\."
+						},
+						{
+							"name": "source.alx.embedded",
+							"begin": "\\{",
+							"end": "\\}",
+							"patterns": [
+								{
+									"include": "$self"
+								}
+							]
+						}
+					]
+				}
+			]
+		},
+		"functions": {
+			"patterns": [
+				{
+					"name": "entity.name.function.alx",
+					"match": "\\b(afun|function)\\s+([A-Za-z_][A-Za-z0-9_]*)",
+					"captures": {
+						"1": { "name": "storage.type.function.alx" },
+						"2": { "name": "entity.name.function.alx" }
+					}
+				},
+				{
+					"name": "entity.name.function.alx",
+					"match": "\\b(lambda)\\s*([A-Za-z_][A-Za-z0-9_]*)\\s*=",
+					"captures": {
+						"1": { "name": "keyword.lambda.alx" },
+						"2": { "name": "entity.name.function.alx" }
+					}
+				}
+			]
+		},
+		"keywords": {
+			"patterns": [
+				{
+					"name": "keyword.control.alx",
+					"match": "\\b(if|else|while|for|in|return|break|continue)\\b"
+				},
+				{
+					"name": "keyword.declaration.alx",
+					"match": "\\b(const|print)\\b"
+				},
+				{
+					"name": "keyword.operator.alx",
+					"match": "\\b(and|or|not)\\b"
+				},
+				{
+					"name": "keyword.lambda.alx",
+					"match": "\\blambda\\b"
+				},
+				{
+					"name": "keyword.null.alx",
+					"match": "\\bnull\\b"
+				},
+				{
+					"name": "keyword.boolean.alx",
+					"match": "\\b(true|false)\\b"
+				}
+			]
+		},
+		"constants": {
+			"patterns": [
+				{
+					"name": "constant.language.alx",
+					"match": "\\b(true|false|null)\\b"
+				}
+			]
+		},
+		"types": {
+			"patterns": [
+				{
+					"name": "storage.type.alx",
+					"match": "\\b(Integer|Float|String|Boolean|Null)\\b"
+				}
+			]
+		},
+		"numbers": {
+			"patterns": [
+				{
+					"name": "constant.numeric.alx",
+					"match": "\\b-?\\d+(\\.\\d+)?\\b"
+				}
+			]
+		},
+		"operators": {
+			"patterns": [
+				{
+					"name": "keyword.operator.arithmetic.alx",
+					"match": "\\+|-|\\*|/|%"
+				},
+				{
+					"name": "keyword.operator.assignment.alx",
+					"match": "="
+				},
+				{
+					"name": "keyword.operator.comparison.alx",
+					"match": "==|!=|<|>|<=|>="
+				},
+				{
+					"name": "keyword.operator.range.alx",
+					"match": "\\.\\."
+				}
+			]
+		},
+		"brackets": {
+			"patterns": [
+				{
+					"name": "punctuation.section.scope.begin.alx",
+					"match": "\\{"
+				},
+				{
+					"name": "punctuation.section.scope.end.alx",
+					"match": "\\}"
+				},
+				{
+					"name": "punctuation.section.array.begin.alx",
+					"match": "\\["
+				},
+				{
+					"name": "punctuation.section.array.end.alx",
+					"match": "\\]"
+				},
+				{
+					"name": "punctuation.section.group.begin.alx",
+					"match": "\\("
+				},
+				{
+					"name": "punctuation.section.group.end.alx",
+					"match": "\\)"
+				},
+				{
+					"name": "punctuation.separator.statement.alx",
+					"match": ";"
+				},
+				{
+					"name": "punctuation.separator.parameter.alx",
+					"match": ","
+				},
+				{
+					"name": "punctuation.separator.key-value.alx",
+					"match": ":"
+				}
+			]
+		}
+	}
+}
