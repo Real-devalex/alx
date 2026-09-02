@@ -14,7 +14,7 @@ namespace ALX.CLI;
 /// </summary>
 public class Program
 {
-    private const string Version = "0.4.0";
+    private const string Version = "0.6.0";
     private const string LanguageName = "ALEXION LANGUAGE";
     private const string StudioName = "ALEXION STUDIOS";
     private const string GitHubRepo = "Real-devalex/alx";

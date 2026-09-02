@@ -64,6 +64,42 @@ public class FunctionValue : AlxValue
 }
 
 /// <summary>
+/// ALX class value: represents a class definition.
+/// </summary>
+public class AlxClassValue : AlxValue
+{
+    public override string TypeName => "class";
+    public string Name { get; }
+    public AlxClassValue? Superclass { get; }
+    public Dictionary<string, AlxValue> Methods { get; }
+    public AlxFunction? Constructor { get; }
+    public AlxClassValue(string name, AlxClassValue? superclass, Dictionary<string, AlxValue> methods, AlxFunction? constructor)
+    {
+        Name = name;
+        Superclass = superclass;
+        Methods = methods;
+        Constructor = constructor;
+    }
+    public override string ToString() => $"<class {Name}>";
+}
+
+/// <summary>
+/// ALX instance value: an instance of a class.
+/// </summary>
+public class AlxInstanceValue : AlxValue
+{
+    public override string TypeName => "instance";
+    public AlxClassValue Class { get; }
+    public Dictionary<string, AlxValue> Properties { get; }
+    public AlxInstanceValue(AlxClassValue classValue)
+    {
+        Class = classValue;
+        Properties = new Dictionary<string, AlxValue>();
+    }
+    public override string ToString() => $"<{Class.Name} instance>";
+}
+
+/// <summary>
 /// ALX range value: represents start..end
 /// </summary>
 public class RangeValue : AlxValue
@@ -115,6 +151,21 @@ public class MapValue : AlxValue
         NullValue => "null",
         _ => v.ToString()
     };
+}
+
+/// <summary>
+/// A method bound to a specific instance.
+/// </summary>
+public class AlxBoundMethod : FunctionValue
+{
+    public AlxFunction Method { get; }
+    public AlxInstanceValue Instance { get; }
+    public AlxBoundMethod(AlxFunction method, AlxInstanceValue instance) : base(method.Name)
+    {
+        Method = method;
+        Instance = instance;
+    }
+    public override string ToString() => $"<{Method.Name} on {Instance.Class.Name}>";
 }
 
 public class ReturnWrapper : AlxValue

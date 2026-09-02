@@ -38,6 +38,14 @@ public class Lexer
         ["break"] = TokenType.Break,
         ["continue"] = TokenType.Continue,
         ["lambda"] = TokenType.Lambda,
+        ["class"] = TokenType.Class,
+        ["this"] = TokenType.This,
+        ["new"] = TokenType.New,
+        ["extends"] = TokenType.Extends,
+        ["super"] = TokenType.Super,
+        ["import"] = TokenType.Import,
+        ["from"] = TokenType.From,
+        ["as"] = TokenType.As,
     };
 
     public Lexer(string source, string sourceFile = "", DiagnosticBag? diagnostics = null)

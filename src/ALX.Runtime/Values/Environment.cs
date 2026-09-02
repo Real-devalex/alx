@@ -74,4 +74,17 @@ public class AlxEnvironment
     {
         return _variables.Keys;
     }
+
+    /// <summary>
+    /// Get all variables in the current scope.
+    /// </summary>
+    public Dictionary<string, AlxValue> GetAll()
+    {
+        return new Dictionary<string, AlxValue>(_variables);
+    }
+
+    /// <summary>
+    /// Parent environment (for scope chain traversal).
+    /// </summary>
+    public AlxEnvironment? Parent => _parent;
 }

@@ -8,6 +8,8 @@ public enum TokenType
     Break,
     Continue,
     Lambda,
+    Class, This, New, Extends, Super,
+    Import, From, As,
     Plus, Minus, Star, Slash, Percent, Assign, Equal, NotEqual, Less, Greater, LessEqual, GreaterEqual, DotDot,
     LeftParen, RightParen, LeftBrace, RightBrace, LeftBracket, RightBracket, Comma, Dot, Colon, Semicolon,
     Newline, Comment,

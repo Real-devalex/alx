@@ -58,6 +58,12 @@ public class Interpreter
             case FunctionDeclaration funcDecl:
                 ExecuteFunctionDeclaration(funcDecl);
                 break;
+            case ClassDeclaration classDecl:
+                ExecuteClassDeclaration(classDecl);
+                break;
+            case ImportStatement importDecl:
+                ExecuteImport(importDecl);
+                break;
             case ReturnStatement returnStmt:
                 ExecuteReturnStatement(returnStmt);
                 break;
@@ -164,6 +170,104 @@ public class Interpreter
         _environment.Define(funcDecl.Name, func);
     }
 
+    private void ExecuteClassDeclaration(ClassDeclaration classDecl)
+    {
+        // Resolve superclass if present
+        AlxClassValue? superclass = null;
+        if (classDecl.SuperclassName != null)
+        {
+            var superVal = _environment.Get(classDecl.SuperclassName);
+            if (superVal is not AlxClassValue sc)
+            {
+                _diagnostics.ReportTypeMismatch(classDecl.SourceFile, classDecl.Line, classDecl.Column,
+                    "class", superVal?.TypeName ?? "undefined");
+                return;
+            }
+            superclass = sc;
+        }
+
+        // Collect methods
+        var methods = new Dictionary<string, AlxValue>();
+        foreach (var method in classDecl.Methods)
+        {
+            var func = new AlxFunction(method, _environment);
+            methods[method.Name] = func;
+        }
+
+        // Create class value
+        var classValue = new AlxClassValue(classDecl.Name, superclass, methods, classDecl.Constructor != null ? new AlxFunction(classDecl.Constructor, _environment) : null);
+        _environment.Define(classDecl.Name, classValue);
+    }
+
+    private void ExecuteImport(ImportStatement importDecl)
+    {
+        // Look for the file: module_name.alx in the same directory or a modules/ directory
+        string sourceDir = Path.GetDirectoryName(importDecl.SourceFile) ?? ".";
+        string[] searchPaths = {
+            Path.Combine(sourceDir, importDecl.ModuleName + ".alx"),
+            Path.Combine(sourceDir, "modules", importDecl.ModuleName + ".alx"),
+            Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "modules", importDecl.ModuleName + ".alx"),
+            Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "ALX", "modules", importDecl.ModuleName + ".alx"),
+        };
+
+        string? filePath = null;
+        foreach (var path in searchPaths)
+        {
+            if (File.Exists(path)) { filePath = path; break; }
+        }
+
+        if (filePath == null)
+        {
+            _diagnostics.ReportTypeMismatch(importDecl.SourceFile, importDecl.Line, importDecl.Column,
+                $"module file '{importDecl.ModuleName}.alx'", "file not found");
+            return;
+        }
+
+        // Parse and execute the module
+        string source = File.ReadAllText(filePath);
+        string moduleName = importDecl.Alias ?? importDecl.ModuleName;
+
+        var moduleDiag = new DiagnosticBag();
+        var moduleLexer = new ALX.Compiler.Lexer.Lexer(source, Path.GetFileName(filePath), moduleDiag);
+        var moduleTokens = moduleLexer.Tokenize();
+        var moduleParser = new ALX.Compiler.Parser.Parser(moduleTokens, Path.GetFileName(filePath), moduleDiag);
+        var moduleAst = moduleParser.Parse();
+
+        if (moduleDiag.HasErrors)
+        {
+            foreach (var d in moduleDiag.Diagnostics)
+                _diagnostics.Add(d);
+            return;
+        }
+
+        // Create a new environment for the module, then capture its exports
+        var moduleEnv = new AlxEnvironment(_rootEnvironment);
+        var previous = _environment;
+        _environment = moduleEnv;
+
+        try
+        {
+            foreach (var stmt in moduleAst.Statements)
+                ExecuteStatement(stmt);
+        }
+        finally
+        {
+            _environment = previous;
+        }
+
+        // Create a map with all module-level variables
+        var moduleMap = new Dictionary<string, AlxValue>();
+        var current = moduleEnv;
+        while (current != null)
+        {
+            foreach (var kvp in current.GetAll())
+                moduleMap[kvp.Key] = kvp.Value;
+            current = current.Parent;
+        }
+
+        _environment.Define(moduleName, new MapValue(moduleMap));
+    }
+
     private void ExecuteReturnStatement(ReturnStatement returnStmt)
     {
         AlxValue? value = null;
@@ -203,6 +307,9 @@ public class Interpreter
             MemberExpression memberExpr => EvaluateMember(memberExpr),
             MemberAssignmentExpression memberAssign => EvaluateMemberAssignment(memberAssign),
             IndexAssignmentExpression indexAssign => EvaluateIndexAssignment(indexAssign),
+            NewExpression newExpr => EvaluateNew(newExpr),
+            ThisExpression => EvaluateThis(),
+            SuperExpression superExpr => EvaluateSuper(superExpr),
             _ => throw new InvalidOperationException($"Unknown expression type: {expression.GetType().Name}")
         };
     }
@@ -311,6 +418,34 @@ public class Interpreter
                 expr.Callee is IdentifierExpression id ? id.Name : callee.TypeName
             );
             return NullValue.Instance;
+        }
+
+        if (func is AlxBoundMethod boundMethod)
+        {
+            var method = boundMethod.Method;
+            if (expr.Arguments.Count != method.Declaration.Parameters.Count)
+            {
+                _diagnostics.ReportWrongArgumentCount(
+                    expr.SourceFile, expr.Line, expr.Column,
+                    method.Declaration.Name, method.Declaration.Parameters.Count, expr.Arguments.Count
+                );
+                return NullValue.Instance;
+            }
+
+            var funcEnv = new AlxEnvironment(method.Closure);
+            funcEnv.Define("this", boundMethod.Instance);
+            for (int i = 0; i < method.Declaration.Parameters.Count; i++)
+                funcEnv.Define(method.Declaration.Parameters[i], Evaluate(expr.Arguments[i]));
+
+            try
+            {
+                ExecuteBlock(method.Declaration.Body, funcEnv);
+                return NullValue.Instance;
+            }
+            catch (ReturnException ret)
+            {
+                return ret.Value;
+            }
         }
 
         if (func is AlxBuiltinFunction builtin)
@@ -436,6 +571,38 @@ public class Interpreter
     {
         var obj = Evaluate(expr.Object);
 
+        // Handle instance property and method access
+        if (obj is AlxInstanceValue instance)
+        {
+            // Check instance properties first
+            if (instance.Properties.TryGetValue(expr.MemberName, out var propVal))
+                return propVal;
+
+            // Then check class methods
+            if (instance.Class.Methods.TryGetValue(expr.MemberName, out var method) && method is AlxFunction func)
+                return new AlxBoundMethod(func, instance);
+
+            // Check superclass methods
+            var super = instance.Class.Superclass;
+            while (super != null)
+            {
+                if (super.Methods.TryGetValue(expr.MemberName, out var superMethod) && superMethod is AlxFunction superFunc)
+                    return new AlxBoundMethod(superFunc, instance);
+                super = super.Superclass;
+            }
+
+            _diagnostics.ReportTypeMismatch(expr.SourceFile, expr.Line, expr.Column,
+                $"property or method '{expr.MemberName}'", $"not found on {instance.Class.Name}");
+            return NullValue.Instance;
+        }
+
+        // Handle class static access (e.g., ClassName.someMethod)
+        if (obj is AlxClassValue classVal)
+        {
+            if (classVal.Methods.TryGetValue(expr.MemberName, out var classMethod))
+                return classMethod;
+        }
+
         // Built-in methods for arrays
         if (obj is ArrayValue arr)
         {
@@ -546,10 +713,127 @@ public class Interpreter
         return value;
     }
 
+    // ===== 0.5.0: CLASSES & OBJECTS =====
+
+    private AlxValue EvaluateNew(NewExpression expr)
+    {
+        var classVal = _environment.Get(expr.ClassName);
+        if (classVal is not AlxClassValue classValue)
+        {
+            _diagnostics.ReportTypeMismatch(expr.SourceFile, expr.Line, expr.Column, "class", classVal?.TypeName ?? "undefined");
+            return NullValue.Instance;
+        }
+
+        var instance = new AlxInstanceValue(classValue);
+
+        // Call constructor if present
+        if (classValue.Constructor != null)
+        {
+            var constructor = classValue.Constructor;
+            if (expr.Arguments.Count != constructor.Declaration.Parameters.Count)
+            {
+                _diagnostics.ReportWrongArgumentCount(expr.SourceFile, expr.Line, expr.Column,
+                    "constructor", constructor.Declaration.Parameters.Count, expr.Arguments.Count);
+                return NullValue.Instance;
+            }
+
+            var funcEnv = new AlxEnvironment(classValue.Constructor.Closure);
+            funcEnv.Define("this", instance);
+            for (int i = 0; i < constructor.Declaration.Parameters.Count; i++)
+                funcEnv.Define(constructor.Declaration.Parameters[i], Evaluate(expr.Arguments[i]));
+
+            try
+            {
+                ExecuteBlock(constructor.Declaration.Body, funcEnv);
+            }
+            catch (ReturnException) { /* constructor returns are ignored */ }
+        }
+        else if (expr.Arguments.Count > 0)
+        {
+            _diagnostics.ReportWrongArgumentCount(expr.SourceFile, expr.Line, expr.Column,
+                expr.ClassName, 0, expr.Arguments.Count);
+        }
+
+        return instance;
+    }
+
+    private AlxValue EvaluateThis()
+    {
+        var value = _environment.Get("this");
+        if (value == null)
+        {
+            _diagnostics.ReportTypeMismatch("", 0, 0, "class instance", "nothing (this used outside a method)");
+            return NullValue.Instance;
+        }
+        return value;
+    }
+
+    private AlxValue EvaluateSuper(SuperExpression expr)
+    {
+        var thisVal = _environment.Get("this");
+        if (thisVal is not AlxInstanceValue instance)
+        {
+            _diagnostics.ReportTypeMismatch(expr.SourceFile, expr.Line, expr.Column, "class instance", thisVal?.TypeName ?? "undefined");
+            return NullValue.Instance;
+        }
+
+        var superclass = instance.Class.Superclass;
+        if (superclass == null)
+        {
+            _diagnostics.ReportTypeMismatch(expr.SourceFile, expr.Line, expr.Column, "class with superclass", "no superclass");
+            return NullValue.Instance;
+        }
+
+        // super(args) — call parent constructor
+        if (expr.MethodName == "constructor")
+        {
+            if (superclass.Constructor != null)
+            {
+                var constructor = superclass.Constructor;
+                if (expr.Arguments.Count != constructor.Declaration.Parameters.Count)
+                {
+                    _diagnostics.ReportWrongArgumentCount(expr.SourceFile, expr.Line, expr.Column,
+                        "super constructor", constructor.Declaration.Parameters.Count, expr.Arguments.Count);
+                    return NullValue.Instance;
+                }
+
+                var funcEnv = new AlxEnvironment(constructor.Closure);
+                funcEnv.Define("this", instance);
+                for (int i = 0; i < constructor.Declaration.Parameters.Count; i++)
+                    funcEnv.Define(constructor.Declaration.Parameters[i], Evaluate(expr.Arguments[i]));
+
+                try
+                {
+                    ExecuteBlock(constructor.Declaration.Body, funcEnv);
+                }
+                catch (ReturnException) { }
+
+                return NullValue.Instance;
+            }
+            return NullValue.Instance;
+        }
+
+        // super.method(args) — call parent method
+        if (superclass.Methods.TryGetValue(expr.MethodName, out var method) && method is AlxFunction func)
+        {
+            return new AlxBoundMethod(func, instance);
+        }
+
+        _diagnostics.ReportTypeMismatch(expr.SourceFile, expr.Line, expr.Column,
+            $"method '{expr.MethodName}'", "not found in superclass");
+        return NullValue.Instance;
+    }
+
     private AlxValue EvaluateMemberAssignment(MemberAssignmentExpression expr)
     {
         var obj = Evaluate(expr.Object);
         var value = Evaluate(expr.Value);
+
+        if (obj is AlxInstanceValue instance)
+        {
+            instance.Properties[expr.MemberName] = value;
+            return value;
+        }
 
         if (obj is MapValue map)
         {

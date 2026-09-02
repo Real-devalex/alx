@@ -1,0 +1,72 @@
+// ALX 0.5.0 — Inheritance
+
+// Base class
+class Entity {
+    function constructor(name, health) {
+        this.name = name
+        this.health = health
+    }
+
+    function takeDamage(amount) {
+        this.health = this.health - amount
+        if this.health < 0 {
+            this.health = 0
+        }
+        print("{this.name} took {amount} damage! HP: {this.health}")
+    }
+
+    function isAlive() {
+        return this.health > 0
+    }
+
+    function describe() {
+        return "{this.name} (HP: {this.health})"
+    }
+}
+
+// Child class inherits from Entity
+class Zombie extends Entity {
+    function constructor(name, health, damage) {
+        super(name, health)
+        this.damage = damage
+    }
+
+    function attack(target) {
+        print("{this.name} attacks {target.name} for {this.damage} damage!")
+        target.takeDamage(this.damage)
+    }
+
+    function describe() {
+        return "Zombie {this.name} (HP: {this.health}, DMG: {this.damage})"
+    }
+}
+
+// Another child class
+class Healer extends Entity {
+    function constructor(name, health, healAmount) {
+        super(name, health)
+        this.healAmount = healAmount
+    }
+
+    function heal(target) {
+        target.takeDamage(-this.healAmount)
+        print("{this.name} heals {target.name} for {this.healAmount}!")
+    }
+}
+
+// Create objects
+zombie1 = new Zombie("Zombie Bob", 50, 15)
+zombie2 = new Zombie("Zombie Alice", 40, 20)
+healer = new Healer("Priest", 30, 25)
+player = new Entity("Hero", 100)
+
+// Test
+print(zombie1.describe())
+print(zombie2.describe())
+
+zombie1.attack(player)
+zombie2.attack(player)
+healer.heal(player)
+
+print(player.describe())
+print("Player alive? " + player.isAlive())

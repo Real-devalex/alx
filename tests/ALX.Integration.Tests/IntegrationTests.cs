@@ -494,6 +494,20 @@ print(acc(5))";
 
     [Fact] public void ArrayMapCombined() => Assert.Contains("Zombie", Run("e = [{name: \"Zombie\", health: 50}]; print(e[0].name)"));
 
+    // ===== 0.5.0: CLASSES & OBJECTS =====
+
+    [Fact] public void ClassBasic() => Assert.Contains("Hero", Run("class Player { function constructor(n, h) { this.name = n; this.health = h } function getHealth() { return this.health } } p = new Player(\"Hero\", 100); print(p.name)"));
+
+    [Fact] public void ClassMethod() => Assert.Equal("100", Run("class Player { function constructor(h) { this.health = h } function getHealth() { return this.health } } p = new Player(100); print(p.getHealth())"));
+
+    [Fact] public void ClassPropertyAssign() => Assert.Equal("75", Run("class Player { function constructor(h) { this.health = h } } p = new Player(100); p.health = 75; print(p.health)"));
+
+    [Fact] public void ClassInheritance() => Assert.Contains("Zombie", Run("class Entity { function constructor(n, h) { this.name = n; this.health = h } function describe() { return this.name } } class Zombie extends Entity { function constructor(n, h, d) { super(n, h); this.damage = d } } z = new Zombie(\"Zombie Bob\", 50, 15); print(z.describe())"));
+
+    [Fact] public void ClassInheritedMethod() => Assert.Equal("50", Run("class Entity { function constructor(h) { this.health = h } function getHealth() { return this.health } } class Zombie extends Entity { function constructor(h, d) { super(h); this.damage = d } } z = new Zombie(50, 15); print(z.getHealth())"));
+
+    [Fact] public void ClassNoConstructor() => Assert.Equal("42", Run("class Box { function getValue() { return 42 } } b = new Box(); print(b.getValue())"));
+
     // ===== HELPER =====
 
     private static void RunWithDiagnostics(string source, DiagnosticBag diagnostics)

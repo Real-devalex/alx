@@ -1,0 +1,65 @@
+// ALX 0.5.0 — Classes & Objects
+
+// Basic class — methods use 'function' keyword
+class Player {
+    function constructor(name, health) {
+        this.name = name
+        this.health = health
+        this.maxHealth = health
+    }
+
+    function takeDamage(amount) {
+        this.health = this.health - amount
+        if this.health < 0 {
+            this.health = 0
+        }
+        print("{this.name} took {amount} damage! HP: {this.health}/{this.maxHealth}")
+    }
+
+    function heal(amount) {
+        this.health = this.health + amount
+        if this.health > this.maxHealth {
+            this.health = this.maxHealth
+        }
+        print("{this.name} healed {amount}! HP: {this.health}/{this.maxHealth}")
+    }
+
+    function isAlive() {
+        return this.health > 0
+    }
+
+    function describe() {
+        return "{this.name} (HP: {this.health}/{this.maxHealth})"
+    }
+}
+
+// Create instances
+warrior = new Player("Warrior", 100)
+mage = new Player("Mage", 60)
+
+print(warrior.describe())
+print(mage.describe())
+
+// Call methods
+warrior.takeDamage(30)
+mage.takeDamage(20)
+warrior.heal(15)
+
+// Check alive
+print("Warrior alive? " + warrior.isAlive())
+print("Mage alive? " + mage.isAlive())
+
+// Battle loop
+turn = 0
+while warrior.isAlive() and mage.isAlive() {
+    turn = turn + 1
+    mage.takeDamage(25)
+    warrior.takeDamage(15)
+    if turn > 10 { break }
+}
+
+if warrior.isAlive() {
+    print("Warrior wins!")
+} else {
+    print("Mage wins!")
+}

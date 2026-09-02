@@ -88,6 +88,36 @@ public class MemberAssignmentExpression : Expression
 }
 
 /// <summary>
+/// New expression: ClassName(args)
+/// </summary>
+public class NewExpression : Expression
+{
+    public string ClassName { get; }
+    public List<Expression> Arguments { get; }
+    public NewExpression(string className, List<Expression> arguments, int line, int column, string sourceFile)
+        : base(line, column, sourceFile) { ClassName = className; Arguments = arguments; }
+}
+
+/// <summary>
+/// This expression: this
+/// </summary>
+public class ThisExpression : Expression
+{
+    public ThisExpression(int line, int column, string sourceFile) : base(line, column, sourceFile) { }
+}
+
+/// <summary>
+/// Super expression: super.method(args) or super(args)
+/// </summary>
+public class SuperExpression : Expression
+{
+    public string MethodName { get; }
+    public List<Expression> Arguments { get; }
+    public SuperExpression(string methodName, List<Expression> arguments, int line, int column, string sourceFile)
+        : base(line, column, sourceFile) { MethodName = methodName; Arguments = arguments; }
+}
+
+/// <summary>
 /// Assignment to an index: arr[index] = value
 /// </summary>
 public class IndexAssignmentExpression : Expression

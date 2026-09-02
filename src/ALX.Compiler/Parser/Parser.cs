@@ -46,6 +46,8 @@ public class Parser
             case TokenType.Function:
             case TokenType.Afun:
                 return ParseFunctionDeclaration();
+            case TokenType.Class:
+                return ParseClassDeclaration();
             case TokenType.If:
                 return ParseIfStatement();
             case TokenType.While:
@@ -64,6 +66,8 @@ public class Parser
                 return ParseVariableDeclaration(isConstant: true);
             case TokenType.Print:
                 return ParsePrintStatement();
+            case TokenType.Import:
+                return ParseImportStatement();
             case TokenType.Identifier:
                 return ParseIdentifierStatement();
             default:
@@ -456,6 +460,48 @@ public class Parser
             case TokenType.Lambda:
                 return ParseLambdaExpression();
 
+            case TokenType.New:
+                return ParseNewExpression();
+
+            case TokenType.This:
+                Advance();
+                return new ThisExpression(token.Line, token.Column, _sourceFile);
+
+            case TokenType.Super:
+            {
+                var superToken = Advance(); // consume 'super'
+                if (Match(TokenType.Dot))
+                {
+                    // super.method(args)
+                    var superMethod = Expect(TokenType.Identifier, "method name");
+                    Expect(TokenType.LeftParen, "'('");
+                    var args = new List<Expression>();
+                    if (Peek().Type != TokenType.RightParen)
+                    {
+                        do { args.Add(ParseExpression()); } while (Match(TokenType.Comma));
+                    }
+                    Expect(TokenType.RightParen, "')'");
+                    return new SuperExpression(superMethod.Lexeme, args, superToken.Line, superToken.Column, _sourceFile);
+                }
+                else if (Peek().Type == TokenType.LeftParen)
+                {
+                    // super(args) — call parent constructor
+                    Advance(); // consume '('
+                    var args = new List<Expression>();
+                    if (Peek().Type != TokenType.RightParen)
+                    {
+                        do { args.Add(ParseExpression()); } while (Match(TokenType.Comma));
+                    }
+                    Expect(TokenType.RightParen, "')'");
+                    return new SuperExpression("constructor", args, superToken.Line, superToken.Column, _sourceFile);
+                }
+                else
+                {
+                    _diagnostics.ReportUnexpectedToken(_sourceFile, Peek().Line, Peek().Column, "'.' or '('", Peek().Lexeme);
+                    return new SuperExpression("", new List<Expression>(), superToken.Line, superToken.Column, _sourceFile);
+                }
+            }
+
             case TokenType.LeftBracket:
                 return ParseArrayExpression();
 
@@ -540,6 +586,59 @@ public class Parser
         }
 
         return new InterpolatedStringExpression(rawValue, parts, token.Line, token.Column, _sourceFile);
+    }
+
+    // ===== 0.5.0: CLASSES & OBJECTS =====
+
+    private Statement ParseClassDeclaration()
+    {
+        var keyword = Advance(); // consume 'class'
+        var name = Expect(TokenType.Identifier, "class name");
+
+        // Optional inheritance: class Child extends Parent
+        string? superclass = null;
+        if (Match(TokenType.Extends))
+        {
+            var superToken = Expect(TokenType.Identifier, "superclass name");
+            superclass = superToken.Lexeme;
+        }
+
+        Expect(TokenType.LeftBrace, "'{'");
+
+        var methods = new List<FunctionDeclaration>();
+        FunctionDeclaration? constructor = null;
+
+        SkipNewlines();
+        while (!IsAtEnd() && Peek().Type != TokenType.RightBrace)
+        {
+            var method = (FunctionDeclaration)ParseFunctionDeclaration();
+            if (method.Name == "constructor")
+                constructor = method;
+            else
+                methods.Add(method);
+            SkipNewlines();
+        }
+
+        Expect(TokenType.RightBrace, "'}'");
+        return new ClassDeclaration(name.Lexeme, superclass, methods, constructor, keyword.Line, keyword.Column, _sourceFile);
+    }
+
+    // ===== 0.6.0: MODULES =====
+
+    private Statement ParseImportStatement()
+    {
+        var keyword = Advance(); // consume 'import'
+        var moduleName = Expect(TokenType.Identifier, "module name");
+
+        string? alias = null;
+        if (Match(TokenType.As))
+        {
+            alias = Expect(TokenType.Identifier, "alias name").Lexeme;
+        }
+
+        Match(TokenType.Semicolon);
+        Match(TokenType.Newline);
+        return new ImportStatement(moduleName.Lexeme, alias, keyword.Line, keyword.Column, _sourceFile);
     }
 
     // ===== 0.4.0: ARRAYS & MAPS =====
@@ -662,6 +761,27 @@ public class Parser
         // Restore position
         _current = saved;
         return isMap;
+    }
+
+    // ===== 0.5.0: NEW EXPRESSION =====
+
+    /// <summary>
+    /// Parse new expression: ClassName(args)
+    /// </summary>
+    private Expression ParseNewExpression()
+    {
+        var keyword = Advance(); // consume 'new'
+        var className = Expect(TokenType.Identifier, "class name").Lexeme;
+        Expect(TokenType.LeftParen, "'('");
+
+        var arguments = new List<Expression>();
+        if (Peek().Type != TokenType.RightParen)
+        {
+            do { arguments.Add(ParseExpression()); } while (Match(TokenType.Comma));
+        }
+
+        Expect(TokenType.RightParen, "')'");
+        return new NewExpression(className, arguments, keyword.Line, keyword.Column, _sourceFile);
     }
 
     // ===== LAMBDA =====

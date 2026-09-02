@@ -24,7 +24,7 @@
 
     <main class="container">
         <h1>ALX Language Syntax</h1>
-        <p class="subtitle">Complete reference for ALX 0.4.0</p>
+        <p class="subtitle">Complete reference for ALX 0.6.0</p>
 
         <section class="content-section">
             <h2 id="hello-world">Hello World</h2>
@@ -63,6 +63,7 @@ health = <span class="num">75</span>
                 <li><code>Map</code> — <code>{ name: "Hero" }</code></li>
                 <li><code>Range</code> — <code>1..10</code></li>
                 <li><code>Function</code> — <code>function greet(name) { }</code></li>
+                <li><code>Class</code> — <code>class Player { }</code></li>
             </ul>
         </section>
 
@@ -97,80 +98,44 @@ len = greeting.length</code></pre>
             <p>Ordered collections of values.</p>
             <pre><code><span class="cmt">// Create</span>
 numbers = [<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>, <span class="num">4</span>, <span class="num">5</span>]
-fruits = [<span class="str">"apple"</span>, <span class="str">"banana"</span>, <span class="str">"cherry"</span>]
 
 <span class="cmt">// Index (0-based)</span>
 first = numbers[<span class="num">0</span>]     <span class="cmt">// 1</span>
-third = fruits[<span class="num">2</span>]      <span class="cmt">// "cherry"</span>
 
 <span class="cmt">// Length</span>
 len = numbers.length    <span class="cmt">// 5</span>
 
-<span class="cmt">// Mutating methods</span>
-numbers.push(<span class="num">6</span>)        <span class="cmt">// add to end</span>
-last = numbers.pop()    <span class="cmt">// remove & return last</span>
-numbers.reverse()       <span class="cmt">// reverse in place</span>
-
-<span class="cmt">// Access methods</span>
-first = numbers.first   <span class="cmt">// first element</span>
-last = numbers.last     <span class="cmt">// last element</span>
-
-<span class="cmt">// Search</span>
-has3 = numbers.contains(<span class="num">3</span>)    <span class="cmt">// true</span>
-idx = numbers.indexOf(<span class="num">3</span>)     <span class="cmt">// index or -1</span>
-
-<span class="cmt">// Join</span>
-str = numbers.join(<span class="str">"-"</span>)       <span class="cmt">// "1-2-3"</span>
-
-<span class="cmt">// Index assignment</span>
-numbers[<span class="num">0</span>] = <span class="num">99</span>
-
-<span class="cmt">// Mixed types</span>
-mixed = [<span class="num">1</span>, <span class="str">"hello"</span>, <span class="kw">true</span>, <span class="kw">null</span>]
-
-<span class="cmt">// Nested</span>
-matrix = [[<span class="num">1</span>, <span class="num">2</span>], [<span class="num">3</span>, <span class="num">4</span>]]
-val = matrix[<span class="num">1</span>][<span class="num">0</span>]   <span class="cmt">// 3</span></code></pre>
+<span class="cmt">// Methods</span>
+numbers.push(<span class="num">6</span>)
+last = numbers.pop()
+first = numbers.first
+last = numbers.last
+has3 = numbers.contains(<span class="num">3</span>)
+idx = numbers.indexOf(<span class="num">3</span>)
+str = numbers.join(<span class="str">"-"</span>)
+numbers.reverse()
+numbers[<span class="num">0</span>] = <span class="num">99</span></code></pre>
         </section>
 
         <section class="content-section">
             <h2 id="maps">Maps</h2>
             <p>Key-value collections (dictionaries).</p>
-            <pre><code><span class="cmt">// Create with identifier keys</span>
-player = {
-    name: <span class="str">"Hero"</span>,
-    health: <span class="num">100</span>,
-    speed: <span class="num">5.5</span>
-}
+            <pre><code><span class="cmt">// Create</span>
+player = { name: <span class="str">"Hero"</span>, health: <span class="num">100</span> }
 
-<span class="cmt">// Create with string keys</span>
-settings = {
-    <span class="str">"volume"</span>: <span class="num">80</span>,
-    <span class="str">"fullscreen"</span>: <span class="kw">true</span>
-}
+<span class="cmt">// Access</span>
+print(player.name)       <span class="cmt">// Hero</span>
+print(player[<span class="str">"name"</span>])    <span class="cmt">// Hero</span>
 
-<span class="cmt">// Dot access</span>
-print(player.name)       <span class="cmt">// "Hero"</span>
-
-<span class="cmt">// Index access</span>
-print(player[<span class="str">"name"</span>])    <span class="cmt">// "Hero"</span>
-
-<span class="cmt">// Dot assignment</span>
+<span class="cmt">// Assign</span>
 player.health = <span class="num">75</span>
 
 <span class="cmt">// Methods</span>
-len = player.length          <span class="cmt">// 3</span>
-k = player.keys()            <span class="cmt">// ["name", "health", "speed"]</span>
-v = player.values()          <span class="cmt">// ["Hero", 100, 5.5]</span>
-has = player.containsKey(<span class="str">"name"</span>)  <span class="cmt">// true</span>
-val = player.get(<span class="str">"mana"</span>, <span class="num">0</span>)       <span class="cmt">// 0 (default)</span>
-
-<span class="cmt">// Nested</span>
-enemies = [
-    { name: <span class="str">"Zombie"</span>, health: <span class="num">50</span> },
-    { name: <span class="str">"Skeleton"</span>, health: <span class="num">30</span> }
-]
-print(enemies[<span class="num">0</span>].name)  <span class="cmt">// "Zombie"</span></code></pre>
+player.length            <span class="cmt">// 1</span>
+player.keys()            <span class="cmt">// ["name", "health"]</span>
+player.values()          <span class="cmt">// ["Hero", 75]</span>
+player.containsKey(<span class="str">"name"</span>)
+player.get(<span class="str">"mana"</span>, <span class="num">0</span>)</code></pre>
         </section>
 
         <section class="content-section">
@@ -188,54 +153,30 @@ print(enemies[<span class="num">0</span>].name)  <span class="cmt">// "Zombie"</
 
         <section class="content-section">
             <h2 id="loops">Loops</h2>
-            <h3>While</h3>
-            <pre><code>x = <span class="num">5</span>
+            <pre><code><span class="cmt">// While</span>
+x = <span class="num">5</span>
 <span class="kw">while</span> x > <span class="num">0</span> {
     print(x)
     x = x - <span class="num">1</span>
-}</code></pre>
-
-            <h3>For (ranges)</h3>
-            <pre><code><span class="kw">for</span> i <span class="kw">in</span> <span class="num">1</span>..<span class="num">10</span> {
-    print(i)  <span class="cmt">// 1, 2, ... 9</span>
 }
 
-<span class="cmt">// Break and continue</span>
-<span class="kw">for</span> i <span class="kw">in</span> <span class="num">1</span>..<span class="num">100</span> {
+<span class="cmt">// For (ranges)</span>
+<span class="kw">for</span> i <span class="kw">in</span> <span class="num">1</span>..<span class="num">10</span> {
     <span class="kw">if</span> i == <span class="num">5</span> { <span class="kw">continue</span> }
-    <span class="kw">if</span> i == <span class="num">10</span> { <span class="kw">break</span> }
+    <span class="kw">if</span> i == <span class="num">8</span> { <span class="kw">break</span> }
     print(i)
 }</code></pre>
         </section>
 
         <section class="content-section">
             <h2 id="functions">Functions</h2>
-            <p>ALX supports both <code>function</code> and the shorter <code>afun</code> keyword for declaring functions. Both are equivalent.</p>
-            <pre><code><span class="cmt">// Declaration using afun (preferred)</span>
+            <pre><code><span class="cmt">// afun (preferred) or function</span>
 <span class="kw">afun</span> <span class="fn">greet</span>(name) {
     <span class="kw">print</span>(<span class="str">"Hello, {name}!"</span>)
 }
 
-<span class="cmt">// Declaration using function (still works)</span>
-<span class="kw">function</span> <span class="fn">legacyGreet</span>(name) {
-    <span class="kw">print</span>(<span class="str">"Hello, {name}!"</span>)
-}
+<span class="kw">afun</span> <span class="fn">add</span>(a, b) = a + b  <span class="cmt">// expression-bodied</span>
 
-<span class="cmt">// Call</span>
-<span class="fn">greet</span>(<span class="str">"World"</span>)
-<span class="fn">legacyGreet</span>(<span class="str">"World"</span>)
-
-<span class="cmt">// Return values</span>
-<span class="kw">afun</span> <span class="fn">add</span>(a, b) {
-    <span class="kw">return</span> a + b
-}
-
-result = <span class="fn">add</span>(<span class="num">10</span>, <span class="num">20</span>)
-
-<span class="cmt">// Expression-bodied functions (simple case)</span>
-<span class="kw">afun</span> <span class="fn">addOne</span>(x) = x + <span class="num">1</span>
-
-<span class="cmt">// Recursion</span>
 <span class="kw">afun</span> <span class="fn">factorial</span>(n) {
     <span class="kw">if</span> n <= <span class="num">1</span> { <span class="kw">return</span> <span class="num">1</span> }
     <span class="kw">return</span> n * <span class="fn">factorial</span>(n - <span class="num">1</span>)
@@ -243,19 +184,11 @@ result = <span class="fn">add</span>(<span class="num">10</span>, <span class="n
         </section>
 
         <section class="content-section">
-            <h2 id="lambdas">Lambda Expressions</h2>
-            <pre><code><span class="cmt">// Lambda syntax</span>
-square = <span class="kw">lambda</span>(x) { x * x }
-print(square(<span class="num">7</span>))   <span class="cmt">// 49</span>
+            <h2 id="lambdas">Lambdas & Closures</h2>
+            <pre><code>square = <span class="kw">lambda</span>(x) { x * x }
+<span class="kw">print</span>(square(<span class="num">7</span>))  <span class="cmt">// 49</span>
 
-<span class="cmt">// Higher-order functions</span>
-<span class="kw">afun</span> <span class="fn">apply</span>(func, value) {
-    <span class="kw">return</span> func(value)
-}
-
-print(<span class="fn">apply</span>(square, <span class="num">5</span>))  <span class="cmt">// 25</span>
-
-<span class="cmt">// Closures</span>
+<span class="cmt">// Closures capture outer scope</span>
 <span class="kw">afun</span> <span class="fn">makeCounter</span>() {
     count = <span class="num">0</span>
     <span class="kw">afun</span> <span class="fn">increment</span>() {
@@ -264,25 +197,70 @@ print(<span class="fn">apply</span>(square, <span class="num">5</span>))  <span 
     }
     <span class="kw">return</span> increment
 }
-
 counter = <span class="fn">makeCounter</span>()
-print(counter())  <span class="cmt">// 1</span>
-print(counter())  <span class="cmt">// 2</span></code></pre>
+<span class="kw">print</span>(counter())  <span class="cmt">// 1</span>
+<span class="kw">print</span>(counter())  <span class="cmt">// 2</span></code></pre>
+        </section>
+
+        <section class="content-section">
+            <h2 id="classes">Classes & Objects</h2>
+            <p>Create reusable types with classes, constructors, methods, and inheritance.</p>
+            <pre><code><span class="cmt">// Define a class</span>
+<span class="kw">class</span> <span class="fn">Player</span> {
+    <span class="kw">function</span> <span class="fn">constructor</span>(name, health) {
+        <span class="kw">this</span>.name = name
+        <span class="kw">this</span>.health = health
+    }
+
+    <span class="kw">function</span> <span class="fn">takeDamage</span>(amount) {
+        <span class="kw">this</span>.health = <span class="kw">this</span>.health - amount
+        <span class="kw">print</span>(<span class="str">"{this.name} took {amount} damage!"</span>)
+    }
+
+    <span class="kw">function</span> <span class="fn">isAlive</span>() {
+        <span class="kw">return</span> <span class="kw">this</span>.health > <span class="num">0</span>
+    }
+}
+
+<span class="cmt">// Create instances</span>
+hero = <span class="kw">new</span> <span class="fn">Player</span>(<span class="str">"Hero"</span>, <span class="num">100</span>)
+hero.takeDamage(<span class="num">30</span>)      <span class="cmt">// Hero took 30 damage!</span>
+<span class="kw">print</span>(hero.isAlive())     <span class="cmt">// true</span></code></pre>
+
+            <h3>Inheritance</h3>
+            <pre><code><span class="kw">class</span> <span class="fn">Entity</span> {
+    <span class="kw">function</span> <span class="fn">constructor</span>(name, health) {
+        <span class="kw">this</span>.name = name
+        <span class="kw">this</span>.health = health
+    }
+
+    <span class="kw">function</span> <span class="fn">describe</span>() {
+        <span class="kw">return</span> <span class="str">"{this.name} (HP: {this.health})"</span>
+    }
+}
+
+<span class="kw">class</span> <span class="fn">Zombie</span> <span class="kw">extends</span> <span class="fn">Entity</span> {
+    <span class="kw">function</span> <span class="fn">constructor</span>(name, health, damage) {
+        <span class="kw">super</span>(name, health)
+        <span class="kw">this</span>.damage = damage
+    }
+
+    <span class="kw">function</span> <span class="fn">attack</span>(target) {
+        target.takeDamage(<span class="kw">this</span>.damage)
+    }
+}
+
+z = <span class="kw">new</span> <span class="fn">Zombie</span>(<span class="str">"Bob"</span>, <span class="num">50</span>, <span class="num">15</span>)
+<span class="kw">print</span>(z.describe())  <span class="cmt">// Bob (HP: 50)</span></code></pre>
         </section>
 
         <section class="content-section">
             <h2 id="input">User Input</h2>
-            <p>Read user input from the terminal with <code>input()</code>.</p>
-            <pre><code><span class="cmt">// With a prompt</span>
-name = <span class="kw">input</span>(<span class="str">"What is your name? "</span>)
+            <pre><code>name = <span class="kw">input</span>(<span class="str">"What is your name? "</span>)
 <span class="kw">print</span>(<span class="str">"Hello, {name}!"</span>)
 
-<span class="cmt">// Without a prompt</span>
-line = <span class="kw">input</span>()
-
-<span class="cmt">// input() always returns a string</span>
-age = <span class="kw">input</span>(<span class="str">"Age: "</span>)
-<span class="kw">print</span>(<span class="str">"You are {age} years old"</span>)</code></pre>
+<span class="cmt">// Without prompt</span>
+line = <span class="kw">input</span>()</code></pre>
         </section>
 
         <section class="content-section">
@@ -291,15 +269,10 @@ age = <span class="kw">input</span>(<span class="str">"Age: "</span>)
             <pre><code><span class="cmt">// Example error output:</span>
 <span class="cmt">//</span>
 <span class="cmt">// ALX Error ALX1001</span>
-<span class="cmt">//</span>
 <span class="cmt">//     hello.alx:4:12</span>
-<span class="cmt">//</span>
 <span class="cmt">//     Undefined variable 'healthh'</span>
-<span class="cmt">//</span>
 <span class="cmt">//         print(healthh)</span>
-<span class="cmt">//               ^^^^^^^</span>
-<span class="cmt">//</span>
-<span class="cmt">//     Did you mean 'health'?</span></code></pre>
+<span class="cmt">//               ^^^^^^^</span></code></pre>
         </section>
     </main>
 

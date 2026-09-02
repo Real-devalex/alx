@@ -102,3 +102,32 @@ public class ContinueStatement : Statement
 {
     public ContinueStatement(int line, int column, string sourceFile) : base(line, column, sourceFile) { }
 }
+
+// ===== 0.5.0: CLASSES & OBJECTS =====
+
+/// <summary>
+/// Class declaration: class Player { ... }
+/// </summary>
+public class ClassDeclaration : Statement
+{
+    public string Name { get; }
+    public string? SuperclassName { get; }
+    public List<FunctionDeclaration> Methods { get; }
+    public FunctionDeclaration? Constructor { get; }
+    public ClassDeclaration(string name, string? superclass, List<FunctionDeclaration> methods, FunctionDeclaration? constructor, int line, int column, string sourceFile)
+        : base(line, column, sourceFile) { Name = name; SuperclassName = superclass; Methods = methods; Constructor = constructor; }
+}
+
+// ===== 0.6.0: MODULES =====
+
+/// <summary>
+/// Import statement: import math
+/// Import with rename: import math as m
+/// </summary>
+public class ImportStatement : Statement
+{
+    public string ModuleName { get; }
+    public string? Alias { get; }
+    public ImportStatement(string moduleName, string? alias, int line, int column, string sourceFile)
+        : base(line, column, sourceFile) { ModuleName = moduleName; Alias = alias; }
+}

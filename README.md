@@ -300,14 +300,19 @@ Status: All passing
 ### ALX 0.3.0 ✅ — Functions Improvements
 - Closures, lambdas, higher-order functions, `afun` keyword
 
-### ALX 0.4.0 ✅ — Collections (Current)
-- Arrays with indexing, push/pop/contains/indexOf/join/reverse
-- Maps with dot access, indexing, keys/values/containsKey/get
-- Member & index assignment (`player.health = 75`, `arr[0] = 99`)
-- VS Code syntax highlighting extension
+### ALX 0.4.0 ✅ — Collections
+- Arrays with push/pop/contains/indexOf/join/reverse
+- Maps with keys/values/containsKey/get, dot & index assignment
 
-### ALX 0.5.0 — Objects
-- Classes, methods, constructors
+### ALX 0.5.0 ✅ — Objects
+- Classes, constructors, methods, properties, inheritance with extends/super
+
+### ALX 0.6.0 ✅ — Modules (Current)
+- Import system: `import moduleName` and `import module as alias`
+- Module loading from file system
+
+### ALX 0.7.0 — Game Runtime Foundation
+- Vectors, Math, Time, Entity/Component architecture
 
 ### ALX 1.0.0 — Stable Release
 

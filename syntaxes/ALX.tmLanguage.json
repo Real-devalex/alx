@@ -110,7 +110,7 @@
 			"patterns": [
 				{
 					"name": "keyword.control.alx",
-					"match": "\\b(if|else|while|for|in|return|break|continue)\\b"
+					"match": "\\b(if|else|while|for|in|return|break|continue|class|extends|new|this|super|import|from|as)\\b"
 				},
 				{
 					"name": "keyword.declaration.alx",
