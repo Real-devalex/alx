@@ -50,18 +50,15 @@ Passed!  - Failed: 0, Passed: 103, Skipped: 0, Total: 103
 
 ## Future Milestones
 
-### ALX 0.3.0 — Functions Improvements
-- Closures
-- Higher-order functions
-- Lambda expressions
-- Function overloading
+### ALX 0.3.0 ✅ — Functions Improvements
+- Closures, higher-order functions, lambda expressions
+- afun keyword, expression-bodied functions
 
-### ALX 0.4.0 — Collections
-- Arrays: `[1, 2, 3]`
-- Maps: `{name: "Hero", health: 100}`
-- Collection functions
-- String utilities
-- Built-in functions
+### ALX 0.4.0 ✅ — Collections
+- Arrays: `[1, 2, 3]` with push/pop/contains/indexOf/join/reverse
+- Maps: `{name: "Hero", health: 100}` with keys/values/containsKey/get
+- Member & index assignment
+- VS Code syntax highlighting extension
 
 ### ALX 0.5.0 — Objects
 - Classes
