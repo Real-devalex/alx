@@ -117,6 +117,18 @@
 					"match": "\\b(const|print)\\b"
 				},
 				{
+					"name": "support.function.builtin.alx",
+					"match": "\\b(sqrt|pow|sin|cos|tan|atan2|toRadians|toDegrees|floor|ceil|round|abs|sign|min|max|clamp|lerp|random|randomInt|time|sleep|type|input)(?=\\s*\\()"
+				},
+				{
+					"name": "support.class.builtin.alx",
+					"match": "\\b(Vec2|Entity)\\b"
+				},
+				{
+					"name": "support.constant.builtin.alx",
+					"match": "\\b(PI|TAU)\\b"
+				},
+				{
 					"name": "keyword.operator.alx",
 					"match": "\\b(and|or|not)\\b"
 				},
