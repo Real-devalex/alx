@@ -1,0 +1,36 @@
+name: CI
+
+on:
+  push:
+    branches: ["main"]
+    paths-ignore:
+      - "docs/site/**"
+      - "**/*.md"
+  pull_request:
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Build
+        run: dotnet build ALX.sln --configuration Release
+
+      - name: Test
+        run: dotnet test ALX.sln --configuration Release --no-build --verbosity normal
+
+      - name: Run every example
+        run: |
+          set -e
+          for f in examples/*.alx; do
+            case "$f" in
+              examples/input_example.alx|examples/error_test.alx) continue ;;
+            esac
+            echo "== $f"
+            dotnet run --no-build --configuration Release --project src/ALX.CLI -- "$f" > /dev/null
+          done
