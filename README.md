@@ -5,6 +5,8 @@
 **Platform:** Windows 10/11 x64 (initial)
 **Technology:** C# / .NET 8
 
+![ALX documentation home page](docs/images/home.jpg)
+
 ---
 
 ## What is ALX?
