@@ -9,7 +9,7 @@ const KEYWORDS = [
     ['if', 'Run code only when a condition is true.', 'if ${1:condition} {\n\t$0\n}'],
     ['else', 'The other choice of an if.', 'else {\n\t$0\n}'],
     ['while', 'Repeat while a condition is true.', 'while ${1:condition} {\n\t$0\n}'],
-    ['for', 'Repeat for every number in a range: for i in 1..5', 'for ${1:i} in ${2:1}..${3:10} {\n\t$0\n}'],
+    ['for', 'Repeat for every number in a range. The end is not included: 1..5 counts 1, 2, 3, 4.', 'for ${1:i} in ${2:1}..${3:10} {\n\t$0\n}'],
     ['in', 'Used in a for loop: for i in 1..5', null],
     ['function', 'Make a function you can call again and again.', 'function ${1:name}(${2:args}) {\n\t$0\n}'],
     ['afun', 'A shorter way to write function.', 'afun ${1:name}(${2:args}) {\n\t$0\n}'],

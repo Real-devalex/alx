@@ -13,7 +13,7 @@ for i in 1..5 {
 }
 ```
 
-This prints 1, 2, 3, 4 and 5. `1..5` means "from 1 to 5".
+This prints 1, 2, 3 and 4. A range like `1..5` starts at 1 and stops **before** 5, so to include 5 write `1..6`.
 
 ## While loops
 
@@ -47,7 +47,7 @@ for i in 1..10 {
 :::tip[Adding up]
 ```alx
 total = 0
-for i in 1..10 {
+for i in 1..11 {      // 1 up to 10
     total = total + i
 }
 print(total)   // 55

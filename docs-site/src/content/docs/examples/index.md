@@ -8,7 +8,7 @@ Every example here also lives in the [`examples` folder](https://github.com/Real
 ## FizzBuzz
 
 ```alx
-for i in 1..15 {
+for i in 1..16 {
     if i % 15 == 0 {
         print("FizzBuzz")
     } else if i % 3 == 0 {

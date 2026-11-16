@@ -112,6 +112,10 @@ ALX Studio editor (Avalonia). Browser playground (ALX to WebAssembly). Bytecode 
 4. The owner installs the zip, runs the checklist and reports.
 5. I fix what broke, the owner merges, and I tag the release and write a devlog post.
 
+## Open design question
+
+Ranges stop **before** the last number: `1..5` counts 1, 2, 3, 4. A beginner expects `1..5` to include 5. Decide for 0.8.0 whether to make ranges inclusive, or keep this and add an inclusive form such as `1..=5`. The docs describe today's behaviour.
+
 ## Open risks
 
 - Raylib-cs needs native libraries bundled in the Windows zip. Checked in 0.9.0 planning.

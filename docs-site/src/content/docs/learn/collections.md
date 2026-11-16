@@ -48,7 +48,7 @@ print(player.get("mana", 0))        // 0, a default
 ```alx
 scores = [10, 20, 30]
 total = 0
-for i in 0..2 {
+for i in 0..3 {
     total = total + scores[i]
 }
 print(total)   // 60
