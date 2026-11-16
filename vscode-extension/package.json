@@ -1,18 +1,19 @@
 {
     "name": "alx-language-support",
     "displayName": "ALX Language Support",
-    "description": "Syntax highlighting, run support, and language tools for ALX programming language",
-    "version": "0.4.0",
+    "description": "The home of ALX, a beginner-first language for making games. Colours, snippets, smart completions, hover help, a run button and the ALX Night theme.",
+    "version": "0.7.0",
     "publisher": "AlexionStudios",
     "engines": {
-        "vscode": "^1.70.0"
+        "vscode": "^1.80.0"
     },
     "categories": [
-        "Programming Languages"
+        "Programming Languages",
+        "Snippets",
+        "Themes"
     ],
     "activationEvents": [],
     "main": "./extension.js",
-
     "contributes": {
         "languages": [
             {
@@ -43,6 +44,14 @@
                 "command": "alx.runFile",
                 "title": "ALX: Run File",
                 "icon": "$(play)"
+            },
+            {
+                "command": "alx.showVersion",
+                "title": "ALX: Show Installed Version"
+            },
+            {
+                "command": "alx.openDocs",
+                "title": "ALX: Open Documentation"
             }
         ],
         "menus": {
@@ -57,6 +66,12 @@
                 {
                     "command": "alx.runFile",
                     "when": "editorLangId == alx"
+                },
+                {
+                    "command": "alx.showVersion"
+                },
+                {
+                    "command": "alx.openDocs"
                 }
             ]
         },
@@ -75,18 +90,58 @@
                     "type": "string",
                     "default": "alx",
                     "description": "Path to the ALX executable. Leave as 'alx' if it's in your PATH."
+                },
+                "alx.showStatusBar": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Show a Run button in the status bar while an ALX file is open."
                 }
             }
-        }
+        },
+        "snippets": [
+            {
+                "language": "alx",
+                "path": "./snippets/alx.json"
+            }
+        ],
+        "themes": [
+            {
+                "label": "ALX Night",
+                "uiTheme": "vs-dark",
+                "path": "./themes/alx-night-color-theme.json"
+            }
+        ]
     },
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "package": "vsce package",
+        "test": "node test/logic.test.js"
     },
-    "keywords": [],
-    "author": "",
-    "license": "ISC",
+    "keywords": [
+        "alx",
+        "alexion",
+        "game",
+        "game development",
+        "language",
+        "beginner"
+    ],
+    "author": "Alexion Studios",
+    "license": "SEE LICENSE IN LICENSE.txt",
     "type": "commonjs",
     "devDependencies": {
         "@vscode/vsce": "^3.9.2"
+    },
+    "icon": "icon.png",
+    "homepage": "https://real-devalex.github.io/alx/",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/Real-devalex/alx.git",
+        "directory": "vscode-extension"
+    },
+    "bugs": {
+        "url": "https://github.com/Real-devalex/alx/issues"
+    },
+    "galleryBanner": {
+        "color": "#140b2e",
+        "theme": "dark"
     }
 }

@@ -4,7 +4,7 @@ on:
   push:
     branches: ["main"]
     paths-ignore:
-      - "docs/site/**"
+      - "docs-site/**"
       - "**/*.md"
   pull_request:
 
@@ -34,3 +34,20 @@ jobs:
             echo "== $f"
             dotnet run --no-build --configuration Release --project src/ALX.CLI -- "$f" > /dev/null
           done
+
+  extension:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Editor feature checks
+        run: node vscode-extension/test/logic.test.js
+      - name: Package the extension
+        working-directory: vscode-extension
+        run: npx --yes @vscode/vsce package --no-dependencies
+      - uses: actions/upload-artifact@v4
+        with:
+          name: alx-language-support
+          path: vscode-extension/*.vsix

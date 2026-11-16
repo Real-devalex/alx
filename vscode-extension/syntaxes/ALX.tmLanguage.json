@@ -4,6 +4,9 @@
 	"scopeName": "source.alx",
 	"patterns": [
 		{
+			"include": "#classes"
+		},
+		{
 			"include": "#comments"
 		},
 		{
@@ -29,6 +32,9 @@
 		},
 		{
 			"include": "#brackets"
+		},
+		{
+			"include": "#calls"
 		}
 	],
 	"repository": {
@@ -92,16 +98,24 @@
 					"name": "entity.name.function.alx",
 					"match": "\\b(afun|function)\\s+([A-Za-z_][A-Za-z0-9_]*)",
 					"captures": {
-						"1": { "name": "storage.type.function.alx" },
-						"2": { "name": "entity.name.function.alx" }
+						"1": {
+							"name": "storage.type.function.alx"
+						},
+						"2": {
+							"name": "entity.name.function.alx"
+						}
 					}
 				},
 				{
 					"name": "entity.name.function.alx",
 					"match": "\\b(lambda)\\s*([A-Za-z_][A-Za-z0-9_]*)\\s*=",
 					"captures": {
-						"1": { "name": "keyword.lambda.alx" },
-						"2": { "name": "entity.name.function.alx" }
+						"1": {
+							"name": "keyword.lambda.alx"
+						},
+						"2": {
+							"name": "entity.name.function.alx"
+						}
 					}
 				}
 			]
@@ -110,7 +124,7 @@
 			"patterns": [
 				{
 					"name": "keyword.control.alx",
-					"match": "\\b(if|else|while|for|in|return|break|continue)\\b"
+					"match": "\\b(if|else|while|for|in|return|break|continue|class|extends|new|this|super|import|from|as)\\b"
 				},
 				{
 					"name": "keyword.declaration.alx",
@@ -227,6 +241,54 @@
 				{
 					"name": "punctuation.separator.key-value.alx",
 					"match": ":"
+				}
+			]
+		},
+		"classes": {
+			"patterns": [
+				{
+					"match": "\\b(class)\\s+([A-Za-z_]\\w*)(?:\\s+(extends)\\s+([A-Za-z_]\\w*))?",
+					"captures": {
+						"1": {
+							"name": "storage.type.class.alx"
+						},
+						"2": {
+							"name": "entity.name.class.alx"
+						},
+						"3": {
+							"name": "storage.modifier.alx"
+						},
+						"4": {
+							"name": "entity.name.class.alx"
+						}
+					}
+				},
+				{
+					"match": "\\b(new)\\s+([A-Za-z_]\\w*)",
+					"captures": {
+						"1": {
+							"name": "keyword.control.new.alx"
+						},
+						"2": {
+							"name": "entity.name.class.alx"
+						}
+					}
+				}
+			]
+		},
+		"calls": {
+			"patterns": [
+				{
+					"match": "\\b([A-Za-z_]\\w*)(?=\\s*\\()",
+					"name": "entity.name.function.call.alx"
+				},
+				{
+					"match": "(?<=\\.)\\s*([A-Za-z_]\\w*)\\b(?!\\s*\\()",
+					"name": "variable.other.property.alx"
+				},
+				{
+					"match": "\\bthis\\b",
+					"name": "variable.language.this.alx"
 				}
 			]
 		}
