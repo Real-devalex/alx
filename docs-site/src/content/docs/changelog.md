@@ -3,6 +3,10 @@ title: "Changelog"
 description: "What changed in each version."
 ---
 
+## Next, 0.8.0
+
+- Ranges include their last number: `1..5` counts 1, 2, 3, 4, 5
+
 ## 0.7.0, game runtime
 
 - Math: `sqrt`, `pow`, `sin`, `cos`, `tan`, `atan2`, `floor`, `ceil`, `round`, `abs`, `sign`, `min`, `max`, `clamp`, `lerp`, `toRadians`, `toDegrees`, `PI`, `TAU`

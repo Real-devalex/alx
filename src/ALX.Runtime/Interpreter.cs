@@ -139,7 +139,7 @@ public class Interpreter
 
             try
             {
-                for (long i = range.Start; i < range.End; i++)
+                for (long i = range.Start; i <= range.End; i++)
                 {
                     // Define or update the loop variable
                     if (!_environment.Set(forStmt.VariableName, new IntegerValue(i)))
