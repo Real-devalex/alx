@@ -27,12 +27,12 @@ ALX is the foundation for the **Alexion Engine**, a future game-development envi
 
 ## Documentation
 
-**[📖 ALX Documentation Site](docs/site/index.html)**
+**[📖 ALX Documentation Site](https://real-devalex.github.io/alx/)**
 
-- [Getting Started](docs/site/getting-started.html) — Installation & first program
-- [Language Syntax](docs/site/syntax.html) — Complete language reference
-- [Examples](docs/site/examples.html) — Runnable ALX programs
-- [Roadmap](docs/site/roadmap.html) — Version history & future plans
+- [Getting Started](https://real-devalex.github.io/alx/learn/install/) — Installation & first program
+- [Language Syntax](https://real-devalex.github.io/alx/reference/builtins/) — Complete language reference
+- [Examples](https://real-devalex.github.io/alx/examples/) — Runnable ALX programs
+- [Roadmap](https://real-devalex.github.io/alx/engine/roadmap/) — Version history & future plans
 
 ---
 
@@ -349,7 +349,7 @@ Status: All passing
 
 ### ALX 1.0.0 — Stable Release
 
-See the [full roadmap](docs/site/roadmap.html) for details.
+See the [full roadmap](https://real-devalex.github.io/alx/engine/roadmap/) for details.
 
 ---
 

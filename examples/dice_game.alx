@@ -1,0 +1,12 @@
+// Dice game
+player = randomInt(1, 6)
+enemy = randomInt(1, 6)
+print("You rolled {player}, the enemy rolled {enemy}")
+
+if player > enemy {
+    print("You win!")
+} else if player == enemy {
+    print("Draw")
+} else {
+    print("You lose")
+}

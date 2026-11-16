@@ -1,0 +1,21 @@
+// Battle
+class Fighter {
+    function constructor(name, health, power) {
+        this.name = name
+        this.health = health
+        this.power = power
+    }
+    function hit(other) {
+        other.health = other.health - this.power
+        print("{this.name} hits {other.name}. {other.name} has {max(other.health, 0)} HP left")
+    }
+    function alive() { return this.health > 0 }
+}
+
+hero = new Fighter("Hero", 50, 12)
+slime = new Fighter("Slime", 30, 5)
+
+while hero.alive() and slime.alive() {
+    hero.hit(slime)
+    if slime.alive() { slime.hit(hero) }
+}
