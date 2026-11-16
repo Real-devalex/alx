@@ -82,7 +82,10 @@ Passed!  - Failed: 0, Passed: 103, Skipped: 0, Total: 103
 - Transform
 - Entity architecture
 
-### ALX 0.8.0 — Tooling
+### ALX 0.8.0 — Language polish (see PLAN.md)
+- Inclusive ranges, friendly errors, richer strings, try/catch, timers, save/load
+
+### Later — Tooling
 - Language Server
 - Formatter
 - Debugger

@@ -51,6 +51,13 @@ public class GameLibraryTests
         Assert.ThrowsAny<Exception>(() => Run("print(sqrt(1, 2))"));
     }
 
+    // ===== 0.8.0: a range includes its last number =====
+
+    [Fact] public void RangeIncludesTheEnd() => Assert.Equal("1\n2\n3", Run("for i in 1..3 { print(i) }"));
+    [Fact] public void RangeOfOneNumber() => Assert.Equal("7", Run("for i in 7..7 { print(i) }"));
+    [Fact] public void RangeBackwardsRunsZeroTimes() => Assert.Equal("done", Run("for i in 5..1 { print(i) }\nprint(\"done\")"));
+    [Fact] public void RangeSumOneToTen() => Assert.Equal("55", Run("t = 0\nfor i in 1..10 { t = t + i }\nprint(t)"));
+
     private static string Run(string source)
     {
         var diagnostics = new DiagnosticBag();

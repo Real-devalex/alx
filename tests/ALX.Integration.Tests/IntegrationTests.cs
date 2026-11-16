@@ -136,7 +136,7 @@ print(factorial(5))";
   print(i)
 }";
         var output = Run(source);
-        Assert.Equal("1\n2\n3\n4", output);
+        Assert.Equal("1\n2\n3\n4\n5", output);
     }
 
     [Fact]
@@ -174,7 +174,7 @@ for i in 1..10 {
 }
 print(total)";
         var output = Run(source);
-        Assert.Equal("45", output);
+        Assert.Equal("55", output);
     }
 
     [Fact]
@@ -188,7 +188,7 @@ for i in 1..4 {
 }
 print(result)";
         var output = Run(source);
-        Assert.Equal("9", output);
+        Assert.Equal("16", output);
     }
 
     [Fact]
@@ -201,7 +201,7 @@ for i in 1..5 {
   print(square(i))
 }";
         var output = Run(source);
-        Assert.Equal("1\n4\n9\n16", output);
+        Assert.Equal("1\n4\n9\n16\n25", output);
     }
 
     [Fact]
