@@ -77,3 +77,8 @@ _*.json
 vscode-extension/node_modules/
 vscode-extension/package-lock.json
 *.vsix
+
+# VS Code extension build
+vscode-extension/node_modules/
+vscode-extension/*.vsix
+vscode-extension/package-lock.json
