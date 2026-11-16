@@ -54,6 +54,9 @@ dotnet publish src/ALX.CLI -c Release -r win-x64 --self-contained false -o $Inst
 if (Test-Path "examples") { Copy-Item -Recurse -Force "examples" "$InstallDir\examples" }
 if (Test-Path "docs\site") { Copy-Item -Recurse -Force "docs\site" "$InstallDir\docs" }
 
+# A real alx.exe, so editors and other programs can start it (they cannot start a .bat file)
+if (Test-Path "$InstallDir\ALX.CLI.exe") { Copy-Item "$InstallDir\ALX.CLI.exe" "$InstallDir\alx.exe" -Force }
+
 # Create alx.bat launcher
 $batContent = "@echo off`r`n`"%~dp0ALX.CLI.exe`" %*"
 Set-Content -Path "$InstallDir\alx.bat" -Value $batContent -Encoding ASCII

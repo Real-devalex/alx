@@ -24,8 +24,32 @@ function md(text) {
     return m;
 }
 
-function alxPath() {
-    return vscode.workspace.getConfiguration('alx').get('executablePath', 'alx');
+/**
+ * Where the alx program might be, best guess first.
+ * On Windows the installer makes alx.bat, and VS Code cannot start a .bat file directly,
+ * so we also try the real program, ALX.CLI.exe, on the PATH and in the install folder.
+ */
+function alxCandidates() {
+    const configured = vscode.workspace.getConfiguration('alx').get('executablePath', 'alx');
+    const list = [configured];
+    if (process.platform === 'win32' && configured === 'alx') {
+        list.push('ALX.CLI');
+        const local = process.env.LOCALAPPDATA;
+        if (local) list.push(path.join(local, 'ALX', 'ALX.CLI.exe'));
+    }
+    return list;
+}
+
+/** Runs alx with the given arguments, trying each place it could be until one starts. */
+function runAlx(args, options, done) {
+    const candidates = alxCandidates();
+    const attempt = i => {
+        execFile(candidates[i], args, options, (error, stdout, stderr) => {
+            if (error && error.code === 'ENOENT' && i + 1 < candidates.length) { attempt(i + 1); return; }
+            done(error, stdout, stderr);
+        });
+    };
+    attempt(0);
 }
 
 /** Names the user declared in this file: functions, classes, and variables assigned at any depth. */
@@ -182,11 +206,15 @@ async function runFile() {
     output.appendLine('');
 
     const started = Date.now();
-    execFile(alxPath(), ['run', filePath], { cwd: path.dirname(filePath), timeout: 30000 }, (error, stdout, stderr) => {
+    runAlx(['run', filePath], { cwd: path.dirname(filePath), timeout: 30000 }, (error, stdout, stderr) => {
         if (stdout) output.appendLine(stdout);
         if (stderr) output.appendLine(stderr);
         if (error && error.code === 'ENOENT') {
-            output.appendLine('I could not find the alx program. Install ALX, or set "alx.executablePath" in your settings.');
+            output.appendLine('I could not find the alx program. I tried:');
+            alxCandidates().forEach(c => output.appendLine('  ' + c));
+            output.appendLine('Details: ' + error.message);
+            output.appendLine('If you just installed ALX, close ALL VS Code windows and open VS Code again so it can see the new PATH.');
+            output.appendLine('Otherwise set "alx.executablePath" in your settings.');
             output.appendLine(`Install guide: ${DOCS_URL}learn/install/`);
         } else if (error && error.killed) {
             output.appendLine('The program ran for more than 30 seconds, so it was stopped.');
@@ -198,7 +226,7 @@ async function runFile() {
 }
 
 function showVersion() {
-    execFile(alxPath(), ['version'], { timeout: 8000 }, (error, stdout) => {
+    runAlx(['version'], { timeout: 8000 }, (error, stdout) => {
         if (error) { vscode.window.showWarningMessage('ALX is not installed or not on your PATH. Set "alx.executablePath" in settings.'); return; }
         vscode.window.showInformationMessage(String(stdout).trim().split(/\r?\n/)[0] || 'ALX');
     });
