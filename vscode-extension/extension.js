@@ -210,7 +210,9 @@ async function runFile() {
         if (stdout) output.appendLine(stdout);
         if (stderr) output.appendLine(stderr);
         if (error && error.code === 'ENOENT') {
-            output.appendLine('I could not find the alx program.');
+            output.appendLine('I could not find the alx program. I tried:');
+            alxCandidates().forEach(c => output.appendLine('  ' + c));
+            output.appendLine('Details: ' + error.message);
             output.appendLine('If you just installed ALX, close ALL VS Code windows and open VS Code again so it can see the new PATH.');
             output.appendLine('Otherwise set "alx.executablePath" in your settings.');
             output.appendLine(`Install guide: ${DOCS_URL}learn/install/`);
