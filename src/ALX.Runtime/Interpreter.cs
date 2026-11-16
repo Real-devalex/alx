@@ -25,6 +25,10 @@ public class Interpreter
     {
         // input([prompt]) — read user input from stdin
         _rootEnvironment.Define("input", new InputFunction());
+        // 0.7.0 game runtime: math, random, time, Vec2 and Entity
+        GameLibrary.Register(_rootEnvironment);
+        var prelude = GameLibrary.ParsePrelude();
+        if (prelude != null) Execute(prelude);
     }
 
     public void Execute(ProgramNode program)

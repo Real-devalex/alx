@@ -27,12 +27,12 @@ ALX is the foundation for the **Alexion Engine**, a future game-development envi
 
 ## Documentation
 
-**[📖 ALX Documentation Site](docs/site/index.html)**
+**[📖 ALX Documentation Site](https://real-devalex.github.io/alx/)**
 
-- [Getting Started](docs/site/getting-started.html) — Installation & first program
-- [Language Syntax](docs/site/syntax.html) — Complete language reference
-- [Examples](docs/site/examples.html) — Runnable ALX programs
-- [Roadmap](docs/site/roadmap.html) — Version history & future plans
+- [Getting Started](https://real-devalex.github.io/alx/learn/install/) — Installation & first program
+- [Language Syntax](https://real-devalex.github.io/alx/reference/builtins/) — Complete language reference
+- [Examples](https://real-devalex.github.io/alx/examples/) — Runnable ALX programs
+- [Roadmap](https://real-devalex.github.io/alx/engine/roadmap/) — Version history & future plans
 
 ---
 
@@ -222,6 +222,34 @@ print(not false)        // true
 
 ---
 
+## Game runtime (0.7.0)
+
+ALX is built for games, so the basics a game needs are built in. No imports needed.
+
+```alx
+// vectors and entities
+hero = new Entity("Hero", 0, 0)
+hero.velocity = new Vec2(4, 3)
+hero.update(1)                          // move by velocity * dt
+print(hero.position.toString())         // (4, 3)
+
+// math and random
+print(clamp(150, 0, 100))               // 100
+print(lerp(0, 100, 0.25))               // 25
+print(randomInt(1, 6))                  // a dice roll
+```
+
+| Area | Functions and classes |
+| --- | --- |
+| Math | `sqrt` `pow` `sin` `cos` `tan` `atan2` `floor` `ceil` `round` `abs` `sign` `min` `max` `clamp` `lerp` `toRadians` `toDegrees`, constants `PI` and `TAU` |
+| Random | `random()` for 0 to 1, `randomInt(low, high)` inclusive |
+| Time | `time()` in seconds, `sleep(milliseconds)` |
+| Types | `type(value)` returns `"integer"`, `"string"`, `"array"` and so on |
+| `Vec2` | `add` `sub` `scale` `dot` `length` `distanceTo` `normalized` `lerp` `toString` |
+| `Entity` | `name`, `position`, `velocity`, `alive`, `update(dt)`, `moveTo(x, y)`, `distanceTo(other)` |
+
+See [`examples/game_runtime.alx`](examples/game_runtime.alx) for a small game loop.
+
 ## Project Structure
 
 ```
@@ -309,16 +337,19 @@ Status: All passing
 ### ALX 0.5.0 ✅ — Objects
 - Classes, constructors, methods, properties, inheritance with extends/super
 
-### ALX 0.6.0 ✅ — Modules (Current)
+### ALX 0.6.0 ✅ — Modules
 - Import system: `import moduleName` and `import module as alias`
 - Module loading from file system
 
-### ALX 0.7.0 — Game Runtime Foundation
-- Vectors, Math, Time, Entity/Component architecture
+### ALX 0.7.0 ✅ — Game Runtime Foundation (Current)
+- Math: `sqrt`, `pow`, `sin`, `cos`, `tan`, `atan2`, `floor`, `ceil`, `round`, `abs`, `min`, `max`, `clamp`, `lerp`, `sign`, `PI`, `TAU`
+- Random: `random()`, `randomInt(low, high)`; Time: `time()`, `sleep(ms)`; `type(value)`
+- `Vec2` and `Entity` classes, ready in every program
+- CI on every push: build, 100+ tests and every example run
 
 ### ALX 1.0.0 — Stable Release
 
-See the [full roadmap](docs/site/roadmap.html) for details.
+See the [full roadmap](https://real-devalex.github.io/alx/engine/roadmap/) for details.
 
 ---
 

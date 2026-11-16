@@ -1,0 +1,80 @@
+---
+title: ALX, the language for making games
+description: ALX is a beginner-first programming language for making games, and the home of the Alexion Engine.
+template: splash
+hero:
+  tagline: A beginner-first programming language for making games. Easy to read. Friendly when you slip. Built to grow into a full game engine.
+  image:
+    file: ../../assets/hero.svg
+  actions:
+    - text: Start learning
+      link: /alx/learn/install/
+      icon: right-arrow
+    - text: See an example
+      link: /alx/examples/
+      variant: minimal
+---
+
+import { Card, CardGrid, Steps, Tabs, TabItem } from '@astrojs/starlight/components';
+
+## Make something move in minutes
+
+```alx title="game.alx"
+hero = new Entity("Hero", 0, 0)
+hero.velocity = new Vec2(4, 3)
+
+for tick in 1..3 {
+    hero.update(1)
+    print("tick {tick}: hero is at {hero.position.toString()}")
+}
+```
+
+```text title="Output"
+tick 1: hero is at (4, 3)
+tick 2: hero is at (8, 6)
+tick 3: hero is at (12, 9)
+```
+
+## Why ALX
+
+<CardGrid>
+  <Card title="Easy to read" icon="open-book">
+    Code looks like what it does. `if health <= 0`, `for i in 1..5`, `"Hello, {name}!"`. No weird symbols to memorise.
+  </Card>
+  <Card title="Made for games" icon="rocket">
+    Math, random numbers, vectors and entities are built in. A real 2D engine with sprites, sound and tile maps is on the way.
+  </Card>
+  <Card title="Friendly" icon="heart">
+    Mistakes should help you, not scare you. Friendly error messages that point at the problem and suggest a fix arrive in 0.8.
+  </Card>
+  <Card title="Open about progress" icon="star">
+    Every release is tested by an automatic pipeline and written up in the devlog. You can see exactly where ALX is going.
+  </Card>
+</CardGrid>
+
+## Your first five minutes
+
+<Steps>
+
+1. **Install ALX.** Follow the [install guide](/alx/learn/install/).
+
+2. **Write your first program.** One line: `print("Hello, ALEXION!")`.
+
+3. **Run it.** `alx run hello.alx`
+
+4. **Learn the basics.** Variables, decisions, loops, functions and classes, each in a few minutes.
+
+5. **Build a tiny game loop.** Use `Vec2` and `Entity`.
+
+</Steps>
+
+## Where ALX is going
+
+| Now | Next | Then |
+| --- | --- | --- |
+| 0.7 Game runtime | 0.8 Language polish | 0.9 Engine alpha |
+| Math, random, `Vec2`, `Entity` | Friendly errors, `try`/`catch`, timers, save and load | Window, sprites, sound, collision, tile maps, Pong |
+
+Read the [master plan](/alx/engine/plan/) or follow the [devlog](/alx/devlog/0-7-0/).
+
+*ALX is made by [Alexion Studios](https://alexion-studios-portfolio.vercel.app).*

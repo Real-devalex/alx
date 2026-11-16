@@ -74,7 +74,7 @@ Passed!  - Failed: 0, Passed: 103, Skipped: 0, Total: 103
 - Standard library
 - Package architecture
 
-### ALX 0.7.0 — Game Runtime Foundation
+### ALX 0.7.0 ✅ — Game Runtime Foundation
 - Vectors
 - Math library
 - Time

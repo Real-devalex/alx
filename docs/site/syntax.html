@@ -24,7 +24,7 @@
 
     <main class="container">
         <h1>ALX Language Syntax</h1>
-        <p class="subtitle">Complete reference for ALX 0.6.0</p>
+        <p class="subtitle">Complete reference for ALX 0.7.0</p>
 
         <section class="content-section">
             <h2 id="hello-world">Hello World</h2>
@@ -274,7 +274,22 @@ line = <span class="kw">input</span>()</code></pre>
 <span class="cmt">//         print(healthh)</span>
 <span class="cmt">//               ^^^^^^^</span></code></pre>
         </section>
-    </main>
+    
+        <section id="game-runtime" class="content-section">
+            <h2>Game runtime (0.7.0)</h2>
+            <p>Built in, no import needed: math, random numbers, time, and the <code>Vec2</code> and <code>Entity</code> classes.</p>
+<pre><code>hero = new Entity("Hero", 0, 0)
+hero.velocity = new Vec2(4, 3)
+hero.update(1)
+print(hero.position.toString())   // (4, 3)
+
+print(clamp(150, 0, 100))         // 100
+print(lerp(0, 100, 0.25))         // 25
+print(randomInt(1, 6))            // a dice roll</code></pre>
+            <p><strong>Math:</strong> sqrt, pow, sin, cos, tan, atan2, floor, ceil, round, abs, sign, min, max, clamp, lerp, toRadians, toDegrees, PI, TAU.
+            <strong>Random:</strong> random(), randomInt(low, high). <strong>Time:</strong> time(), sleep(ms). <strong>Types:</strong> type(value).</p>
+        </section>
+</main>
 
     <footer>
         <div class="container">

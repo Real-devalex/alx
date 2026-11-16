@@ -1,0 +1,37 @@
+:root {
+	--sl-color-accent-low: #2a1658;
+	--sl-color-accent: #8b5cf6;
+	--sl-color-accent-high: #c4b5fd;
+	--sl-color-white: #ffffff;
+	--sl-font: 'Inter', system-ui, sans-serif;
+}
+:root[data-theme='light'] {
+	--sl-color-accent-low: #ddd6fe;
+	--sl-color-accent: #6d28d9;
+	--sl-color-accent-high: #4c1d95;
+}
+:root[data-theme='dark'] body { background: radial-gradient(1200px 500px at 80% -10%, rgba(139, 92, 246, .18), transparent 60%), var(--sl-color-bg); }
+
+/* hero */
+.hero { position: relative; }
+.hero h1 { background: linear-gradient(90deg, #c4b5fd, #8b5cf6, #fb923c, #c4b5fd); background-size: 250% auto; -webkit-background-clip: text; background-clip: text; color: transparent; animation: alxShine 8s linear infinite; }
+@keyframes alxShine { to { background-position: 250% center } }
+.hero img { filter: drop-shadow(0 0 40px rgba(139, 92, 246, .55)); animation: alxFloat 6s ease-in-out infinite; }
+@keyframes alxFloat { 0%, 100% { transform: translateY(0) } 50% { transform: translateY(-10px) } }
+
+/* feature cards */
+.sl-markdown-content .card { transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease; }
+.sl-markdown-content .card:hover { transform: translateY(-4px); border-color: var(--sl-color-accent); box-shadow: 0 14px 40px -18px var(--sl-color-accent); }
+.alx-ico { width: 2.2rem; height: 2.2rem; color: var(--sl-color-accent-high); margin-bottom: .4rem; }
+.alx-ico.bob { animation: alxBob 3s ease-in-out infinite; }
+.alx-ico.wob { animation: alxWob 3.6s ease-in-out infinite; }
+.alx-ico.spin { animation: alxSpin 12s linear infinite; }
+@keyframes alxBob { 0%, 100% { transform: translateY(0) } 50% { transform: translateY(-4px) } }
+@keyframes alxWob { 0%, 100% { transform: rotate(-7deg) } 50% { transform: rotate(7deg) } }
+@keyframes alxSpin { to { transform: rotate(360deg) } }
+
+/* code blocks feel like a game terminal */
+.expressive-code .frame { border-radius: .7rem; }
+.alx-terminal { border: 1px solid var(--sl-color-accent-low); border-radius: .7rem; padding: 1rem 1.2rem; font-family: var(--sl-font-mono); background: rgba(139, 92, 246, .06); }
+
+@media (prefers-reduced-motion: reduce) { .hero h1, .hero img, .alx-ico { animation: none !important } }
